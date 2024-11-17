@@ -1,8 +1,43 @@
 // levelConfig.js
 const levelConfigs = [
-  {
-    maxSteps: 10,
-    createScoringLogic: () => {
+    () => {
+      const maxSteps = 10
+      const leftValue = Math.floor(Math.random() * 10) + 1;
+      const rightValue = Math.floor(Math.random() * 10) + 1;
+
+      const scoringLogic = (currentPoints, keyHistory, eventKey) => {
+        const lastPoint = currentPoints[currentPoints.length - 1];
+        const lastY = lastPoint.y;
+        let newY;
+
+        if (eventKey === 'ArrowRight') {
+          newY = lastY + rightValue;
+        } else {
+          newY = lastY + leftValue;
+        }
+
+        return newY;
+      };
+
+      const optimalScore = Math.max(leftValue, rightValue) * (maxSteps-1) + Math.min(leftValue, rightValue)
+      const description = `
+In this level, pressing left gives a score of ${leftValue} and pressing right gives ${rightValue}. 
+The optimal strategy would have yielded a score of ${optimalScore}. 
+
+Advice:
+"The strategy is simple, really. You just try each of your options and go with the one that gives
+you the most points. It's the scientific method. Doing the same thing again and again and 
+expecting a different result is the definition of insanity"`.trim();
+
+      return {
+        scoringLogic,
+        randomValues: { leftValue, rightValue },
+        description,
+        maxSteps,
+      };
+    },
+    () => {
+      const maxSteps = 15
       const leftValue = Math.floor(Math.random() * 10) + 1;
       const rightValue = Math.floor(Math.random() * 10) + 1;
 
@@ -26,10 +61,9 @@ const levelConfigs = [
         scoringLogic,
         randomValues: { leftValue, rightValue },
         description,
+        maxSteps
       };
     },
-  },
-  // Add more levels with potentially different variables
 ];
 
 const getLevelConfig = (level) => {

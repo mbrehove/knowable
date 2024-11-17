@@ -13,13 +13,13 @@ const App = () => {
 
   useEffect(() => {
     if (gameState === 'playing') {
-      const config = getLevelConfig(currentLevel);
-      const { scoringLogic, randomValues, description } = config.createScoringLogic();
+      const configGen = getLevelConfig(currentLevel);
+      const { scoringLogic, randomValues, description, maxSteps} = configGen();
       setLevelConfig({
-        maxSteps: config.maxSteps,
         scoringLogic,
         randomValues,
         description,
+        maxSteps,
       });
     }
   }, [gameState, currentLevel]);
