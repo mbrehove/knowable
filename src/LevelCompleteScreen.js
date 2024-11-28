@@ -8,13 +8,8 @@ const LevelCompleteScreen = ({ level, onNextLevel, levelData, config }) => {
 
   return (
     <div className="level-complete-screen">
-      <h1>Congratulations!</h1>
-      <p>You have completed Level {level}.</p>
-      <p>{description}</p>
-      <p>
-        Random Values: Left Value = {randomValues.leftValue}, Right Value ={' '}
-        {randomValues.rightValue}
-      </p>
+      <h1>Leve {level} Complete</h1>
+      {description(points, keyHistory)}
       <ScorePlot points={points} keyHistory={keyHistory} xDomain={[0, config.maxSteps]} />
       <button onClick={onNextLevel} autoFocus>
         Press Enter to Continue
