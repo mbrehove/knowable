@@ -1,7 +1,12 @@
 // ScorePlot.js
 import React from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa' // Import arrow icons
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaArrowUp,
+  FaArrowDown
+} from 'react-icons/fa' // Import arrow icons
 
 const ScorePlot = ({ points, keyHistory, xDomain }) => {
   // Custom Dot component
@@ -12,10 +17,23 @@ const ScorePlot = ({ points, keyHistory, xDomain }) => {
     if (!keyPressed) {
       return null // Do not render for the initial point
     }
-
-    const IconComponent =
-      keyPressed === 'ArrowLeft' ? FaArrowLeft : FaArrowRight
-
+    let IconComponent
+    switch (keyPressed['key']) {
+      case 'ArrowLeft':
+        IconComponent = FaArrowLeft
+        break
+      case 'ArrowRight':
+        IconComponent = FaArrowRight
+        break
+      case 'ArrowUp':
+        IconComponent = FaArrowUp
+        break
+      case 'ArrowDown':
+        IconComponent = FaArrowDown
+        break
+      default:
+        return null
+    }
     return (
       <IconComponent
         x={cx - 5}
@@ -91,7 +109,6 @@ const ScorePlot = ({ points, keyHistory, xDomain }) => {
               <CustomDot key={key} {...otherProps} keyHistory={keyHistory} />
             )
           }}
-          
         />
       </LineChart>
     </div>

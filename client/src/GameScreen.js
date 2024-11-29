@@ -8,63 +8,74 @@ const GameScreen = ({ level, onLevelComplete, config }) => {
   const [xDomain, setXDomain] = useState([0, config.maxSteps])
   const [stepsTaken, setStepsTaken] = useState(0)
   const [keyHistory, setKeyHistory] = useState([])
+  const [lastKeyPressTime, setLastKeyPressTime] = useState(Date.now())
 
   useEffect(() => {
     // Reset points and steps when the level changes
     setPoints([{ x: 0, y: 0 }])
     setStepsTaken(0)
     setKeyHistory([])
+    setLastKeyPressTime(Date.now())
   }, [level, config])
 
   useEffect(() => {
     const handleKeyPress = event => {
       if (
-        event.key === 'ArrowLeft' ||
-        event.key === 'ArrowRight' ||
-        event.key === 'ArrowUp' ||
-        event.key === 'ArrowDown'
+        (event.key === 'ArrowLeft' ||
+          event.key === 'ArrowRight' ||
+          event.key === 'ArrowUp' ||
+          event.key === 'ArrowDown') &&
+        stepsTaken <= config.maxSteps
       ) {
-        setPoints(currentPoints => {
-          console.log('Running config.scoringLogic()')
-          const newY = config.scoringLogic(currentPoints, keyHistory, event.key)
-          const newX = currentPoints.length
-          let updatedPoints
-          if (newY != null) {
-            updatedPoints = [...currentPoints, { x: newX, y: newY }]
-            setStepsTaken(prev => {
-              const newSteps = prev + 1
-              return newSteps
-            })
-          } else {
-            updatedPoints = currentPoints
-          }
+        const currentTime = Date.now()
+        const timeInterval = (currentTime - lastKeyPressTime) / 1000
+        setLastKeyPressTime(currentTime)
 
-          // Update domain if new point is out of bounds
-          if (newX > xDomain[1]) {
-            setXDomain([xDomain[0] + 10, xDomain[1] + 10])
-          }
+        const newY = config.scoringLogic(
+          points,
+          keyHistory,
+          event.key,
+          timeInterval
+        )
 
-          return updatedPoints
-        })
+        if (newY !== null) {
+          setPoints(currentPoints => {
+            const newX = currentPoints.length
+            const updatedPoints = [...currentPoints, { x: newX, y: newY }]
+
+            // Update domain if new point is out of bounds
+            if (newX > xDomain[1]) {
+              setXDomain([xDomain[0] + 10, xDomain[1] + 10])
+            }
+
+            return updatedPoints
+          })
+
+          setStepsTaken(steps => steps + 1)
+        }
+
+        setKeyHistory(currentKeyHistory => [
+          ...currentKeyHistory,
+          { key: event.key, timeInterval }
+        ])
       }
-      setKeyHistory(prevHistory => [...prevHistory, event.key])
     }
 
     window.addEventListener('keydown', handleKeyPress)
-
     return () => {
       window.removeEventListener('keydown', handleKeyPress)
     }
-  }, [config, keyHistory])
+  }, [stepsTaken, keyHistory, lastKeyPressTime, config, points, xDomain])
 
   useEffect(() => {
     // Check if the level is complete
-    if (stepsTaken > config.maxSteps) {
+    if (stepsTaken >= config.maxSteps) {
       const levelData = {
         points,
         keyHistory,
         randomValues: config.randomValues,
-        description: config.description
+        description: config.description,
+        level_ind: config.level_ind
       }
       onLevelComplete(levelData)
     }
