@@ -18,49 +18,47 @@ const GameScreen = ({ level, onLevelComplete, config }) => {
     setLastKeyPressTime(Date.now())
   }, [level, config])
 
-  useEffect(() => {
-    const handleKeyPress = event => {
-      if (
-        (event.key === 'ArrowLeft' ||
-          event.key === 'ArrowRight' ||
-          event.key === 'ArrowUp' ||
-          event.key === 'ArrowDown') &&
-        stepsTaken <= config.maxSteps
-      ) {
-        const currentTime = Date.now()
-        const timeInterval = (currentTime - lastKeyPressTime) / 1000
-        setLastKeyPressTime(currentTime)
+  const handleKeyPress = event => {
+    if (
+      (event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight' ||
+        event.key === 'ArrowUp' ||
+        event.key === 'ArrowDown') &&
+      stepsTaken <= config.maxSteps
+    ) {
+      processKeyPress(event.key)
+    }
+  }
 
-        const newY = config.scoringLogic(
-          points,
-          keyHistory,
-          event.key,
-          timeInterval
-        )
+  const processKeyPress = key => {
+    const currentTime = Date.now()
+    const timeInterval = (currentTime - lastKeyPressTime) / 1000
+    setLastKeyPressTime(currentTime)
 
-        if (newY !== null) {
-          setPoints(currentPoints => {
-            const newX = currentPoints.length
-            const updatedPoints = [...currentPoints, { x: newX, y: newY }]
+    const newY = config.scoringLogic(points, keyHistory, key, timeInterval)
 
-            // Update domain if new point is out of bounds
-            if (newX > xDomain[1]) {
-              setXDomain([xDomain[0] + 10, xDomain[1] + 10])
-            }
+    if (newY !== null) {
+      setPoints(currentPoints => {
+        const newX = currentPoints.length
+        const updatedPoints = [...currentPoints, { x: newX, y: newY }]
 
-            return updatedPoints
-          })
-
-          setStepsTaken(steps => steps + 1)
+        if (newX > xDomain[1]) {
+          setXDomain([xDomain[0] + 10, xDomain[1] + 10])
         }
 
-        setKeyHistory(currentKeyHistory => [
-          ...currentKeyHistory,
-          { key: event.key, timeInterval }
-        ])
-      }
+        return updatedPoints
+      })
+
+      setStepsTaken(steps => steps + 1)
     }
 
+    setKeyHistory(currentKeyHistory => [
+      ...currentKeyHistory,
+      { key, timeInterval }
+    ])
+  }
+
+  useEffect(() => {
     window.addEventListener('keydown', handleKeyPress)
     return () => {
       window.removeEventListener('keydown', handleKeyPress)
@@ -97,6 +95,16 @@ const GameScreen = ({ level, onLevelComplete, config }) => {
         {config.maxSteps})
       </p>
       <ScorePlot points={points} keyHistory={keyHistory} xDomain={xDomain} />
+      <div className='button-container'>
+        <div className='arrow-buttons'>
+          <button className='up' onClick={() => processKeyPress('ArrowUp')}>^</button>
+        </div>
+        <div className='arrow-buttons'>
+          <button className='left' onClick={() => processKeyPress('ArrowLeft')}>&lt;</button>
+          <button className='down' onClick={() => processKeyPress('ArrowDown')}>v</button>
+          <button className='right' onClick={() => processKeyPress('ArrowRight')}>&gt;</button>
+        </div>
+      </div>
     </div>
   )
 }

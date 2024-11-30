@@ -45,6 +45,9 @@ const LevelCompleteScreen = ({ level, onNextLevel, levelData, config }) => {
       <button onClick={onNextLevel} autoFocus>
         Press Enter to Continue
       </button>
+      <div className='button-container'>
+        <button onClick={onNextLevel}>Next Level</button>
+      </div>
     </div>
   )
 }
