@@ -1,0 +1,18 @@
+I'm starting this so I don't have to solve the same problems twice as much as possible.
+
+The advice for fixing my install issue was found here: https://github.com/npm/cli/issues/7814
+The issue will be fixed when either one of nodejs/node#55602 or npm/npm-install-checks#120 lands
+In the meantime you can use --force --libc=glibc or downgrade to npm 10.3.0 to avoid this issue
+
+npm install -g npm@10.3.0
+npx create-next-app@latest
+TypeScript
+use ESLint
+use Tailwind
+Use App Router
+don't use turbopack
+not custom import alias
+
+push to github with
+gh repo create
+

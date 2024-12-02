@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useEffect } from 'react'
 import WelcomeScreen from '@/components/WelcomeScreen'
 import GameScreen from '@/components/GameScreen'
@@ -5,11 +7,11 @@ import LevelCompleteScreen from '../components/LevelCompleteScreen'
 import getLevelConfig from '../utils/levelConfig'
 
 type LevelConfig = {
-  scoringLogic: any,
-  randomValues: any,
-  description: string,
+  scoringLogic: any
+  randomValues: any
+  description: string
   maxSteps: number
-} | null;
+} | null
 
 export default function GamePage () {
   const [gameState, setGameState] = useState('welcome')
@@ -37,17 +39,20 @@ export default function GamePage () {
   }
 
   interface LevelData {
-    [key: number]: any;
+    [key: number]: any
   }
 
   interface HandleLevelComplete {
-    (levelData: any): void;
+    (levelData: any): void
   }
 
-  const handleLevelComplete: HandleLevelComplete = (levelData) => {
-    setGameData((prevData: LevelData) => ({ ...prevData, [currentLevel]: levelData }));
-    setGameState('levelComplete');
-  };
+  const handleLevelComplete: HandleLevelComplete = levelData => {
+    setGameData((prevData: LevelData) => ({
+      ...prevData,
+      [currentLevel]: levelData
+    }))
+    setGameState('levelComplete')
+  }
 
   return (
     <div>

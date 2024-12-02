@@ -1,7 +1,7 @@
 'use client' // Required for client-side interactivity
 
 import React from 'react'
-import './style.css'
+import '@/styles/style.css'
 
 interface WelcomeScreenProps {
   onStart: () => void
