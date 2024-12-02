@@ -1,5 +1,13 @@
 import React from 'react'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts'
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts'
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -75,55 +83,55 @@ const ScorePlot: React.FC<ScorePlotProps> = ({
         <span style={{ color: changeColor }}>{formattedChange}</span>)
       </h2>
       <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>
-        <LineChart
-          width={600}
-          height={400}
-          data={points}
-          margin={{ top: 5, right: 30, left: 50, bottom: 25 }}
-        >
-          <CartesianGrid strokeDasharray='3 3' />
-          <XAxis
-            dataKey='x'
-            label={{
-              value: 'Turn',
-              position: 'bottom',
-              offset: 0,
-              style: { fontSize: '24px' }
-            }}
-            strokeWidth={6}
-            domain={xDomain}
-            type='number'
-            tick={{ fontSize: '24px' }}
-          />
-          <YAxis
-            label={{
-              value: 'Score',
-              angle: -90,
-              position: 'insideLeft',
-              offset: -5,
-              style: { fontSize: '24px' }
-            }}
-            strokeWidth={6}
-            tick={{ fontSize: '24px' }}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: 'transparent',
-              border: '1px solid #8884d8',
-              color: '#000'
-            }}
-          />
-          <Line
-            type='monotone'
-            dataKey='y'
-            strokeWidth={6} // Thicker plotted line
-            animationDuration={200}
-            dot={props => {
-              const { key, ...otherProps } = props
-              return <CustomDot key={key} {...otherProps} />
-            }}
-          />
-        </LineChart>
+        <ResponsiveContainer width='100%' height={400}>
+          <LineChart
+            data={points}
+            margin={{ top: 5, right: 30, left: 50, bottom: 25 }}
+          >
+            <CartesianGrid strokeDasharray='3 3' />
+            <XAxis
+              dataKey='x'
+              label={{
+                value: 'Turn',
+                position: 'bottom',
+                offset: 0,
+                style: { fontSize: '24px' }
+              }}
+              strokeWidth={6}
+              domain={xDomain}
+              type='number'
+              tick={{ fontSize: '24px' }}
+            />
+            <YAxis
+              label={{
+                value: 'Score',
+                angle: -90,
+                position: 'insideLeft',
+                offset: -5,
+                style: { fontSize: '24px' }
+              }}
+              strokeWidth={6}
+              tick={{ fontSize: '24px' }}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'transparent',
+                border: '1px solid #8884d8',
+                color: '#000'
+              }}
+            />
+            <Line
+              type='monotone'
+              dataKey='y'
+              strokeWidth={6} // Thicker plotted line
+              animationDuration={200}
+              dot={props => {
+                const { key, ...otherProps } = props
+                return <CustomDot key={key} {...otherProps} />
+              }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   )
