@@ -121,7 +121,7 @@ button:focus {
 .level-description-text {
   max-width: 100%;
   word-wrap: break-word;
-  text-align: center;
+  text-align: justify;
 }
 
 @media (max-width: 600px) {
