@@ -31,7 +31,7 @@ const LevelCompleteScreen = ({ level, onNextLevel, levelData, config }) => {
         console.error('Error fetching scores:', error)
         setPercentile(100)
       })
-  }, [level, points])
+  }, [level, points, level_ind])
 
   return (
     <div className='level-complete-screen'>

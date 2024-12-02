@@ -63,7 +63,14 @@ const GameScreen = ({ level, onLevelComplete, config }) => {
     return () => {
       window.removeEventListener('keydown', handleKeyPress)
     }
-  }, [stepsTaken, keyHistory, lastKeyPressTime, config, points, xDomain])
+  }, [
+    stepsTaken,
+    keyHistory,
+    lastKeyPressTime,
+    config,
+    points,
+    xDomain,
+  ])
 
   useEffect(() => {
     // Check if the level is complete
@@ -97,12 +104,23 @@ const GameScreen = ({ level, onLevelComplete, config }) => {
       <ScorePlot points={points} keyHistory={keyHistory} xDomain={xDomain} />
       <div className='button-container'>
         <div className='arrow-buttons'>
-          <button className='up' onClick={() => processKeyPress('ArrowUp')}>^</button>
+          <button className='up' onClick={() => processKeyPress('ArrowUp')}>
+            ^
+          </button>
         </div>
         <div className='arrow-buttons'>
-          <button className='left' onClick={() => processKeyPress('ArrowLeft')}>&lt;</button>
-          <button className='down' onClick={() => processKeyPress('ArrowDown')}>v</button>
-          <button className='right' onClick={() => processKeyPress('ArrowRight')}>&gt;</button>
+          <button className='left' onClick={() => processKeyPress('ArrowLeft')}>
+            &lt;
+          </button>
+          <button className='down' onClick={() => processKeyPress('ArrowDown')}>
+            v
+          </button>
+          <button
+            className='right'
+            onClick={() => processKeyPress('ArrowRight')}
+          >
+            &gt;
+          </button>
         </div>
       </div>
     </div>
