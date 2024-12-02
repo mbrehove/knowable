@@ -78,7 +78,15 @@ const GameScreen: React.FC<GameScreenProps> = ({
     return () => {
       window.removeEventListener('keydown', handleKeyPress)
     }
-  }, [stepsTaken, keyHistory, lastKeyPressTime, config, points, xDomain,])
+  }, [
+    stepsTaken,
+    keyHistory,
+    lastKeyPressTime,
+    config,
+    points,
+    xDomain,
+    handleKeyPress
+  ])
 
   useEffect(() => {
     // Check if the level is complete

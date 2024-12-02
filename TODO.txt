@@ -1,0 +1,11 @@
+Things I need to do before I show this to anyone:
+
+1: Make score plot fit on phone in an adaptable way
+2: Use SVG arrowkey buttons
+3: setup scores database
+4: Double check gameplay logic
+5: Add the advice notebook for desktop
+6: Add the advice notebook for mobile
+7: Add speed level
+8: Test a bunch
+9: Show to Joseph
