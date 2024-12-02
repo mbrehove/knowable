@@ -1,7 +1,31 @@
-// levelConfig.js
-const globalMaxSteps = 12
-const levelConfigs = [
-  // Level 1: set random values for left and right.
+// levelConfig.ts
+import { ReactNode } from 'react'
+
+const globalMaxSteps: number = 12
+
+export type ScoringLogic = (
+  currentPoints: { x: number; y: number }[],
+  keyHistory: { key: string; time: number }[],
+  eventKey: string,
+  time: number
+) => number | null
+
+export type Description = (
+  scores: { x: number; y: number }[],
+  keyHistory: { key: string; time: number }[],
+  percentile: number
+) => ReactNode
+
+export interface LevelConfig {
+  scoringLogic: ScoringLogic
+  randomValues: Record<string, number>
+  description: Description
+  maxSteps: number
+  level_ind: number
+}
+
+const levelConfigs: (() => LevelConfig)[] = [
+  // Level 1
   () => {
     const maxSteps = globalMaxSteps
     const leftValue = Math.random() > 0.5 ? 2 : -1
@@ -10,7 +34,7 @@ const levelConfigs = [
       Math.max(leftValue, rightValue) * (maxSteps - 1) +
       Math.min(leftValue, rightValue)
 
-    const scoringLogic = (
+    const scoringLogic: ScoringLogic = (
       currentPoints,
       keyHistory,
       eventKey,
@@ -18,24 +42,21 @@ const levelConfigs = [
     ) => {
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
-      let newY
       if (eventKey !== 'ArrowRight' && eventKey !== 'ArrowLeft') {
         return null
       }
-      newY = lastY + (eventKey === 'ArrowRight' ? rightValue : leftValue)
-      return newY
+      return lastY + (eventKey === 'ArrowRight' ? rightValue : leftValue)
     }
 
-    const description = (scores, keyHistory, percentile) => {
-      const scorePercent = (scores.at(-1).y / optimalScore) * 100
+    const description: Description = (scores, keyHistory, percentile) => {
+      const scorePercent = (scores[scores.length - 1].y / optimalScore) * 100
       return (
         <div>
           <p className='level-description-text'>
             In this level, pressing left gives a score of {leftValue} and
-            pressing right gives {rightValue}. The optimal strategy is just to
-            check the value of each button and keep pressing the one that gives
-            you a higher score. This would have yielded a score of{' '}
-            {optimalScore}. Your score is <b>{scorePercent.toFixed(2)}% </b> of
+            pressing right gives {rightValue}. The optimal strategy is to press
+            the higher-scoring button. This would yield a score of{' '}
+            {optimalScore}. Your score is <b>{scorePercent.toFixed(2)}%</b> of
             optimal. You scored better than <b>{percentile.toFixed(1)}%</b> of
             players on this level.
           </p>
@@ -58,6 +79,7 @@ const levelConfigs = [
       level_ind: 0
     }
   },
+
   // Level 2: switch random values at maxSteps/2.
   () => {
     const maxSteps = globalMaxSteps
@@ -67,7 +89,7 @@ const levelConfigs = [
       Math.max(leftValue, rightValue) * (maxSteps - 2) +
       Math.min(leftValue, rightValue) * 2
 
-    const scoringLogic = (
+    const scoringLogic: ScoringLogic = (
       currentPoints,
       keyHistory,
       eventKey,
@@ -91,8 +113,9 @@ const levelConfigs = [
       return newY
     }
 
-    const description = (scores, keyHistory, percentile) => {
-      const scorePercent = (scores.at(-1).y / optimalScore) * 100
+    const description: Description = (scores, keyHistory, percentile) => {
+      const lastScore = scores.at(-1)
+      const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
         <div>
           <p className='level-description-text'>
@@ -135,7 +158,7 @@ const levelConfigs = [
     const rightValue = leftValue === lower ? higher : lower
     const optimalScore = higher * (maxSteps - 3) + lower * 3
 
-    const scoringLogic = (
+    const scoringLogic: ScoringLogic = (
       currentPoints,
       keyHistory,
       eventKey,
@@ -150,11 +173,14 @@ const levelConfigs = [
         return lastY + leftValue + randVal
       } else if (eventKey === 'ArrowRight') {
         return lastY + rightValue + randVal
+      } else {
+        return null
       }
     }
 
-    const description = (scores, keyHistory, percentile) => {
-      const scorePercent = (scores.at(-1).y / optimalScore) * 100
+    const description: Description = (scores, keyHistory, percentile) => {
+      const lastScore = scores.at(-1)
+      const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
         <div>
           <p className='level-description-text'>
@@ -193,7 +219,7 @@ const levelConfigs = [
     const maxSteps = globalMaxSteps
     const optimalScore = ((maxSteps - 1) * (maxSteps - 2)) / 2
 
-    const scoringLogic = (
+    const scoringLogic: ScoringLogic = (
       currentPoints,
       keyHistory,
       eventKey,
@@ -210,7 +236,7 @@ const levelConfigs = [
       const switches = filteredKeyTypes
         .slice(1)
         .map((key, index) => (key !== filteredKeyTypes[index] ? 1 : 0))
-      const switchCount = switches.reduce((acc, val) => acc + val, 0)
+      const switchCount = switches.reduce<number>((acc, val) => acc + val, 0)
 
       if (eventKey !== 'ArrowRight' && eventKey !== 'ArrowLeft') {
         return null
@@ -219,8 +245,9 @@ const levelConfigs = [
       }
     }
 
-    const description = (scores, keyHistory, percentile) => {
-      const scorePercent = (scores.at(-1).y / optimalScore) * 100
+    const description: Description = (scores, keyHistory, percentile) => {
+      const lastScore = scores.at(-1)
+      const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
         <div>
           <p className='level-description-text'>
@@ -258,7 +285,7 @@ const levelConfigs = [
     const upValue = Math.random() > 0.5 ? 10 : 5
     const downValue = upValue > 5 ? 5 : 10
 
-    const scoringLogic = (
+    const scoringLogic: ScoringLogic = (
       currentPoints,
       keyHistory,
       eventKey,
@@ -286,10 +313,11 @@ const levelConfigs = [
       return newY
     }
 
-    const description = (scores, keyHistory, percentile) => {
+    const description: Description = (scores, keyHistory, percentile) => {
       let additionalSentence = ''
 
-      if (keyHistory.includes('ArrowUp') || keyHistory.includes('ArrowDown')) {
+      const keyNames = keyHistory.map(entry => entry.key)
+      if (keyNames.includes('ArrowUp') || keyNames.includes('ArrowDown')) {
         additionalSentence =
           'You went outside the instructions and were rewarded for it. Good Job.'
       } else {
@@ -328,7 +356,7 @@ const levelConfigs = [
     const maxSteps = globalMaxSteps
     const optimalScore = ((maxSteps - 1) * maxSteps) / 2
 
-    const scoringLogic = (
+    const scoringLogic: ScoringLogic = (
       currentPoints,
       keyHistory,
       eventKey,
@@ -349,11 +377,14 @@ const levelConfigs = [
         return lastY + arrowLeftCount
       } else if (eventKey === 'ArrowRight') {
         return lastY + arrowRightCount
+      } else {
+        return null
       }
     }
 
-    const description = (scores, keyHistory, percentile) => {
-      const scorePercent = (scores.at(-1).y / optimalScore) * 100
+    const description: Description = (scores, keyHistory, percentile) => {
+      const lastScore = scores.at(-1)
+      const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
         <div>
           <p className='level-description-text'>
@@ -386,7 +417,7 @@ const levelConfigs = [
   () => {
     const maxSteps = globalMaxSteps
 
-    const scoringLogic = (
+    const scoringLogic: ScoringLogic = (
       currentPoints,
       keyHistory,
       eventKey,
@@ -404,7 +435,7 @@ const levelConfigs = [
       }
     }
 
-    const description = (scores, keyHistory, percentile) => {
+    const description: Description = (scores, keyHistory, percentile) => {
       return (
         <div>
           <p className='level-description-text'>
@@ -438,7 +469,7 @@ const levelConfigs = [
   () => {
     const maxSteps = globalMaxSteps
 
-    const scoringLogic = (
+    const scoringLogic: ScoringLogic = (
       currentPoints,
       keyHistory,
       eventKey,
@@ -452,7 +483,7 @@ const levelConfigs = [
       return lastY + Math.min(10, Math.floor(timeInterval))
     }
 
-    const description = (scores, keyHistory, percentile) => {
+    const description: Description = (scores, keyHistory, percentile) => {
       return (
         <div>
           <p className='level-description-text'>
@@ -476,23 +507,18 @@ const levelConfigs = [
       scoringLogic,
       randomValues: {},
       description,
-      maxSteps
+      maxSteps,
+      level_ind: 7
     }
   }
 ]
 
-const getLevelConfig = level => {
-  var level_ind = level - 1 // Adjust for zero-based index
+const getLevelConfig = (level: number): LevelConfig => {
+  let level_ind = level - 1
   if (level_ind > levelConfigs.length - 1) {
     level_ind = Math.floor(Math.random() * levelConfigs.length)
   }
-
-  return levelConfigs[level_ind]
+  return levelConfigs[level_ind]()
 }
 
 export default getLevelConfig
-
-/*
-Some good quotes for later?
-http://www.math.wpi.edu/Course_Materials/SAS/quotes.html
-*/

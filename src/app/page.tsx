@@ -1,29 +1,20 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import WelcomeScreen from '@/components/WelcomeScreen'
 import GameScreen from '@/components/GameScreen'
 import LevelCompleteScreen from '../components/LevelCompleteScreen'
-import getLevelConfig from '../utils/levelConfig'
-
-type LevelConfig = {
-  scoringLogic: any
-  randomValues: any
-  description: string
-  maxSteps: number
-} | null
+import getLevelConfig, { LevelConfig } from '../utils/levelConfig'
 
 export default function GamePage () {
   const [gameState, setGameState] = useState('welcome')
   const [currentLevel, setCurrentLevel] = useState(1)
   const [gameData, setGameData] = useState<{ [key: number]: any }>({})
-  const [levelConfig, setLevelConfig] = useState<LevelConfig>(null)
+  const [levelConfig, setLevelConfig] = useState<LevelConfig>({} as LevelConfig)
 
   useEffect(() => {
     if (gameState === 'playing') {
-      const configGen = getLevelConfig(currentLevel)
-      const { scoringLogic, randomValues, description, maxSteps } = configGen()
-      setLevelConfig({ scoringLogic, randomValues, description, maxSteps })
+      const config = getLevelConfig(currentLevel)
+      setLevelConfig(config)
     }
   }, [gameState, currentLevel])
 
