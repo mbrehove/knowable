@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { LevelConfig, Description } from '../utils/levelConfig' // Assuming levelConfig is in the same directory
 import ScorePlot from './ScorePlot' // Assuming ScorePlot is a React component
 
+export interface LevelData {
+  points: { x: number; y: number }[]
+  keyHistory: { key: string; time: number }[]
+  randomValues: Record<string, number>
+  description: Description
+  level_ind: number
+}
+
 interface GameScreenProps {
   level: number
   config: LevelConfig
-  onLevelComplete: (data: {
-    points: { x: number; y: number }[]
-    keyHistory: { key: string; time: number }[]
-    randomValues: Record<string, number>
-    description: Description
-    level_ind: number
-  }) => void
+  onLevelComplete: (data: LevelData) => void
 }
 
 const GameScreen: React.FC<GameScreenProps> = ({
@@ -76,7 +78,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     return () => {
       window.removeEventListener('keydown', handleKeyPress)
     }
-  }, [stepsTaken, keyHistory, lastKeyPressTime, config, points, xDomain])
+  }, [stepsTaken, keyHistory, lastKeyPressTime, config, points, xDomain,])
 
   useEffect(() => {
     // Check if the level is complete

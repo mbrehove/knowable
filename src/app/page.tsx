@@ -1,14 +1,14 @@
 'use client'
 import { useState, useEffect } from 'react'
 import WelcomeScreen from '@/components/WelcomeScreen'
-import GameScreen from '@/components/GameScreen'
+import GameScreen, { LevelData } from '@/components/GameScreen'
 import LevelCompleteScreen from '../components/LevelCompleteScreen'
 import getLevelConfig, { LevelConfig } from '../utils/levelConfig'
 
 export default function GamePage () {
   const [gameState, setGameState] = useState('welcome')
   const [currentLevel, setCurrentLevel] = useState(1)
-  const [gameData, setGameData] = useState<{ [key: number]: any }>({})
+  const [gameData, setGameData] = useState<{ [key: number]: LevelData }>({})
   const [levelConfig, setLevelConfig] = useState<LevelConfig>({} as LevelConfig)
 
   useEffect(() => {
@@ -29,16 +29,8 @@ export default function GamePage () {
     setGameState('playing')
   }
 
-  interface LevelData {
-    [key: number]: any
-  }
-
-  interface HandleLevelComplete {
-    (levelData: any): void
-  }
-
-  const handleLevelComplete: HandleLevelComplete = levelData => {
-    setGameData((prevData: LevelData) => ({
+  const handleLevelComplete = (levelData: LevelData) => {
+    setGameData(prevData => ({
       ...prevData,
       [currentLevel]: levelData
     }))

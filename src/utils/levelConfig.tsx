@@ -36,9 +36,9 @@ const levelConfigs: (() => LevelConfig)[] = [
 
     const scoringLogic: ScoringLogic = (
       currentPoints,
-      keyHistory,
+      _keyHistory,
       eventKey,
-      timeInterval
+      _timeInterval
     ) => {
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
@@ -91,17 +91,16 @@ const levelConfigs: (() => LevelConfig)[] = [
 
     const scoringLogic: ScoringLogic = (
       currentPoints,
-      keyHistory,
+      _keyHistory,
       eventKey,
-      timeInterval
+      _timeInterval
     ) => {
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
-      let newY
       if (eventKey !== 'ArrowRight' && eventKey !== 'ArrowLeft') {
         return null
       }
-      newY =
+      const newY =
         lastY +
         (currentPoints.length < maxSteps / 2
           ? eventKey === 'ArrowRight'
@@ -113,7 +112,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       return newY
     }
 
-    const description: Description = (scores, keyHistory, percentile) => {
+    const description: Description = (scores, _keyHistory, percentile) => {
       const lastScore = scores.at(-1)
       const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
@@ -160,9 +159,9 @@ const levelConfigs: (() => LevelConfig)[] = [
 
     const scoringLogic: ScoringLogic = (
       currentPoints,
-      keyHistory,
+      _keyHistory,
       eventKey,
-      timeInterval
+      _timeInterval
     ) => {
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
@@ -178,9 +177,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       }
     }
 
-    const description: Description = (scores, keyHistory, percentile) => {
-      const lastScore = scores.at(-1)
-      const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
+    const description: Description = (scores, _keyHistory, percentile) => {
       return (
         <div>
           <p className='level-description-text'>
@@ -223,7 +220,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       currentPoints,
       keyHistory,
       eventKey,
-      timeInterval
+      _timeInterval
     ) => {
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
@@ -245,7 +242,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       }
     }
 
-    const description: Description = (scores, keyHistory, percentile) => {
+    const description: Description = (scores, _keyHistory, percentile) => {
       const lastScore = scores.at(-1)
       const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
@@ -287,9 +284,9 @@ const levelConfigs: (() => LevelConfig)[] = [
 
     const scoringLogic: ScoringLogic = (
       currentPoints,
-      keyHistory,
+      _keyHistory,
       eventKey,
-      timeInterval
+      _timeInterval
     ) => {
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
@@ -313,7 +310,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       return newY
     }
 
-    const description: Description = (scores, keyHistory, percentile) => {
+    const description: Description = (_scores, keyHistory, percentile) => {
       let additionalSentence = ''
 
       const keyNames = keyHistory.map(entry => entry.key)
@@ -335,7 +332,7 @@ const levelConfigs: (() => LevelConfig)[] = [
           </p>
           <p>Advice:</p>
           <i>
-            "Rules are made for people who aren't willing to make their own."
+            Rules are made for people who aren&apos;t willing to make their own.
             <br />
           </i>
           -Chuck Yeager
@@ -360,7 +357,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       currentPoints,
       keyHistory,
       eventKey,
-      timeInterval
+      _timeInterval
     ) => {
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
@@ -382,7 +379,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       }
     }
 
-    const description: Description = (scores, keyHistory, percentile) => {
+    const description: Description = (scores, _keyHistory, percentile) => {
       const lastScore = scores.at(-1)
       const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
@@ -419,9 +416,9 @@ const levelConfigs: (() => LevelConfig)[] = [
 
     const scoringLogic: ScoringLogic = (
       currentPoints,
-      keyHistory,
+      _keyHistory,
       eventKey,
-      timeInterval
+      _timeInterval
     ) => {
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
@@ -435,20 +432,20 @@ const levelConfigs: (() => LevelConfig)[] = [
       }
     }
 
-    const description: Description = (scores, keyHistory, percentile) => {
+    const description: Description = (_scores, _keyHistory, percentile) => {
       return (
         <div>
           <p className='level-description-text'>
             In this level your score increased or decreased by one randomly when
             you pressed either key with the average score being zero. Hopefully
-            you didn't stress yourself out too much trying to find a pattern.{' '}
-            <br />
+            you didn&apos;t stress yourself out too much trying to find a
+            pattern. <br />
             You scored better than <b>{percentile.toFixed(1)}%</b> of players on
             this level.
           </p>
           <p>Advice:</p>
           <i>
-            Don't seek to have events happen as you wish, but wish them to
+            Don&apos;t seek to have events happen as you wish, but wish them to
             happen as they do happen and you will be well.
             <br />
           </i>
@@ -471,7 +468,7 @@ const levelConfigs: (() => LevelConfig)[] = [
 
     const scoringLogic: ScoringLogic = (
       currentPoints,
-      keyHistory,
+      _keyHistory,
       eventKey,
       timeInterval
     ) => {
@@ -483,7 +480,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       return lastY + Math.min(10, Math.floor(timeInterval))
     }
 
-    const description: Description = (scores, keyHistory, percentile) => {
+    const description: Description = (_scores, _keyHistory, percentile) => {
       return (
         <div>
           <p className='level-description-text'>

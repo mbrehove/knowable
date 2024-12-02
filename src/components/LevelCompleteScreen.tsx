@@ -24,7 +24,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   levelData,
   config
 }) => {
-  const { points, keyHistory, randomValues, description, level_ind } = levelData
+  const { points, keyHistory, description, level_ind } = levelData
   const [percentile, setPercentile] = useState<number | null>(null)
 
   useEffect(() => {
