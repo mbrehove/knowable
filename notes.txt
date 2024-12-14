@@ -16,3 +16,10 @@ not custom import alias
 push to github with
 gh repo create
 
+# Installing the database stuff:
+npm install @prisma/client
+npm install prisma --save-dev
+npm install sqlite3
+npx prisma init
+npx prisma migrate dev --name init
+npx prisma generate

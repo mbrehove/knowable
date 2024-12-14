@@ -39,8 +39,8 @@ body {
 
 h1,
 h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  margin-bottom: 0.7rem;
 }
 
 p {
@@ -155,5 +155,18 @@ button:focus {
   .arrow-buttons button {
     font-size: 1.5rem;
     padding: 8px;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

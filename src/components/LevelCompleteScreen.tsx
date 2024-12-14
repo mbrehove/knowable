@@ -53,9 +53,16 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
       })
   }, [level, points, level_ind])
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
-    <div className='level-complete-screen'>
+    <div className='level-complete-screen fade-in'>
       <h2>Level {level} Complete</h2>
+      <div className='button-container'>
+        <button onClick={onNextLevel}>Next Level</button>
+      </div>
       {description(points, keyHistory, percentile ?? 100)}
       <ScorePlot
         points={points}
@@ -65,9 +72,6 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
       <button onClick={onNextLevel} autoFocus>
         Press Enter to Continue
       </button>
-      <div className='button-container'>
-        <button onClick={onNextLevel}>Next Level</button>
-      </div>
     </div>
   )
 }
