@@ -8,7 +8,7 @@ npm install -g npm@10.3.0
 npx create-next-app@latest
 TypeScript
 use ESLint
-use Tailwind
+dont use Tailwind
 Use App Router
 don't use turbopack
 not custom import alias
@@ -23,3 +23,8 @@ npm install sqlite3
 npx prisma init
 npx prisma migrate dev --name init
 npx prisma generate
+
+To deploy:
+Made an account with vercel
+I made an account on suprabase. Made my scores table schema. 
+Got the environment variables from https://supabase.com/docs/guides/getting-started/quickstarts/nextjs

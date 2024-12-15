@@ -4,11 +4,12 @@ import ScorePlot from './ScorePlot' // Assuming ScorePlot is a React component
 import Arrow from '../../public/arrow.svg'
 
 export interface LevelData {
-  points: { x: number; y: number }[]
-  keyHistory: { key: string; time: number }[]
-  randomValues: Record<string, number>
-  description: Description
-  level_ind: number
+  points: { x: number; y: number }[] // The points to bee plotted. x=turn y=score
+  keyHistory: { key: string; time: number }[] //Histoy of keys pressed
+  randomValues: Record<string, number> // random values generated at the start of the level (ie, what keys are worth what)
+  description: Description //Level description in jsx
+  level_ind: number //What index in level config this level used. Different from level since level_index repeats as the user advances levels
+  version: number //For distinguishing different level versions. (currently unused)
 }
 
 interface GameScreenProps {
@@ -105,7 +106,8 @@ const GameScreen: React.FC<GameScreenProps> = ({
         keyHistory,
         randomValues: config.randomValues,
         description: config.description,
-        level_ind: config.level_ind
+        level_ind: config.level_ind,
+        version: config.version
       }
       onLevelComplete(levelData)
     }

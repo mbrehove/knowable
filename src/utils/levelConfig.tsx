@@ -22,6 +22,7 @@ export interface LevelConfig {
   description: Description
   maxSteps: number
   level_ind: number
+  version: number
 }
 
 const levelConfigs: (() => LevelConfig)[] = [
@@ -76,7 +77,8 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: { leftValue, rightValue },
       description,
       maxSteps,
-      level_ind: 0
+      level_ind: 0,
+      version: 0
     }
   },
 
@@ -143,7 +145,8 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: { leftValue, rightValue },
       description,
       maxSteps,
-      level_ind: 1
+      level_ind: 1,
+      version: 0
     }
   },
   // Level 3: score of each button has a mean plus a random value.
@@ -208,7 +211,8 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 2
+      level_ind: 2,
+      version: 0
     }
   },
   // Level 4: Score of each button increased each time the user alternated buttons
@@ -271,7 +275,8 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 3
+      level_ind: 3,
+      version: 0
     }
   },
   // Level 5: Set values for left, right up and down
@@ -345,7 +350,8 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: { leftValue, rightValue, upValue, downValue },
       description,
       maxSteps,
-      level_ind: 4
+      level_ind: 4,
+      version: 0
     }
   },
   // Level 6: score of each button is the number of times it was pressed.
@@ -407,7 +413,8 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 5
+      level_ind: 5,
+      version: 0
     }
   },
   // Level 7: Random scores
@@ -459,7 +466,8 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 6
+      level_ind: 6,
+      version: 0
     }
   },
   // Level 8: Duration
@@ -505,7 +513,8 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 7
+      level_ind: 7,
+      version: 0
     }
   }
 ]

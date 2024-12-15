@@ -2,17 +2,12 @@
 import React, { useState, useEffect } from 'react'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
 import { LevelConfig } from '../utils/levelConfig'
+import { LevelData } from './GameScreen'
 
 interface LevelCompleteScreenProps {
   level: number
   onNextLevel: () => void
-  levelData: {
-    points: { x: number; y: number }[]
-    keyHistory: { key: string; time: number }[]
-    randomValues: Record<string, number>
-    description: LevelConfig['description']
-    level_ind: number
-  }
+  levelData: LevelData
   config: {
     maxSteps: number
   }
@@ -24,11 +19,11 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   levelData,
   config
 }) => {
-  const { points, keyHistory, description, level_ind } = levelData
+  const { points, keyHistory, description, level_ind, version } = levelData
   const [percentile, setPercentile] = useState<number | null>(null)
 
   useEffect(() => {
-    fetch(`http://localhost:3001/api/scores/${level_ind}`)
+    fetch(`/api/scores?level_ind=${level_ind}&version=${version}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok')
@@ -51,7 +46,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
         console.error('Error fetching scores:', error)
         setPercentile(100)
       })
-  }, [level, points, level_ind])
+  }, [level, points, level_ind, version])
 
   useEffect(() => {
     window.scrollTo(0, 0)
