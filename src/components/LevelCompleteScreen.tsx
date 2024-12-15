@@ -1,7 +1,6 @@
 // LevelCompleteScreen.tsx
 import React, { useState, useEffect } from 'react'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
-import { LevelConfig } from '../utils/levelConfig'
 import { LevelData } from './GameScreen'
 
 interface LevelCompleteScreenProps {
