@@ -1,5 +1,6 @@
 // LevelCompleteScreen.tsx
 import React, { useState, useEffect } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
 import { LevelData } from './GameScreen'
 
@@ -40,6 +41,8 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
           const percentile = (rank / sortedScores.length) * 100
           setPercentile(percentile)
         }
+        const user_id = getUserId()
+        submitScore(level_ind, currentScore, version, user_id)
       })
       .catch(error => {
         console.error('Error fetching scores:', error)
@@ -68,6 +71,41 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
       </button>
     </div>
   )
+}
+
+const getUserId = () => {
+  let user_id = localStorage.getItem('user_id')
+  if (!user_id) {
+    user_id = uuidv4()
+    localStorage.setItem('user_id', user_id)
+  }
+  return user_id
+}
+
+const submitScore = async (
+  level_ind: number,
+  score: number,
+  version: number,
+  user_id: string
+) => {
+  try {
+    const response = await fetch('/api/scores', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ level_ind, score, version, user_id })
+    })
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+
+    const data = await response.json()
+    console.log('Score submitted successfully:', data)
+  } catch (error) {
+    console.error('Error submitting score:', error)
+  }
 }
 
 export default LevelCompleteScreen
