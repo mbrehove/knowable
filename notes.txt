@@ -28,3 +28,5 @@ To deploy:
 Made an account with vercel
 I made an account on suprabase. Made my scores table schema. 
 Got the environment variables from https://supabase.com/docs/guides/getting-started/quickstarts/nextjs
+
+Make sure to run with `npm run dev` for changes to take effect

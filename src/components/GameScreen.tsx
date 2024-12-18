@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import AdvicePanel from './AdvicePanel'
 import { LevelConfig, Description } from '../utils/levelConfig' // Assuming levelConfig is in the same directory
 import ScorePlot from './ScorePlot' // Assuming ScorePlot is a React component
 import Arrow from '../../public/arrow.svg'
@@ -32,6 +33,12 @@ const GameScreen: React.FC<GameScreenProps> = ({
     []
   )
   const [lastKeyPressTime, setLastKeyPressTime] = useState(Date.now())
+  const [adviceList, setAdviceList] = useState<string[]>([])
+
+  // Function to add new advice
+  const addAdvice = (newAdvice: string) => {
+    setAdviceList([...adviceList, newAdvice])
+  }
 
   useEffect(() => {
     // Reset points and steps when the level changes
@@ -39,8 +46,10 @@ const GameScreen: React.FC<GameScreenProps> = ({
     setStepsTaken(0)
     setKeyHistory([])
     setLastKeyPressTime(Date.now())
+    addAdvice('Starting Advice...')
   }, [level, config])
 
+  // Apply scoring logic, udpat scores.
   const processKeyPress = useCallback(
     (key: string) => {
       const currentTime = Date.now()
@@ -69,6 +78,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     [lastKeyPressTime, config, keyHistory, points, xDomain]
   )
 
+  // Handle all key presses and pass arrow keys to processKeyPress
   const handleKeyPress = useCallback(
     (event: KeyboardEvent) => {
       if (
@@ -83,6 +93,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     [config.maxSteps, stepsTaken, processKeyPress]
   )
 
+  // Add the keypress listener
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress)
     return () => {
@@ -98,6 +109,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     handleKeyPress
   ])
 
+  // Advance level if they're on the last step
   useEffect(() => {
     // Check if the level is complete
     if (stepsTaken >= config.maxSteps) {
@@ -114,32 +126,41 @@ const GameScreen: React.FC<GameScreenProps> = ({
   }, [stepsTaken, config, onLevelComplete, points, keyHistory])
 
   return (
-    <div className='container'>
-      <h2 className='title'>Level {level}</h2>
-      <p className='subtitle'>
-        Press left or right arrow keys to add points ({stepsTaken}/
-        {config.maxSteps})
-      </p>
-      <ScorePlot points={points} keyHistory={keyHistory} xDomain={xDomain} />
-      <div>
-        <div className='arrow-buttons'>
-          <button className='up' onClick={() => processKeyPress('ArrowUp')}>
-            <Arrow className='up-arrow' />
-          </button>
-        </div>
-        <div className='arrow-buttons'>
-          <button className='left' onClick={() => processKeyPress('ArrowLeft')}>
-            <Arrow className='left-arrow' />
-          </button>
-          <button className='down' onClick={() => processKeyPress('ArrowDown')}>
-            <Arrow className='down-arrow' />
-          </button>
-          <button
-            className='right'
-            onClick={() => processKeyPress('ArrowRight')}
-          >
-            <Arrow className='right-arrow' />
-          </button>
+    <div className='game-container'>
+      <AdvicePanel adviceList={adviceList} />
+      <div className='container'>
+        <h2 className='title'>Level {level}</h2>
+        <p className='subtitle'>
+          Press left or right arrow keys to add points ({stepsTaken}/
+          {config.maxSteps})
+        </p>
+        <ScorePlot points={points} keyHistory={keyHistory} xDomain={xDomain} />
+        <div>
+          <div className='arrow-buttons'>
+            <button className='up' onClick={() => processKeyPress('ArrowUp')}>
+              <Arrow className='up-arrow' />
+            </button>
+          </div>
+          <div className='arrow-buttons'>
+            <button
+              className='left'
+              onClick={() => processKeyPress('ArrowLeft')}
+            >
+              <Arrow className='left-arrow' />
+            </button>
+            <button
+              className='down'
+              onClick={() => processKeyPress('ArrowDown')}
+            >
+              <Arrow className='down-arrow' />
+            </button>
+            <button
+              className='right'
+              onClick={() => processKeyPress('ArrowRight')}
+            >
+              <Arrow className='right-arrow' />
+            </button>
+          </div>
         </div>
       </div>
     </div>

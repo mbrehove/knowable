@@ -4,6 +4,7 @@ Things I need to do before I show this to anyone:
 2: Double check gameplay logic
 3: Add the advice notebook for desktop
 4: Add the advice notebook for mobile
+5: Add size adjustment for score plot in mobile/desktop
 5: Add speed level
 6: add level 'number of times you pressed the other arrow"
 7: add negative and negation level
