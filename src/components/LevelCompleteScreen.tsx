@@ -42,7 +42,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
           setPercentile(percentile)
         }
         const user_id = getUserId()
-        submitScore(level_ind, currentScore, version, user_id)
+        submitScore(level_ind, level, currentScore, version, user_id)
       })
       .catch(error => {
         console.error('Error fetching scores:', error)
@@ -84,17 +84,19 @@ const getUserId = () => {
 
 const submitScore = async (
   level_ind: number,
+  level: number,
   score: number,
   version: number,
   user_id: string
 ) => {
   try {
+    console.log({ level_ind, level, score, version, user_id })
     const response = await fetch('/api/scores', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ level_ind, score, version, user_id })
+      body: JSON.stringify({ level_ind, level, score, version, user_id })
     })
 
     if (!response.ok) {
