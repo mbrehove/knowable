@@ -56,21 +56,32 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   }, [])
 
   return (
-    <div className='level-complete-screen fade-in'>
-      <h2>Level {level} Complete</h2>
-      <div className='button-container'>
-        <button onClick={onNextLevel}>Next Level</button>
+    <div className='game-layout fade-in'>
+      <div className='game-content'>
+        <AdvicePanel level={level} />
+
+        <div className='main-content'>
+          <h2 className='title'>Level {level} Complete</h2>
+
+          <div className='level-description'>
+            {description(points, keyHistory, percentile ?? 100)}
+          </div>
+
+          <div className='plot-section'>
+            <ScorePlot
+              points={points}
+              keyHistory={keyHistory}
+              xDomain={[0, config.maxSteps]}
+            />
+          </div>
+
+          <div className='button-container'>
+            <button onClick={onNextLevel} autoFocus>
+              Next Level
+            </button>
+          </div>
+        </div>
       </div>
-      {description(points, keyHistory, percentile ?? 100)}
-      <ScorePlot
-        points={points}
-        keyHistory={keyHistory}
-        xDomain={[0, config.maxSteps]}
-      />
-      <AdvicePanel level={level} />
-      <button onClick={onNextLevel} autoFocus>
-        Press Enter to Continue
-      </button>
     </div>
   )
 }

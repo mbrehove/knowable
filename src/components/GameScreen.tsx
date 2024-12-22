@@ -34,7 +34,6 @@ const GameScreen: React.FC<GameScreenProps> = ({
   )
   const [lastKeyPressTime, setLastKeyPressTime] = useState(Date.now())
 
-
   useEffect(() => {
     // Reset points and steps when the level changes
     setPoints([{ x: 0, y: 0 }])
@@ -65,9 +64,11 @@ const GameScreen: React.FC<GameScreenProps> = ({
         })
 
         setStepsTaken(steps => steps + 1)
+        setKeyHistory(currentKeyHistory => [
+          ...currentKeyHistory,
+          { key, time }
+        ])
       }
-
-      setKeyHistory(currentKeyHistory => [...currentKeyHistory, { key, time }])
     },
     [lastKeyPressTime, config, keyHistory, points, xDomain]
   )
@@ -120,40 +121,51 @@ const GameScreen: React.FC<GameScreenProps> = ({
   }, [stepsTaken, config, onLevelComplete, points, keyHistory])
 
   return (
-    <div className='game-container'>
-      <AdvicePanel level={level} />
-      <div className='container'>
-        <h2 className='title'>Level {level}</h2>
-        <p className='subtitle'>
-          Press left or right arrow keys to add points ({stepsTaken}/
-          {config.maxSteps})
-        </p>
-        <ScorePlot points={points} keyHistory={keyHistory} xDomain={xDomain} />
-        <div className='mobile-only-controls'>
-          <div className='arrow-buttons'>
-            <button className='up' onClick={() => processKeyPress('ArrowUp')}>
-              <Arrow className='up-arrow' />
-            </button>
+    <div className='game-layout fade-in'>
+      <div className='game-content'>
+        <AdvicePanel level={level} />
+
+        <div className='main-content'>
+          <h2 className='title'>Level {level}</h2>
+          <p className='subtitle'>
+            Press left or right arrow keys to add points ({stepsTaken}/
+            {config.maxSteps})
+          </p>
+
+          <div className='plot-section'>
+            <ScorePlot
+              points={points}
+              keyHistory={keyHistory}
+              xDomain={xDomain}
+            />
           </div>
-          <div className='arrow-buttons'>
-            <button
-              className='left'
-              onClick={() => processKeyPress('ArrowLeft')}
-            >
-              <Arrow className='left-arrow' />
-            </button>
-            <button
-              className='down'
-              onClick={() => processKeyPress('ArrowDown')}
-            >
-              <Arrow className='down-arrow' />
-            </button>
-            <button
-              className='right'
-              onClick={() => processKeyPress('ArrowRight')}
-            >
-              <Arrow className='right-arrow' />
-            </button>
+
+          <div className='mobile-only-controls'>
+            <div className='arrow-buttons'>
+              <button className='up' onClick={() => processKeyPress('ArrowUp')}>
+                <Arrow className='up-arrow' />
+              </button>
+            </div>
+            <div className='arrow-buttons'>
+              <button
+                className='left'
+                onClick={() => processKeyPress('ArrowLeft')}
+              >
+                <Arrow className='left-arrow' />
+              </button>
+              <button
+                className='down'
+                onClick={() => processKeyPress('ArrowDown')}
+              >
+                <Arrow className='down-arrow' />
+              </button>
+              <button
+                className='right'
+                onClick={() => processKeyPress('ArrowRight')}
+              >
+                <Arrow className='right-arrow' />
+              </button>
+            </div>
           </div>
         </div>
       </div>
