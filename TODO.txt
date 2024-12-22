@@ -1,19 +1,15 @@
 Things I need to do before I show this to anyone:
 
-1: Remove arrow keys for desktop
-2: widen plot for desktop
-3: Split advice from description
-3: Add advice to side panel
-4: Adjust advice aestetics 
-5: Add Phase transition screens (ordered levels vs random)
-6: Separate score randomness from score calculation function. 
-7: Add Phase transition from random to random plus noise
-8: Add speed level
-9: add 'other arrow' level
-10: add negation level
-11: add icon and name
-12: Test 
-13: Show to Joseph
+
+1: Add Phase transition screens (ordered levels vs random)
+2: Separate score randomness from score calculation function. 
+3: Add Phase transition from random to random plus noise
+4: Add speed level
+5: add 'other arrow' level
+6: add negation level
+7: add icon and name
+8: Test 
+9: Show to Joseph
 
 
-14: Port to mobile
+10: Port to mobile

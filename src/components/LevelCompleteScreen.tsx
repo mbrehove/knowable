@@ -58,7 +58,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   return (
     <div className='game-layout fade-in'>
       <div className='game-content'>
-        <AdvicePanel level={level} />
+        <AdvicePanel level={level} animate={false} />
 
         <div className='main-content'>
           <h2 className='title'>Level {level} Complete</h2>

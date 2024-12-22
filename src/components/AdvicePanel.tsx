@@ -8,7 +8,10 @@ interface Advice {
   author: string
 }
 
-const AdvicePanel: React.FC<{ level: number }> = ({ level }) => {
+const AdvicePanel: React.FC<{
+  level: number
+  animate?: boolean
+}> = ({ level, animate = false }) => {
   const adviceList = levelAdvice.slice(0, level).reverse()
 
   return (
@@ -19,9 +22,11 @@ const AdvicePanel: React.FC<{ level: number }> = ({ level }) => {
           {adviceList.map((advice: Advice, index: number) => (
             <li
               key={index}
-              className={styles.adviceItem}
+              className={`${styles.adviceItem} ${
+                animate ? styles.animated : ''
+              }`}
               style={{
-                animationDelay: `${index * 0.15}s`
+                animationDelay: animate ? `${index * 0.15}s` : undefined
               }}
             >
               <i>{advice.quote}</i>
