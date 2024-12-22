@@ -77,13 +77,13 @@ const ScorePlot: React.FC<ScorePlotProps> = ({
   const changeSign = change >= 0 ? '+' : ''
 
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       <h2>
         Current Score: {currentScore.toFixed(2)} ({changeSign}
         <span style={{ color: changeColor }}>{formattedChange}</span>)
       </h2>
-      <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto' }}>
-        <ResponsiveContainer width='100%' height={400}>
+      <div style={{ width: '100%', height: '400px' }}>
+        <ResponsiveContainer width='100%' height='100%'>
           <LineChart
             data={points}
             margin={{ top: 5, right: 30, left: 50, bottom: 25 }}

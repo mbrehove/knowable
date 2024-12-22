@@ -16,6 +16,51 @@ export type Description = (
   percentile: number
 ) => ReactNode
 
+export interface AdviceQuote {
+  quote: string
+  author: string
+}
+
+export const levelAdvice: AdviceQuote[] = [
+  {
+    quote:
+      'Insanity is doing the same thing over and over again and expecting different results.',
+    author: 'Rita Mae Brown'
+  },
+  {
+    quote:
+      'It is not the strongest of the species that survives, nor the most intelligent that survives. It is the one that is most adaptable to change.',
+    author: 'Charels Darwin'
+  },
+  {
+    quote:
+      'When one admits that nothing is certain one must, I think, also add that some things are more nearly certain than others.',
+    author: 'Bertrand Russell'
+  },
+  {
+    quote: 'To improve is to change; to be perfect is to change often.',
+    author: 'Winston Churchill'
+  },
+  {
+    quote: "Rules are made for people who aren't willing to make their own.",
+    author: 'Chuck Yeager'
+  },
+  {
+    quote:
+      'I fear not the man who has practiced 10,000 kicks once, but I fear the man who has practiced one kick 10,000 times.',
+    author: 'Bruce Lee'
+  },
+  {
+    quote:
+      "Don't seek to have events happen as you wish, but wish them to happen as they do happen and you will be well.",
+    author: 'Epictetus'
+  },
+  {
+    quote: 'Patience is bitter, but its fruit is sweet.',
+    author: 'Aristotle'
+  }
+]
+
 export interface LevelConfig {
   scoringLogic: ScoringLogic
   randomValues: Record<string, number>
@@ -28,6 +73,7 @@ export interface LevelConfig {
 const levelConfigs: (() => LevelConfig)[] = [
   // Level 1
   () => {
+    const level_ind = 0
     const maxSteps = globalMaxSteps
     const leftValue = Math.random() > 0.5 ? 2 : -1
     const rightValue = leftValue > 0 ? -1 : 2
@@ -44,6 +90,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
       if (eventKey !== 'ArrowRight' && eventKey !== 'ArrowLeft') {
+        0
         return null
       }
       return lastY + (eventKey === 'ArrowRight' ? rightValue : leftValue)
@@ -63,11 +110,10 @@ const levelConfigs: (() => LevelConfig)[] = [
           </p>
           <p>Advice:</p>
           <i>
-            Insanity is doing the same thing over and over again and expecting
-            different results.
+            {levelAdvice[level_ind].quote}
             <br />
           </i>
-          -Rita Mae Brown
+          -{levelAdvice[level_ind].author}
         </div>
       )
     }
@@ -77,13 +123,14 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: { leftValue, rightValue },
       description,
       maxSteps,
-      level_ind: 0,
+      level_ind,
       version: 0
     }
   },
 
   // Level 2: switch random values at maxSteps/2.
   () => {
+    const level_ind = 1
     const maxSteps = globalMaxSteps
     const leftValue = Math.random() > 0.5 ? 2 : -1
     const rightValue = leftValue > 0 ? -1 : 2
@@ -130,12 +177,10 @@ const levelConfigs: (() => LevelConfig)[] = [
           </p>
           <p>Advice:</p>
           <i>
-            It is not the strongest of the species that survives, nor the most
-            intelligent that survives. It is the one that is most adaptable to
-            change.
+            {levelAdvice[level_ind].quote}
             <br />
           </i>
-          -Charels Darwin
+          -{levelAdvice[level_ind].author}
         </div>
       )
     }
@@ -145,12 +190,13 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: { leftValue, rightValue },
       description,
       maxSteps,
-      level_ind: 1,
+      level_ind,
       version: 0
     }
   },
   // Level 3: score of each button has a mean plus a random value.
   () => {
+    const level_ind = 2
     const maxSteps = globalMaxSteps
     const width = 4
     const separation = 4
@@ -197,11 +243,10 @@ const levelConfigs: (() => LevelConfig)[] = [
           </p>
           <p>Advice:</p>
           <i>
-            When one admits that nothing is certain one must, I think, also add
-            that some things are more nearly certain than others.
+            {levelAdvice[level_ind].quote}
             <br />
           </i>
-          -Bertrand Russell:
+          -{levelAdvice[level_ind].author}
         </div>
       )
     }
@@ -211,12 +256,13 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 2,
+      level_ind,
       version: 0
     }
   },
   // Level 4: Score of each button increased each time the user alternated buttons
   () => {
+    const level_ind = 3
     const maxSteps = globalMaxSteps
     const optimalScore = ((maxSteps - 1) * (maxSteps - 2)) / 2
 
@@ -262,10 +308,10 @@ const levelConfigs: (() => LevelConfig)[] = [
           </p>
           <p>Advice:</p>
           <i>
-            To improve is to change; to be perfect is to change often.
+            {levelAdvice[level_ind].quote}
             <br />
           </i>
-          -Winston Churchill
+          -{levelAdvice[level_ind].author}
         </div>
       )
     }
@@ -275,12 +321,13 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 3,
+      level_ind,
       version: 0
     }
   },
   // Level 5: Set values for left, right up and down
   () => {
+    const level_ind = 4
     const maxSteps = globalMaxSteps
     const leftValue = Math.random() > 0.5 ? 2 : -1
     const rightValue = leftValue > 0 ? -1 : 2
@@ -337,10 +384,10 @@ const levelConfigs: (() => LevelConfig)[] = [
           </p>
           <p>Advice:</p>
           <i>
-            Rules are made for people who aren&apos;t willing to make their own.
+            {levelAdvice[level_ind].quote}
             <br />
           </i>
-          -Chuck Yeager
+          -{levelAdvice[level_ind].author}
         </div>
       )
     }
@@ -350,12 +397,13 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: { leftValue, rightValue, upValue, downValue },
       description,
       maxSteps,
-      level_ind: 4,
+      level_ind,
       version: 0
     }
   },
   // Level 6: score of each button is the number of times it was pressed.
   () => {
+    const level_ind = 5
     const maxSteps = globalMaxSteps
     const optimalScore = ((maxSteps - 1) * maxSteps) / 2
 
@@ -399,11 +447,10 @@ const levelConfigs: (() => LevelConfig)[] = [
           </p>
           <p>Advice:</p>
           <i>
-            I fear not the man who has practiced 10,000 kicks once, but I fear
-            the man who has practiced one kick 10,000 times.
+            {levelAdvice[level_ind].quote}
             <br />
           </i>
-          -Bruce Lee
+          -{levelAdvice[level_ind].author}
         </div>
       )
     }
@@ -413,12 +460,13 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 5,
+      level_ind,
       version: 0
     }
   },
   // Level 7: Random scores
   () => {
+    const level_ind = 6
     const maxSteps = globalMaxSteps
 
     const scoringLogic: ScoringLogic = (
@@ -452,11 +500,10 @@ const levelConfigs: (() => LevelConfig)[] = [
           </p>
           <p>Advice:</p>
           <i>
-            Don&apos;t seek to have events happen as you wish, but wish them to
-            happen as they do happen and you will be well.
+            {levelAdvice[level_ind].quote}
             <br />
           </i>
-          -Epictetus
+          -{levelAdvice[level_ind].author}
         </div>
       )
     }
@@ -466,12 +513,13 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 6,
+      level_ind,
       version: 0
     }
   },
   // Level 8: Duration
   () => {
+    const level_ind = 7
     const maxSteps = globalMaxSteps
 
     const scoringLogic: ScoringLogic = (
@@ -500,10 +548,10 @@ const levelConfigs: (() => LevelConfig)[] = [
           </p>
           <p>Advice:</p>
           <i>
-            Patience is bitter, but its fruit is sweet.
+            {levelAdvice[level_ind].quote}
             <br />
           </i>
-          -Aristotle
+          -{levelAdvice[level_ind].author}
         </div>
       )
     }
@@ -513,7 +561,7 @@ const levelConfigs: (() => LevelConfig)[] = [
       randomValues: {},
       description,
       maxSteps,
-      level_ind: 7,
+      level_ind,
       version: 0
     }
   }

@@ -33,12 +33,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     []
   )
   const [lastKeyPressTime, setLastKeyPressTime] = useState(Date.now())
-  const [adviceList, setAdviceList] = useState<string[]>([])
 
-  // Function to add new advice
-  const addAdvice = (newAdvice: string) => {
-    setAdviceList([...adviceList, newAdvice])
-  }
 
   useEffect(() => {
     // Reset points and steps when the level changes
@@ -46,7 +41,6 @@ const GameScreen: React.FC<GameScreenProps> = ({
     setStepsTaken(0)
     setKeyHistory([])
     setLastKeyPressTime(Date.now())
-    addAdvice('Starting Advice...')
   }, [level, config])
 
   // Apply scoring logic, udpat scores.
@@ -127,7 +121,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
 
   return (
     <div className='game-container'>
-      <AdvicePanel adviceList={adviceList} />
+      <AdvicePanel level={level} />
       <div className='container'>
         <h2 className='title'>Level {level}</h2>
         <p className='subtitle'>
@@ -135,7 +129,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
           {config.maxSteps})
         </p>
         <ScorePlot points={points} keyHistory={keyHistory} xDomain={xDomain} />
-        <div>
+        <div className='mobile-only-controls'>
           <div className='arrow-buttons'>
             <button className='up' onClick={() => processKeyPress('ArrowUp')}>
               <Arrow className='up-arrow' />

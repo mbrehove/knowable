@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
+import AdvicePanel from './AdvicePanel' // Add this import
 import { LevelData } from './GameScreen'
 
 interface LevelCompleteScreenProps {
@@ -66,6 +67,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
         keyHistory={keyHistory}
         xDomain={[0, config.maxSteps]}
       />
+      <AdvicePanel level={level} />
       <button onClick={onNextLevel} autoFocus>
         Press Enter to Continue
       </button>
