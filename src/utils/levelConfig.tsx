@@ -118,7 +118,6 @@ const levelConfigs: ((
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
       if (eventKey !== 'ArrowRight' && eventKey !== 'ArrowLeft') {
-        0
         return null
       }
       return (
@@ -433,7 +432,7 @@ const levelConfigs: ((
   // Level 6: Slow down
   (noise_level: number = 0, maxSteps: number = globalMaxSteps) => {
     const level_ind = 5
-    const optimalScore = ((maxSteps - 1) * maxSteps) / 2
+    // const optimalScore = ((maxSteps - 1) * maxSteps) / 2
     const noise = getNoise(noise_level, maxSteps)
     const scoringLogic: ScoringLogic = (
       currentPoints,
@@ -485,10 +484,7 @@ const levelConfigs: ((
 ]
 
 // Modify the return type to include possible phase transitions
-const getLevelConfig = (
-  level: number,
-  gameState: string
-): LevelConfig => {
+const getLevelConfig = (level: number): LevelConfig => {
   // Phase 1: Levels 1-8 in order
   if (level <= levelConfigs.length) {
     return levelConfigs[level - 1](0, globalMaxSteps)

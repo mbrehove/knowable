@@ -16,7 +16,7 @@ export default function GamePage () {
 
   useEffect(() => {
     if (gameState === 'playing') {
-      const config = getLevelConfig(currentLevel, gameState)
+      const config = getLevelConfig(currentLevel)
       setLevelConfig(config as LevelConfig)
     }
   }, [gameState, currentLevel])
