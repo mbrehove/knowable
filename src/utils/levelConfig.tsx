@@ -73,6 +73,7 @@ export interface LevelConfig {
   maxSteps: number
   level_ind: number
   version: number
+  optimalScore: number
 }
 
 const getNoise = (
@@ -155,7 +156,8 @@ const levelConfigs: ((
       description,
       maxSteps,
       level_ind,
-      version: 0
+      version: 0,
+      optimalScore
     }
   },
 
@@ -222,7 +224,8 @@ const levelConfigs: ((
       description,
       maxSteps,
       level_ind,
-      version: 0
+      version: 0,
+      optimalScore
     }
   },
 
@@ -288,7 +291,8 @@ const levelConfigs: ((
       description,
       maxSteps,
       level_ind,
-      version: 0
+      version: 0,
+      optimalScore
     }
   },
   // Level 4: Set values for left, right up and down
@@ -298,6 +302,7 @@ const levelConfigs: ((
     const rightValue = leftValue > 0 ? -1 : 2
     const upValue = Math.random() > 0.5 ? 10 : 5
     const downValue = upValue > 5 ? 5 : 10
+    const optimalScore = Math.max(upValue, downValue) * (maxSteps - 1)
     const noise = getNoise(noise_level, maxSteps)
     const scoringLogic: ScoringLogic = (
       currentPoints,
@@ -364,7 +369,8 @@ const levelConfigs: ((
       description,
       maxSteps,
       level_ind,
-      version: 0
+      version: 0,
+      optimalScore
     }
   },
   // Level 5: score of each button is the number of times it was pressed.
@@ -426,13 +432,14 @@ const levelConfigs: ((
       description,
       maxSteps,
       level_ind,
-      version: 0
+      version: 0,
+      optimalScore
     }
   },
   // Level 6: Slow down
   (noise_level: number = 0, maxSteps: number = globalMaxSteps) => {
     const level_ind = 5
-    // const optimalScore = ((maxSteps - 1) * maxSteps) / 2
+    const optimalScore = 10 * (maxSteps - 1)
     const noise = getNoise(noise_level, maxSteps)
     const scoringLogic: ScoringLogic = (
       currentPoints,
@@ -478,10 +485,19 @@ const levelConfigs: ((
       description,
       maxSteps,
       level_ind,
-      version: 0
+      version: 0,
+      optimalScore
     }
   }
 ]
+
+// Calculate total optimal score across all levels
+export const totalOptimalScore = levelConfigs.reduce((sum, levelConfigFn) => {
+  const config = levelConfigFn(0, globalMaxSteps) // Call with default params
+  return sum + config.optimalScore
+}, 0)
+
+
 
 // Modify the return type to include possible phase transitions
 const getLevelConfig = (level: number): LevelConfig => {
