@@ -1,15 +1,16 @@
 Things I need to do before I show this to anyone:
 
 
-1: Add Phase transition screens (ordered levels vs random)
-2: Separate score randomness from score calculation function. 
-3: Add Phase transition from random to random plus noise
-4: Add speed level
-5: add 'other arrow' level
-6: add negation level
-7: add icon and name
-8: Test 
-9: Show to Joseph
+2: Write better Phase Transition descriptions
+3: Add speed level
+4: add 'other arrow' level
+5: add negation level
+6: add icon and name
+7: add about page
+8: add music
+9: add Phase color transitions
+7: Test 
+8: Show to Joseph & Christina
 
 
 10: Port to mobile

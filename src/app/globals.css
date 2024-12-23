@@ -1,6 +1,15 @@
+:root {
+  --background-color: #b2cee6;
+  --font-family: 'Nunito', sans-serif;
+}
+
+html,
 body {
-  background-color: #b2cee6; /* Light blue background */
-  font-family: 'Nunito', sans-serif;
+  background-color: var(--background-color);
+  font-family: var(--font-family);
+}
+
+body {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,7 +74,7 @@ button:focus {
 }
 
 .recharts-tooltip-wrapper {
-  background-color: #b2cee6; /* Light blue background */
+  background-color: var(--background-color);
   border: 1px solid #8884d8; /* Optional: Add a border to match the line color */
   color: #000; /* Optional: Set text color for better readability */
 }
@@ -77,17 +86,17 @@ button:focus {
   margin-top: 20px;
 }
 
-.button-container button {
+/* .button-container button {
   margin: 0 10px;
   padding: 10px 20px;
   font-size: 1rem;
   cursor: pointer;
   border: none;
   border-radius: 5px;
-  background-color: #b2cee6; /* Light blue background */
+  background-color: var(--background-color);
   color: black;
   transition: background-color 0.3s ease;
-}
+} */
 
 .arrow-buttons {
   display: flex;
@@ -134,7 +143,7 @@ button:focus {
   bottom: 0;
   width: 400px;
   max-width: 90vw;
-  background-color: #b2cee6;
+  background-color: var(--background-color);
   padding: 20px;
   border-right: 1px solid #ddd;
   display: flex;
@@ -157,7 +166,7 @@ button:focus {
 .advice-panel li {
   padding: 12px;
   margin-bottom: 8px;
-  background-color: #b2cee6;
+  background-color: var(--background-color);
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   text-align: left;

@@ -12,6 +12,7 @@ interface LevelCompleteScreenProps {
   config: {
     maxSteps: number
   }
+  animate?: boolean
 }
 
 const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
