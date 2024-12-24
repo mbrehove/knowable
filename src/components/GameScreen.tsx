@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import AdvicePanel from './AdvicePanel'
-import { LevelConfig, Description } from '../utils/levelConfig' // Assuming levelConfig is in the same directory
+import { LevelConfig, Description } from '../utils/levels/types' // Assuming levelConfig is in the same directory
 import ScorePlot from './ScorePlot' // Assuming ScorePlot is a React component
 import Arrow from '../../public/arrow.svg'
 

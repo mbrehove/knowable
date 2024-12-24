@@ -1,13 +1,8 @@
 import React from 'react'
 import { LevelConfig } from './types'
+import { levelAdvice } from './advice'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
-
-export const nPressedAdvice = {
-  quote:
-    'I fear not the man who has practiced 10,000 kicks once, but I fear the man who has practiced one kick 10,000 times.',
-  author: 'Bruce Lee'
-}
 
 export const createNPressedConfig = (
   noise_level: number = 0,
@@ -55,17 +50,18 @@ export const createNPressedConfig = (
         <div>
           <p className='level-description-text'>
             In this level, the score you got from a button equals the number of
-            times the button was pressed. The optimal play would press the same
-            button each turn and yield a score of {optimalScore}. Your score is{' '}
+            times the <i>other</i> button was pressed. The optimal play would press one
+            button for the first {maxSteps/2} turns and the other button for the last {maxSteps/2}
+             turns and yield a score of {optimalScore}. Your score is{' '}
             <b>{scorePercent.toFixed(2)}% </b> of optimal. You scored better
             than <b>{percentile.toFixed(1)}%</b> of players on this level.
           </p>
           <p>Advice:</p>
           <i>
-            {nPressedAdvice.quote}
+            {levelAdvice[level_ind].quote}
             <br />
           </i>
-          -{nPressedAdvice.author}
+          -{levelAdvice[level_ind].author}
         </div>
       )
     },

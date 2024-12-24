@@ -1,8 +1,12 @@
 import React from 'react'
 import { LevelConfig } from './types'
-import { levelAdvice } from './advice'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
+
+export const upDownAdvice = {
+  quote: "Rules are made for people who aren't willing to make their own.",
+  author: 'Chuck Yeager'
+}
 
 export const createUpDownConfig = (
   noise_level: number = 0,
@@ -71,10 +75,10 @@ export const createUpDownConfig = (
           </p>
           <p>Advice:</p>
           <i>
-            {levelAdvice[level_ind].quote}
+            {upDownAdvice.quote}
             <br />
           </i>
-          -{levelAdvice[level_ind].author}
+          -{upDownAdvice.author}
         </div>
       )
     },

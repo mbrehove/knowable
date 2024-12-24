@@ -1,22 +1,45 @@
 import { LevelConfig } from './types'
-import { createFixedConfig } from './fixed'
-import { createSwapConfig } from './swap'
-import { createNAlternateConfig } from './nAlternate'
-import { createUpDownConfig } from './upDown'
-import { createNPressedConfig } from './nPressed'
-import { createNSecondsConfig } from './nSeconds'
+import { createFixedConfig, fixedAdvice } from './fixed'
+import { createSwapConfig, swapAdvice } from './swap'
+import { createNAlternateConfig, nAlternateAdvice } from './nAlternate'
+import { createUpDownConfig, upDownAdvice } from './upDown'
+import { createNPressedConfig, nPressedAdvice } from './nPressed'
+import { createNSecondsConfig, nSecondsAdvice } from './nSeconds'
+import { createNegateConfig, negateAdvice } from './negate'
+import { createSpeedConfig, speedAdvice } from './speed'
+import { createInvestConfig, investAdvice } from './invest'
+import { createRandomConfig, randomAdvice } from './random'
 
 const levelConfigs = [
   (noise: number, maxSteps: number) => createFixedConfig(noise, maxSteps, 0),
   (noise: number, maxSteps: number) => createSwapConfig(noise, maxSteps, 1),
+  (noise: number, maxSteps: number) => createNPressedConfig(noise, maxSteps, 2),
   (noise: number, maxSteps: number) =>
-    createNAlternateConfig(noise, maxSteps, 2),
-  (noise: number, maxSteps: number) => createUpDownConfig(noise, maxSteps, 3),
-  (noise: number, maxSteps: number) => createNPressedConfig(noise, maxSteps, 4),
-  (noise: number, maxSteps: number) => createNSecondsConfig(noise, maxSteps, 5)
+    createNAlternateConfig(noise, maxSteps, 3),
+  (noise: number, maxSteps: number) => createInvestConfig(noise, maxSteps, 4),
+  (noise: number, maxSteps: number) => createNSecondsConfig(noise, maxSteps, 5),
+  (noise: number, maxSteps: number) => createSpeedConfig(noise, maxSteps, 6),
+  (noise: number, maxSteps: number) => createUpDownConfig(noise, maxSteps, 7),
+  (noise: number, maxSteps: number) => createNegateConfig(noise, maxSteps, 8),
+  (noise: number, maxSteps: number) => createRandomConfig(noise, maxSteps, 9)
+]
+
+export const levelAdvice = [
+  fixedAdvice,
+  swapAdvice,
+  nPressedAdvice,
+  nAlternateAdvice,
+  investAdvice,
+  nSecondsAdvice,
+  speedAdvice,
+  upDownAdvice,
+  negateAdvice,
+  randomAdvice
 ]
 
 export const globalMaxSteps = 12
+
+export const numberOfLevels = levelConfigs.length
 
 export const totalOptimalScore = levelConfigs.reduce((sum, levelConfigFn) => {
   const config = levelConfigFn(0, globalMaxSteps) // Call with default params

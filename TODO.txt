@@ -1,16 +1,9 @@
 Things I need to do before I show this to anyone:
 
 
-2: Write better Phase Transition descriptions
-3: Add speed level
-4: add 'other arrow' level
-5: add negation level
-6: add icon and name
-7: add about page
 8: add music
 9: add Phase color transitions
 7: Test 
 8: Show to Joseph & Christina
-
 
 10: Port to mobile

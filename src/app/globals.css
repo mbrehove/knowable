@@ -356,3 +356,22 @@ button:focus {
     transform: translateY(0);
   }
 }
+
+.about-button-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 50;
+}
+
+.about-button {
+  background-color: transparent;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: opacity 0.2s;
+}
+
+.about-button:hover {
+  opacity: 0.7;
+}

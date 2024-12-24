@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { numberOfLevels, totalOptimalScore } from '../utils/levelConfig'
+import { numberOfLevels, totalOptimalScore } from '../utils/levels/levelManager'
 
 interface WelcomeScreenProps {
   onStart: () => void

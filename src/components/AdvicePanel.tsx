@@ -1,7 +1,7 @@
 // AdvicePanel.tsx
 import React from 'react'
 import styles from './AdvicePanel.module.css'
-import { levelAdvice } from '../utils/levelConfig'
+import { levelAdvice } from '../utils/levels/levelManager'
 
 interface Advice {
   quote: string

@@ -3,17 +3,22 @@ import { LevelConfig } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
-export const nAlternateAdvice = {
-  quote: 'To improve is to change; to be perfect is to change often.',
-  author: 'Winston Churchill'
+export const negateAdvice = {
+  quote: 'Sometimes we need to lose the small battles in order to win the war.',
+  author: 'Sun Tzu'
 }
 
-export const createNAlternateConfig = (
+export const createNegateConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
   level_ind: number
 ): LevelConfig => {
-  const optimalScore = ((maxSteps - 1) * (maxSteps - 2)) / 2
+  const negativeValue = -2
+  const { negateKey, moveKey } =
+    Math.random() > 0.5
+      ? { negateKey: 'ArrowLeft', moveKey: 'ArrowRight' }
+      : { negateKey: 'ArrowRight', moveKey: 'ArrowLeft' }
+  const optimalScore = (maxSteps - 1) * negativeValue
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -25,19 +30,17 @@ export const createNAlternateConfig = (
     ) => {
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
-      const keyTypes = [...keyHistory.map(entry => entry.key), eventKey]
-      const filteredKeyTypes = keyTypes.filter(
-        key => key === 'ArrowRight' || key === 'ArrowLeft'
-      )
-      const switches = filteredKeyTypes
-        .slice(1)
-        .map((key, index) => (key !== filteredKeyTypes[index] ? 1 : 0))
-      const switchCount = switches.reduce<number>((acc, val) => acc + val, 0)
-
-      if (eventKey !== 'ArrowRight' && eventKey !== 'ArrowLeft') {
+      if (eventKey === negateKey) {
+        if (lastY > 0) {
+          return -lastY + noise[currentPoints.length - 1]
+        } else {
+          return lastY + noise[currentPoints.length - 1]
+        }
+      } else if (eventKey === moveKey) {
+        return lastY + negativeValue
+      } else {
         return null
       }
-      return lastY + switchCount + noise[currentPoints.length - 1]
     },
     randomValues: {},
     description: (
@@ -50,20 +53,20 @@ export const createNAlternateConfig = (
       return (
         <div>
           <p className='level-description-text'>
-            In this level, both keys had a value equal to the number of times
-            that you alternated keys.
-            <br />
-            Optimal play would have averaged {optimalScore.toFixed(2)}. <br />
+            In this level, pressing {moveKey} decreased your score by{' '}
+            {-negativeValue} and pressing {negateKey} negated your score. The
+            optimal play would press {moveKey} for the first {maxSteps - 1}{' '}
+            turns and then {negateKey} once to yeild a score of {optimalScore}.
             Your score is <b>{scorePercent.toFixed(2)}% </b> of optimal. You
             scored better than <b>{percentile.toFixed(1)}%</b> of players on
             this level.
           </p>
           <p>Advice:</p>
           <i>
-            {nAlternateAdvice.quote}
+            {negateAdvice.quote}
             <br />
           </i>
-          -{nAlternateAdvice.author}
+          -{negateAdvice.author}
         </div>
       )
     },

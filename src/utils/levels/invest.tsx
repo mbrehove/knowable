@@ -3,18 +3,21 @@ import { LevelConfig } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
-export const nPressedAdvice = {
+export const investAdvice = {
   quote:
-    'I fear not the man who has practiced 10,000 kicks once, but I fear the man who has practiced one kick 10,000 times.',
-  author: 'Bruce Lee'
+    'Someone is sitting in the shade today because someone planted a tree a long time ago.',
+  author: 'Warren Buffett'
 }
 
-export const createNPressedConfig = (
+export const createInvestConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
   level_ind: number
 ): LevelConfig => {
-  const optimalScore = ((maxSteps - 1) * maxSteps) / 2
+  const investKey = Math.random() > 0.5 ? 'ArrowRight' : 'ArrowLeft'
+  const pointsKey = investKey === 'ArrowRight' ? 'ArrowLeft' : 'ArrowRight'
+
+  const optimalScore = (maxSteps / 2) ** 2
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -28,17 +31,12 @@ export const createNPressedConfig = (
       const lastY = lastPoint.y
 
       const keyTypes = [...keyHistory.map(entry => entry.key), eventKey]
-      const arrowLeftCount = keyTypes.filter(key => key === 'ArrowLeft').length
-      const arrowRightCount = keyTypes.filter(
-        key => key === 'ArrowRight'
-      ).length
+      const investCount = keyTypes.filter(key => key === investKey).length
 
-      if (eventKey !== 'ArrowRight' && eventKey !== 'ArrowLeft') {
-        return null
-      } else if (eventKey === 'ArrowLeft') {
-        return lastY + arrowLeftCount + noise[currentPoints.length - 1]
-      } else if (eventKey === 'ArrowRight') {
-        return lastY + arrowRightCount + noise[currentPoints.length - 1]
+      if (eventKey === investKey) {
+        return lastY + noise[currentPoints.length - 1]
+      } else if (eventKey === pointsKey) {
+        return lastY + investCount + noise[currentPoints.length - 1]
       } else {
         return null
       }
@@ -54,18 +52,19 @@ export const createNPressedConfig = (
       return (
         <div>
           <p className='level-description-text'>
-            In this level, the score you got from a button equals the number of
-            times the button was pressed. The optimal play would press the same
-            button each turn and yield a score of {optimalScore}. Your score is{' '}
+            In this level, the {investKey} key didn&apos;t give you any points but the{' '}
+            {pointsKey} key gave you a point for each time you pressed the {investKey}.
+            The optimal play would be to press the {investKey} {maxSteps/2} times and then 
+            cashing in by pressing {pointsKey} the rest of the way to yeld a score of <b>{optimalScore}</b>.
             <b>{scorePercent.toFixed(2)}% </b> of optimal. You scored better
             than <b>{percentile.toFixed(1)}%</b> of players on this level.
           </p>
           <p>Advice:</p>
           <i>
-            {nPressedAdvice.quote}
+            {investAdvice.quote}
             <br />
           </i>
-          -{nPressedAdvice.author}
+          -{investAdvice.author}
         </div>
       )
     },

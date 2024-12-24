@@ -1,8 +1,13 @@
 import React from 'react'
 import { LevelConfig } from './types'
-import { levelAdvice } from './advice'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
+
+export const swapAdvice = {
+  quote:
+    'It is not the strongest of the species that survives, nor the most intelligent that survives. It is the one that is most adaptable to change.',
+  author: 'Charels Darwin'
+}
 
 export const createSwapConfig = (
   noise_level: number = 0,
@@ -11,9 +16,11 @@ export const createSwapConfig = (
 ): LevelConfig => {
   const leftValue = Math.random() > 0.5 ? 2 : -1
   const rightValue = leftValue > 0 ? -1 : 2
-  const optimalScore =
-    Math.max(leftValue, rightValue) * (maxSteps - 2) +
-    Math.min(leftValue, rightValue) * 2
+  const swapAt = [
+    Math.floor((Math.random() * maxSteps) / 4) + maxSteps / 4,
+    Math.floor((Math.random() * maxSteps) / 4) + maxSteps / 2
+  ]
+  const optimalScore = Math.max(leftValue, rightValue) * maxSteps
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -28,9 +35,10 @@ export const createSwapConfig = (
       if (eventKey !== 'ArrowRight' && eventKey !== 'ArrowLeft') {
         return null
       }
+      const swap = swapAt.filter(x => currentPoints.length <= x).length % 2 == 1
       return (
         lastY +
-        (currentPoints.length < maxSteps / 2
+        (swap
           ? eventKey === 'ArrowRight'
             ? rightValue
             : leftValue
@@ -52,19 +60,19 @@ export const createSwapConfig = (
         <div>
           <p className='level-description-text'>
             In this level, pressing left gave a score of {leftValue} and
-            pressing right gave {rightValue}. However, half way through the
-            scores flipped. If you checked the scores again after this happened
-            and adapted quickly, you could have achieved a score of{' '}
-            {optimalScore}. Your score is <b>{scorePercent.toFixed(2)}% </b> of
-            optimal. You scored better than <b>{percentile.toFixed(1)}%</b> of
-            players on this level.
+            pressing right gave {rightValue}. However, at turns {swapAt[0]} and{' '}
+            {swapAt[1]} the scores flipped. If you checked the scores again
+            after this happened and adapted quickly, you could have achieved a
+            score of {optimalScore}. Your score is{' '}
+            <b>{scorePercent.toFixed(2)}% </b> of optimal. You scored better
+            than <b>{percentile.toFixed(1)}%</b> of players on this level.
           </p>
           <p>Advice:</p>
           <i>
-            {levelAdvice[level_ind].quote}
+            {swapAdvice.quote}
             <br />
           </i>
-          -{levelAdvice[level_ind].author}
+          -{swapAdvice.author}
         </div>
       )
     },

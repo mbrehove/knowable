@@ -8,11 +8,13 @@ export const getNoise = (noise_level: number = 0, maxSteps: number = 12) => {
     .flat()
     .slice(0, maxSteps)
   const noise = [...repeatedNoise].sort(() => Math.random() - 0.5)
-  const sum = noise.reduce((a, b) => a + b, 0)
+  let sum = noise.reduce((a, b) => a + b, 0)
+  noise[noise.length - 1] = -sum + noise[noise.length - 1]
+  sum = noise.reduce((a, b) => a + b, 0)
   if (sum !== 0) {
     throw new Error(`Noise sum should be 0 but is ${sum}`)
   }
-  return repeatedNoise
+  return noise
 }
 
 export const globalMaxSteps = 12

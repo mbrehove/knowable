@@ -1,8 +1,13 @@
 import React from 'react'
 import { LevelConfig } from './types'
-import { levelAdvice } from './advice'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
+
+export const fixedAdvice = {
+    quote:
+      'Insanity is doing the same thing over and over again and expecting different results.',
+    author: 'Rita Mae Brown'
+  }
 
 export const createFixedConfig = (
   noise_level: number = 0,
@@ -53,10 +58,10 @@ export const createFixedConfig = (
           </p>
           <p>Advice:</p>
           <i>
-            {levelAdvice[level_ind].quote}
+            {fixedAdvice.quote}
             <br />
           </i>
-          -{levelAdvice[level_ind].author}
+          -{fixedAdvice.author}
         </div>
       )
     },
