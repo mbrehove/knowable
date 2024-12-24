@@ -4,12 +4,13 @@ import { levelAdvice } from './advice'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
-export const createNPressedConfig = (
+export const createNOtherConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
   level_ind: number
 ): LevelConfig => {
   const optimalScore = ((maxSteps - 1) * maxSteps) / 2
+  const maxScore = optimalScore
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -50,9 +51,10 @@ export const createNPressedConfig = (
         <div>
           <p className='level-description-text'>
             In this level, the score you got from a button equals the number of
-            times the <i>other</i> button was pressed. The optimal play would press one
-            button for the first {maxSteps/2} turns and the other button for the last {maxSteps/2}
-             turns and yield a score of {optimalScore}. Your score is{' '}
+            times the <i>other</i> button was pressed. The optimal play would
+            press one button for the first {maxSteps / 2} turns and the other
+            button for the last {maxSteps / 2}
+            turns and yield a score of {optimalScore}. Your score is{' '}
             <b>{scorePercent.toFixed(2)}% </b> of optimal. You scored better
             than <b>{percentile.toFixed(1)}%</b> of players on this level.
           </p>
@@ -68,6 +70,7 @@ export const createNPressedConfig = (
     maxSteps,
     level_ind,
     version: 0,
-    optimalScore
+    optimalScore,
+    maxScore
   }
 }

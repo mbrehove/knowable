@@ -11,7 +11,111 @@ interface WelcomeScreenProps {
 
 interface PhaseScore {
   totalScore: number
-  percentile: number | null
+  percentile: number | undefined | null
+}
+
+// New component for phase content
+const PhaseContent: React.FC<{
+  phase: number
+  score?: PhaseScore
+}> = ({ phase, score }) => {
+  if (phase === 0) {
+    return (
+      <>
+        <h1>Knowable</h1>
+        <div className='welcome-content'>
+          <p>
+            Life is confusing. In this game, like life, you'll make choices
+            without knowing the rules and try to figure it out as you go along.
+            You&aposll get advice, but like life advice, it's not always clear
+            how to apply it. But don't worry you&aposll be ok.
+          </p>
+        </div>
+      </>
+    )
+  }
+
+  if (!score && phase > 0) {
+    return (
+      <>
+        <h1>Phase {phase + 1}</h1>
+        <p>Loading...</p>
+      </>
+    )
+  }
+
+  const { totalScore, percentile } = score || {
+    totalScore: 0,
+    percentile: undefined
+  }
+  const percentileElement = percentile !== null && percentile !== undefined && (
+    <p className='percentile'>
+      You scored better than <strong>{Math.round(percentile)}%</strong> of
+      players, but comparison is the theif of joy. You did your best and
+      that&aposs what counts.
+    </p>
+  )
+
+  if (phase === 1) {
+    return (
+      <>
+        <h1>Phase 2</h1>
+        <div className='welcome-content'>
+          <p>
+            You completed Phase 1 with a total score of{' '}
+            <strong>{totalScore}</strong> out of a possible{' '}
+            <strong>{totalOptimalScore}</strong>.
+          </p>
+          {percentileElement}
+          <p>
+            You&aposve played all the levels and heard all the advie. But in
+            life it&aposs not always clear which advice to follow. Even good
+            advice in the wrong situation is bad advice. In this next phase
+            you&aposll have to figure out which of the levels you&aposre playing
+            and what advice to use. Good luck!
+          </p>
+        </div>
+      </>
+    )
+  }
+
+  if (phase === 2) {
+    return (
+      <>
+        <h1>Phase 3</h1>
+        <div className='welcome-content'>
+          <p>
+            You completed Phase 2 with a total score of{' '}
+            <strong>{totalScore}</strong> out of a possible{' '}
+            <strong>{totalOptimalScore}</strong>.
+          </p>
+          {percentileElement}
+          <p>
+            So far you&aposve been able to see the results of your choices
+            pretty clearly. But life is messy, and it&aposs hard to see how good
+            the choices you&aposve made really are. In this final phase you
+            might get a point added or subtracted from your score every turn.
+            Don&apost worry, it all evens out in the end. Good luck!
+          </p>
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <h1>The End</h1>
+      <div className='welcome-content'>
+        <p>
+          Congratulations! You completed the final phase with a score of{' '}
+          <strong>{totalScore}</strong> out of a possible{' '}
+          <strong>{totalOptimalScore}</strong>.
+        </p>
+        {percentileElement}
+        <p>I hope you enjoyed playing. Keep making good choices.</p>
+      </div>
+    </>
+  )
 }
 
 const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
@@ -74,52 +178,9 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
     fetchPhaseScores()
   }, [phase])
 
-  const getPhaseMessage = (phase: number, score?: PhaseScore) => {
-    if (phase === 0) {
-      return {
-        title: 'Knowable',
-        content:
-          'Life is confusing. Many people give advice that worked for them, but ' +
-          "you're in a different situation with different choices. In this game, " +
-          "like life, you'll make choices without knowing the rules and try to " +
-          'figure it out as you go along.'
-      }
-    }
-
-    if (!score) return { title: `Phase ${phase + 1}`, content: 'Loading...' }
-
-    const { totalScore, percentile } = score
-    const percentileText =
-      percentile !== null
-        ? `You scored better than ${Math.round(percentile)}% of players.`
-        : ''
-
-    if (phase === 1) {
-      return {
-        title: 'Phase 2',
-        content: `You completed Phase 1 with a total score of ${totalScore} out of a possible ${totalOptimalScore}. ${percentileText} Now things will get more complex...`
-      }
-    }
-
-    if (phase === 2) {
-      return {
-        title: 'Phase 3',
-        content: `You mastered Phase 2 with a score of ${totalScore} out of a possible ${totalOptimalScore}. ${percentileText} The final phase begins. Can you master the system?`
-      }
-    }
-
-    return {
-      title: 'Complete',
-      content: `Congratulations! You completed the final phase with a score of ${totalScore} out of a possible ${totalOptimalScore}. ${percentileText} Thank you for playing!`
-    }
-  }
-
-  const currentMessage = getPhaseMessage(phase, phaseScore || undefined)
-
   return (
     <div className='welcome-screen'>
-      <h1>{currentMessage.title}</h1>
-      <p>{currentMessage.content}</p>
+      <PhaseContent phase={phase} score={phaseScore || undefined} />
       <div className='button-container'>
         {phase < 3 && (
           <>

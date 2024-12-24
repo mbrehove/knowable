@@ -15,6 +15,7 @@ export const createSpeedConfig = (
 ): LevelConfig => {
   const maxPointsPerKey = 5
   const optimalScore = maxPointsPerKey * maxSteps
+  const maxScore = optimalScore
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -64,6 +65,7 @@ export const createSpeedConfig = (
     maxSteps,
     level_ind,
     version: 0,
-    optimalScore
+    optimalScore,
+    maxScore
   }
 }

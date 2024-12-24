@@ -43,7 +43,7 @@ export const numberOfLevels = levelConfigs.length
 
 export const totalOptimalScore = levelConfigs.reduce((sum, levelConfigFn) => {
   const config = levelConfigFn(0, globalMaxSteps) // Call with default params
-  return sum + config.optimalScore
+  return sum + config.maxScore
 }, 0)
 
 export const getLevelConfig = (level: number): LevelConfig => {

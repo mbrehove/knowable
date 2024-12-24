@@ -26,4 +26,5 @@ export interface LevelConfig {
   level_ind: number
   version: number
   optimalScore: number
+  maxScore: number
 }

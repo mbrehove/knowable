@@ -18,6 +18,7 @@ export const createRandomConfig = (
   const primaryNoise = getNoise(2, maxSteps)
 
   const optimalScore = maxSteps * value
+  const maxScore = optimalScore
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -70,6 +71,7 @@ export const createRandomConfig = (
     maxSteps,
     level_ind,
     version: 0,
-    optimalScore
+    optimalScore,
+    maxScore
   }
 }

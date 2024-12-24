@@ -15,9 +15,11 @@ export const createUpDownConfig = (
 ): LevelConfig => {
   const leftValue = Math.random() > 0.5 ? 2 : -1
   const rightValue = leftValue > 0 ? -1 : 2
-  const upValue = Math.random() > 0.5 ? 10 : 5
-  const downValue = upValue > 5 ? 5 : 10
-  const optimalScore = Math.max(upValue, downValue) * (maxSteps - 1)
+  const upValue = Math.random() > 0.5 ? 3 : 4
+  const downValue = upValue > 3 ? 3 : 4
+  const optimalScore =
+    Math.max(upValue, downValue) * (maxSteps - 1) + Math.min(upValue, downValue)
+  const maxScore = Math.max(upValue, downValue) * maxSteps
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -85,6 +87,7 @@ export const createUpDownConfig = (
     maxSteps,
     level_ind,
     version: 0,
-    optimalScore
+    optimalScore,
+    maxScore
   }
 }

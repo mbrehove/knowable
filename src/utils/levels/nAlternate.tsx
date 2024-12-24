@@ -13,7 +13,8 @@ export const createNAlternateConfig = (
   maxSteps: number = globalMaxSteps,
   level_ind: number
 ): LevelConfig => {
-  const optimalScore = ((maxSteps - 1) * (maxSteps - 2)) / 2
+  const optimalScore = (maxSteps * (maxSteps - 1)) / 2
+  const maxScore = optimalScore
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -70,6 +71,7 @@ export const createNAlternateConfig = (
     maxSteps,
     level_ind,
     version: 0,
-    optimalScore
+    optimalScore,
+    maxScore
   }
 }

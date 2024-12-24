@@ -16,8 +16,11 @@ export const createInvestConfig = (
 ): LevelConfig => {
   const investKey = Math.random() > 0.5 ? 'ArrowRight' : 'ArrowLeft'
   const pointsKey = investKey === 'ArrowRight' ? 'ArrowLeft' : 'ArrowRight'
-
-  const optimalScore = (maxSteps / 2) ** 2
+  if (maxSteps % 2 !== 0) {
+    throw new Error('maxSteps must be even for invest level')
+  }
+  const optimalScore = (maxSteps / 2) * (maxSteps / 2 - 1)
+  const maxScore = (maxSteps / 2) * (maxSteps / 2)
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -52,10 +55,11 @@ export const createInvestConfig = (
       return (
         <div>
           <p className='level-description-text'>
-            In this level, the {investKey} key didn&apos;t give you any points but the{' '}
-            {pointsKey} key gave you a point for each time you pressed the {investKey}.
-            The optimal play would be to press the {investKey} {maxSteps/2} times and then 
-            cashing in by pressing {pointsKey} the rest of the way to yeld a score of <b>{optimalScore}</b>.
+            In this level, the {investKey} key didn&apos;t give you any points
+            but the {pointsKey} key gave you a point for each time you pressed
+            the {investKey}. The optimal play would be to press the {investKey}{' '}
+            {maxSteps / 2} times and then cashing in by pressing {pointsKey} the
+            rest of the way to yeld a score of <b>{optimalScore}</b>.
             <b>{scorePercent.toFixed(2)}% </b> of optimal. You scored better
             than <b>{percentile.toFixed(1)}%</b> of players on this level.
           </p>
@@ -71,6 +75,7 @@ export const createInvestConfig = (
     maxSteps,
     level_ind,
     version: 0,
-    optimalScore
+    optimalScore,
+    maxScore
   }
 }

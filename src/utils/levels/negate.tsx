@@ -18,7 +18,8 @@ export const createNegateConfig = (
     Math.random() > 0.5
       ? { negateKey: 'ArrowLeft', moveKey: 'ArrowRight' }
       : { negateKey: 'ArrowRight', moveKey: 'ArrowLeft' }
-  const optimalScore = (maxSteps - 1) * negativeValue
+  const optimalScore = (maxSteps - 2) * negativeValue
+  const maxScore = (maxSteps - 1) * negativeValue
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -73,6 +74,7 @@ export const createNegateConfig = (
     maxSteps,
     level_ind,
     version: 0,
-    optimalScore
+    optimalScore,
+    maxScore
   }
 }

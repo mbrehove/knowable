@@ -20,7 +20,10 @@ export const createSwapConfig = (
     Math.floor((Math.random() * maxSteps) / 4) + maxSteps / 4,
     Math.floor((Math.random() * maxSteps) / 4) + maxSteps / 2
   ]
-  const optimalScore = Math.max(leftValue, rightValue) * maxSteps
+  const optimalScore =
+    Math.max(leftValue, rightValue) * (maxSteps - swapAt.length) +
+    Math.min(leftValue, rightValue) * swapAt.length
+  const maxScore = Math.max(leftValue, rightValue) * maxSteps
   const noise = getNoise(noise_level, maxSteps)
 
   return {
@@ -79,6 +82,7 @@ export const createSwapConfig = (
     maxSteps,
     level_ind,
     version: 0,
-    optimalScore
+    optimalScore,
+    maxScore
   }
 }
