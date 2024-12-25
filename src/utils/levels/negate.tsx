@@ -18,7 +18,7 @@ export const createNegateConfig = (
     Math.random() > 0.5
       ? { negateKey: 'ArrowLeft', moveKey: 'ArrowRight' }
       : { negateKey: 'ArrowRight', moveKey: 'ArrowLeft' }
-  const optimalScore = (maxSteps - 2) * negativeValue
+  const optimalScore = -(maxSteps - 2) * negativeValue
   const maxScore = (maxSteps - 1) * negativeValue
   const noise = getNoise(noise_level, maxSteps)
 
@@ -32,13 +32,13 @@ export const createNegateConfig = (
       const lastPoint = currentPoints[currentPoints.length - 1]
       const lastY = lastPoint.y
       if (eventKey === negateKey) {
-        if (lastY > 0) {
+        if (lastY < 0) {
           return -lastY + noise[currentPoints.length - 1]
         } else {
           return lastY + noise[currentPoints.length - 1]
         }
       } else if (eventKey === moveKey) {
-        return lastY + negativeValue
+        return lastY + negativeValue + noise[currentPoints.length - 1]
       } else {
         return null
       }

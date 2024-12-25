@@ -105,10 +105,10 @@ export default async function handler (req, res) {
           )
 
           // Calculate percentile
-          const sortedScores = allTotalScores.sort((a, b) => a - b)
-          const rank = sortedScores.findIndex(score => score >= totalScore) + 1
+          const sortedScores = allTotalScores.sort((a, b) => b - a) // Sort descending
+          const rank = sortedScores.findIndex(score => score <= totalScore) + 1
           const percentile =
-            sortedScores.length > 1 ? (rank / sortedScores.length) * 100 : null
+            sortedScores.length > 1 ? ((sortedScores.length - rank + 1) / sortedScores.length) * 100 : null
 
           res.status(200).json({ totalScore, percentile })
         } catch (error) {

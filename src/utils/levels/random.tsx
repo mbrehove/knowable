@@ -15,7 +15,7 @@ export const createRandomConfig = (
   level_ind: number
 ): LevelConfig => {
   const value = 2
-  const primaryNoise = getNoise(2, maxSteps)
+  const primaryNoise = getNoise(3, maxSteps)
 
   const optimalScore = maxSteps * value
   const maxScore = optimalScore
@@ -51,13 +51,13 @@ export const createRandomConfig = (
       return (
         <div>
           <p className='level-description-text'>
-            In this level your score was {maxSteps * value}. Even though there
-            was some random noise it all added up to zero. The decisions you
-            made didn&apos;t matter at all. Everyone scores exactly{' '}
-            {maxSteps * value} on this level. Hopefully you didn&apos;t worry
-            too much about figuring out the strategy. If you did, I&apos;m
-            sorry, but that&apos;s how life is sometimes. Maybe you need to
-            learn how relax and enjoy things more.
+            In this level your score was {maxSteps * value}. Each keypress added
+            2 points with some random noise added in. However, the noise added
+            up to zero. The decisions you made didn&apos;t matter at all.
+            Everyone scores exactly {maxSteps * value} on this level. Hopefully
+            you didn&apos;t worry too much about figuring out the strategy. If
+            you did, I&apos;m sorry, but that&apos;s how life is sometimes.
+            Maybe you need to learn how relax and enjoy things more.
           </p>
           <p>Advice:</p>
           <i>

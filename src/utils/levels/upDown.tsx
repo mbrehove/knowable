@@ -35,16 +35,16 @@ export const createUpDownConfig = (
 
       switch (eventKey) {
         case 'ArrowRight':
-          newY = lastY + rightValue
+          newY = lastY + rightValue + noise[currentPoints.length - 1]
           break
         case 'ArrowLeft':
-          newY = lastY + leftValue
+          newY = lastY + leftValue + noise[currentPoints.length - 1]
           break
         case 'ArrowUp':
-          newY = lastY + upValue
+          newY = lastY + upValue + noise[currentPoints.length - 1]
           break
         case 'ArrowDown':
-          newY = lastY + downValue
+          newY = lastY + downValue + noise[currentPoints.length - 1]
           break
         default:
           return null
@@ -53,10 +53,11 @@ export const createUpDownConfig = (
     },
     randomValues: { leftValue, rightValue, upValue, downValue },
     description: (
-      _scores: { x: number; y: number }[],
+      scores: { x: number; y: number }[],
       keyHistory: { key: string; time: number }[],
       percentile: number
     ) => {
+      const score = scores.at(-1)?.y ?? 0
       let additionalSentence = ''
       const keyNames = keyHistory.map(entry => entry.key)
       if (keyNames.includes('ArrowUp') || keyNames.includes('ArrowDown')) {
@@ -72,8 +73,9 @@ export const createUpDownConfig = (
             In this level, pressing left gives a score of {leftValue} and
             pressing right gives {rightValue} while pressing the up or down
             arrows gives {upValue} and {downValue}. {additionalSentence} You
-            scored better than <b>{percentile.toFixed(1)}%</b> of players on
-            this level.
+            scored a total of <b>{score}</b> points out of a possible{' '}
+            {optimalScore}. You scored better than{' '}
+            <b>{percentile.toFixed(1)}%</b> of players on this level.
           </p>
           <p>Advice:</p>
           <i>

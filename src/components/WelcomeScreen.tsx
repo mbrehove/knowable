@@ -27,8 +27,8 @@ const PhaseContent: React.FC<{
           <p>
             Life is confusing. In this game, like life, you'll make choices
             without knowing the rules and try to figure it out as you go along.
-            You&aposll get advice, but like life advice, it's not always clear
-            how to apply it. But don't worry you&aposll be ok.
+            You'll get advice, but like life advice, it's not always clear how
+            to apply it. But don't worry you'll be ok.
           </p>
         </div>
       </>
@@ -51,8 +51,8 @@ const PhaseContent: React.FC<{
   const percentileElement = percentile !== null && percentile !== undefined && (
     <p className='percentile'>
       You scored better than <strong>{Math.round(percentile)}%</strong> of
-      players, but comparison is the theif of joy. You did your best and
-      that&aposs what counts.
+      players, but comparison is the theif of joy. You did your best and that's
+      what counts.
     </p>
   )
 
@@ -68,11 +68,11 @@ const PhaseContent: React.FC<{
           </p>
           {percentileElement}
           <p>
-            You&aposve played all the levels and heard all the advie. But in
-            life it&aposs not always clear which advice to follow. Even good
-            advice in the wrong situation is bad advice. In this next phase
-            you&aposll have to figure out which of the levels you&aposre playing
-            and what advice to use. Good luck!
+            You've played all the levels and heard all the advie. But in life
+            it's not always clear which advice to follow. Even good advice in
+            the wrong situation is bad advice. In this next phase you'll have to
+            figure out which of the levels you're playing and what advice to
+            use. Good luck!
           </p>
         </div>
       </>
@@ -91,11 +91,11 @@ const PhaseContent: React.FC<{
           </p>
           {percentileElement}
           <p>
-            So far you&aposve been able to see the results of your choices
-            pretty clearly. But life is messy, and it&aposs hard to see how good
-            the choices you&aposve made really are. In this final phase you
-            might get a point added or subtracted from your score every turn.
-            Don&apost worry, it all evens out in the end. Good luck!
+            So far you've been able to see the results of your choices pretty
+            clearly. But life is messy, and it's hard to see how good the
+            choices you've made really are. In this final phase you might get a
+            point added or subtracted from your score every turn. Don't worry,
+            it all evens out in the end. Good luck!
           </p>
         </div>
       </>

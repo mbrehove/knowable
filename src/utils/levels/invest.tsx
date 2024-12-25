@@ -55,11 +55,12 @@ export const createInvestConfig = (
       return (
         <div>
           <p className='level-description-text'>
-            In this level, the {investKey} key didn&apos;t give you any points
-            but the {pointsKey} key gave you a point for each time you pressed
-            the {investKey}. The optimal play would be to press the {investKey}{' '}
-            {maxSteps / 2} times and then cashing in by pressing {pointsKey} the
-            rest of the way to yeld a score of <b>{optimalScore}</b>.
+            In this level, the {investKey.slice(5)} key didn&apos;t give you any
+            points but the {pointsKey.slice(5)} key gave you a point for each
+            time you pressed the {investKey.slice(5)}. The optimal play would be
+            to press the {investKey.slice(5)} {maxSteps / 2} times and then
+            cashing in by pressing {pointsKey.slice(5)} the rest of the way to
+            yeld a score of <b>{optimalScore}</b>. Which is{' '}
             <b>{scorePercent.toFixed(2)}% </b> of optimal. You scored better
             than <b>{percentile.toFixed(1)}%</b> of players on this level.
           </p>

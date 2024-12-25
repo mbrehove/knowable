@@ -1,9 +1,9 @@
 Things I need to do before I show this to anyone:
 
 
-8: add music
-9: add Phase color transitions
+
 7: Test 
 8: Show to Joseph & Christina
-
+8: add music
+9: add Phase color transitions
 10: Port to mobile
