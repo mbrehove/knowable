@@ -48,7 +48,7 @@ export const createSpeedConfig = (
             In this level your score for each key is determined by the speed at{' '}
             which you pressed the keys. Each keypress added 1/t points where t
             is the time in seconds, with a maximum of {maxPointsPerKey} points
-            per keypress.
+            per keypress for a maximum possible score of <b>{optimalScore}</b>.
             <br />
             You scored better than <b>{percentile.toFixed(1)}%</b> of players on
             this level.

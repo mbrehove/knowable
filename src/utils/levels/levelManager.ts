@@ -41,7 +41,7 @@ export const levelAdvice = [
 ]
 
 export const globalMaxSteps = 12
-export const noiseLevel = 2
+export const noiseLevel = 1
 
 export const numberOfLevels = levelConfigs.length
 
