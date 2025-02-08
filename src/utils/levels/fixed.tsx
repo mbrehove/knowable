@@ -6,13 +6,15 @@ import { globalMaxSteps } from './levelManager'
 export const fixedAdvice = {
   quote:
     'Insanity is doing the same thing over and over again and expecting different results.',
-  author: 'Rita Mae Brown'
+  author: 'Rita Mae Brown',
+  rule: 'One key adds 2 and the other subtracts 1'
 }
 
 export const createFixedConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const leftValue = Math.random() > 0.5 ? 2 : -1
   const rightValue = leftValue > 0 ? -1 : 2
@@ -66,6 +68,7 @@ export const createFixedConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

@@ -1,4 +1,4 @@
-import { LevelConfig } from './types'
+import { LevelConfig, AdviceQuote } from './types'
 import { createFixedConfig, fixedAdvice } from './fixed'
 import { createSwapConfig, swapAdvice } from './swap'
 import { createNAlternateConfig, nAlternateAdvice } from './nAlternate'
@@ -14,20 +14,19 @@ let phase2Order: number[] | null = null
 let phase3Order: number[] | null = null
 
 const levelConfigs = [
-  (noise: number, maxSteps: number) => createFixedConfig(noise, maxSteps, 0),
-  (noise: number, maxSteps: number) => createSwapConfig(noise, maxSteps, 1),
-  (noise: number, maxSteps: number) => createNPressedConfig(noise, maxSteps, 2),
-  (noise: number, maxSteps: number) =>
-    createNAlternateConfig(noise, maxSteps, 3),
-  (noise: number, maxSteps: number) => createInvestConfig(noise, maxSteps, 4),
-  (noise: number, maxSteps: number) => createNSecondsConfig(noise, maxSteps, 5),
-  (noise: number, maxSteps: number) => createSpeedConfig(noise, maxSteps, 6),
-  (noise: number, maxSteps: number) => createUpDownConfig(noise, maxSteps, 7),
-  (noise: number, maxSteps: number) => createNegateConfig(noise, maxSteps, 8),
-  (noise: number, maxSteps: number) => createRandomConfig(noise, maxSteps, 9)
+  createFixedConfig,
+  createSwapConfig,
+  createNPressedConfig,
+  createNAlternateConfig,
+  createInvestConfig,
+  createNSecondsConfig,
+  createSpeedConfig,
+  createUpDownConfig,
+  createNegateConfig,
+  createRandomConfig
 ]
 
-export const levelAdvice = [
+export const levelAdvice: AdviceQuote[] = [
   fixedAdvice,
   swapAdvice,
   nPressedAdvice,
@@ -46,14 +45,14 @@ export const noiseLevel = 1
 export const numberOfLevels = levelConfigs.length
 
 export const totalOptimalScore = levelConfigs.reduce((sum, levelConfigFn) => {
-  const config = levelConfigFn(0, globalMaxSteps) // Call with default params
+  const config = levelConfigFn(0, globalMaxSteps, 0, 1) // Call with default params
   return sum + config.maxScore
 }, 0)
 
 export const getLevelConfig = (level: number): LevelConfig => {
   // Phase 1: Levels 1-8 in order
   if (level <= levelConfigs.length) {
-    return levelConfigs[level - 1](0, globalMaxSteps)
+    return levelConfigs[level - 1](0, globalMaxSteps, level-1, 1)
   }
 
   // Phase 2: Levels in random order
@@ -67,7 +66,7 @@ export const getLevelConfig = (level: number): LevelConfig => {
       }
     }
     const phase2Index = (level - levelConfigs.length - 1) % levelConfigs.length
-    return levelConfigs[phase2Order[phase2Index]](0, globalMaxSteps)
+    return levelConfigs[phase2Order[phase2Index]](0, globalMaxSteps, phase2Order[phase2Index], 2)
   }
 
   // Phase 3: Different random order with noise
@@ -80,7 +79,7 @@ export const getLevelConfig = (level: number): LevelConfig => {
   }
   const phase3Index =
     (level - 2 * levelConfigs.length - 1) % levelConfigs.length
-  return levelConfigs[phase3Order[phase3Index]](noiseLevel, globalMaxSteps)
+  return levelConfigs[phase3Order[phase3Index]](noiseLevel, globalMaxSteps, phase3Order[phase3Index], 3)
 }
 
 export default getLevelConfig

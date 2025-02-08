@@ -5,13 +5,15 @@ import { globalMaxSteps } from './levelManager'
 
 export const nSecondsAdvice = {
   quote: 'Patience is bitter, but its fruit is sweet.',
-  author: 'Aristotle'
+  author: 'Aristotle',
+  rule: 'Each key adds points equal to the number of seconds since the last key press with a maximum of 5'
 }
 
 export const createNSecondsConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const maxPointsPerKey = 5
   const optimalScore = maxPointsPerKey * maxSteps
@@ -61,6 +63,7 @@ export const createNSecondsConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

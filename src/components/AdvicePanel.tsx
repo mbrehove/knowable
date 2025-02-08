@@ -6,13 +6,15 @@ import { levelAdvice } from '../utils/levels/levelManager'
 interface Advice {
   quote: string
   author: string
+  rule: string
 }
 
 const AdvicePanel: React.FC<{
   level: number
   animate?: boolean
-}> = ({ level, animate = false }) => {
-  const adviceList = levelAdvice.slice(0, level).reverse()
+  showRule?: boolean
+}> = ({ level, animate = false, showRule = true }) => {
+  const adviceList = levelAdvice.slice(0, level) //.reverse()
 
   return (
     <div className={styles.advicePanel}>
@@ -29,12 +31,18 @@ const AdvicePanel: React.FC<{
                 animationDelay: animate ? `${index * 0.15}s` : undefined
               }}
             >
-              <i>{advice.quote}</i>
-              <br />- {advice.author}
+              <div className={styles.quoteColumn}>
+                <i>{advice.quote}</i>
+                <span className={styles.author}>- {advice.author}</span>
+              </div>
+              {showRule && (
+                <div className={styles.ruleColumn}>{advice.rule}</div>
+              )}
             </li>
           ))}
         </ul>
       </div>
+      <div className={styles.scrollIndicator}></div>
     </div>
   )
 }

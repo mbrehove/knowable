@@ -5,13 +5,15 @@ import { globalMaxSteps } from './levelManager'
 
 export const negateAdvice = {
   quote: 'Sometimes we need to lose the small battles in order to win the war.',
-  author: 'Sun Tzu'
+  author: 'Sun Tzu',
+  rule: 'One key subtracts 1 and the other negates the score if it is negative.'
 }
 
 export const createNegateConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const negativeValue = -2
   const { negateKey, moveKey } =
@@ -73,6 +75,7 @@ export const createNegateConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

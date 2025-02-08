@@ -5,13 +5,15 @@ import { globalMaxSteps } from './levelManager'
 
 export const nAlternateAdvice = {
   quote: 'To improve is to change; to be perfect is to change often.',
-  author: 'Winston Churchill'
+  author: 'Winston Churchill',
+  rule: 'Each key adds points equal to the number of times the player has alternated keys.'
 }
 
 export const createNAlternateConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const optimalScore = (maxSteps * (maxSteps - 1)) / 2
   const maxScore = optimalScore
@@ -65,6 +67,7 @@ export const createNAlternateConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

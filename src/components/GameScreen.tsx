@@ -43,7 +43,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     setStepsTaken(0)
     setKeyHistory([])
     setLastKeyPressTime(Date.now())
-    setShowAdviceModal(true)
+    setShowAdviceModal(config.phase == 1)
   }, [level, config])
 
   // Apply scoring logic, udpat scores.
@@ -127,7 +127,9 @@ const GameScreen: React.FC<GameScreenProps> = ({
   return (
     <div className='game-layout fade-in'>
       <div className='game-content'>
-        <AdvicePanel level={level} animate={true} />
+        {config.phase > 1 && (
+          <AdvicePanel level={level} animate={false} showRule={true} />
+        )}
 
         <div className='main-content'>
           <h2 className='title'>Level {level}</h2>

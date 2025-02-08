@@ -8,6 +8,16 @@ interface AdviceModalProps {
 }
 
 const AdviceModal: React.FC<AdviceModalProps> = ({ level, onClose }) => {
+  useEffect(() => {
+    if (!levelAdvice[level - 1]) {
+      onClose()
+    }
+  }, [level, onClose])
+
+  if (!levelAdvice[level - 1]) {
+    return null
+  }
+
   const currentAdvice = levelAdvice[level - 1] // Get just the current level's advice
 
   useEffect(() => {

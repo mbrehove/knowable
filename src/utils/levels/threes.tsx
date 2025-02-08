@@ -1,18 +1,19 @@
 import React from 'react'
 import { LevelConfig } from './types'
-import { levelAdvice } from './advice'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
 export const threesAdvice = {
   quote: 'If it comes in three let it be.',
-  author: 'Boy Scout Handbook'
+  author: 'Boy Scout Handbook',
+  rule: 'One key always adds 0. The other adds 2 unless the turn is divisible by 3 in which it subtracts 4.'
 }
 
 export const createThreesConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const zeroKey = Math.random() > 0.5 ? 'ArrowRight' : 'ArrowLeft'
   const pointKey = zeroKey === 'ArrowRight' ? 'ArrowLeft' : 'ArrowRight'
@@ -60,10 +61,10 @@ export const createThreesConfig = (
             turns and yield a score of {optimalScore}.
           </p>
           <i>
-            {levelAdvice[level_ind].quote}
+            {threesAdvice.quote}
             <br />
           </i>
-          -{levelAdvice[level_ind].author}
+          -{threesAdvice.author}
         </div>
       )
     },
@@ -71,6 +72,7 @@ export const createThreesConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

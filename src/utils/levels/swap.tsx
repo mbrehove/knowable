@@ -6,13 +6,15 @@ import { globalMaxSteps } from './levelManager'
 export const swapAdvice = {
   quote:
     'It is not the strongest of the species that survives, nor the most intelligent that survives. It is the one that is most adaptable to change.',
-  author: 'Charels Darwin'
+  author: 'Charels Darwin',
+  rule: 'One key adds 2 and the other subtracts 1. The keys switch at two random times during play.'
 }
 
 export const createSwapConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const leftValue = Math.random() > 0.5 ? 2 : -1
   const rightValue = leftValue > 0 ? -1 : 2
@@ -78,6 +80,7 @@ export const createSwapConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

@@ -6,13 +6,15 @@ import { globalMaxSteps } from './levelManager'
 export const randomAdvice = {
   quote:
     "Don't seek to have events happen as you wish, but wish them to happen as they do happen, and all will be well with you.",
-  author: 'Epictetus'
+  author: 'Epictetus',
+  rule: 'Each key adds 2 points on average. +/- 2 points of noise is added each turn.'
 }
 
 export const createRandomConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const value = 2
   const primaryNoise = getNoise(3, maxSteps)
@@ -71,6 +73,7 @@ export const createRandomConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

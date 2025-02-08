@@ -16,6 +16,7 @@ export type Description = (
 export interface AdviceQuote {
   quote: string
   author: string
+  rule: string
 }
 
 export interface LevelConfig {
@@ -27,4 +28,5 @@ export interface LevelConfig {
   version: number
   optimalScore: number
   maxScore: number
+  phase: 1 | 2 | 3
 }

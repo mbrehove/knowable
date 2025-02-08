@@ -5,13 +5,15 @@ import { globalMaxSteps } from './levelManager'
 
 export const speedAdvice = {
   quote: 'Move fast and break things.',
-  author: 'Mark Zuckerberg'
+  author: 'Mark Zuckerberg',
+  rule: 'Each key adds points equal to 1/seconds since the last key was pressed for a maximum of 5.'
 }
 
 export const createSpeedConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const maxPointsPerKey = 5
   const optimalScore = maxPointsPerKey * maxSteps
@@ -64,6 +66,7 @@ export const createSpeedConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

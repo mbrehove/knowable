@@ -5,13 +5,15 @@ import { globalMaxSteps } from './levelManager'
 
 export const upDownAdvice = {
   quote: "Rules are made for people who aren't willing to make their own.",
-  author: 'Chuck Yeager'
+  author: 'Chuck Yeager',
+  rule: 'Left and right keys give either 2 or -1 points. Up and down give either 3 or 4 points.'
 }
 
 export const createUpDownConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const leftValue = Math.random() > 0.5 ? 2 : -1
   const rightValue = leftValue > 0 ? -1 : 2
@@ -90,6 +92,7 @@ export const createUpDownConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

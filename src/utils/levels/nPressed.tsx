@@ -6,13 +6,15 @@ import { globalMaxSteps } from './levelManager'
 export const nPressedAdvice = {
   quote:
     'I fear not the man who has practiced 10,000 kicks once, but I fear the man who has practiced one kick 10,000 times.',
-  author: 'Bruce Lee'
+  author: 'Bruce Lee',
+  rule: 'Each key adds points equal to the number of times the key was pressed'
 }
 
 export const createNPressedConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const optimalScore = ((maxSteps + 1) * maxSteps) / 2
   const maxScore = optimalScore
@@ -56,7 +58,7 @@ export const createNPressedConfig = (
             In this level, the score you got from a button equals the number of
             times the button was pressed. The optimal play would press the same
             button each turn and yield a score of {optimalScore}. Your score is{' '}
-            scorePercent.toFixed(2)% of optimal. 
+            scorePercent.toFixed(2)% of optimal.
           </p>
           <i>
             {nPressedAdvice.quote}
@@ -70,6 +72,7 @@ export const createNPressedConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }

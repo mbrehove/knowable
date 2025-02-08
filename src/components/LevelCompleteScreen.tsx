@@ -75,7 +75,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
           <p>
             "You scored {currentScore}/{config.maxScore} ={' '}
             <strong>{percentScore.toFixed(1)}% </strong> which was better than{' '}
-            <strong>{percentile}%</strong> of players."
+            <strong>{percentile?.toFixed(1)}%</strong> of players."
           </p>
           <div className='level-description'>
             {description(points, keyHistory, percentile ?? 100)}

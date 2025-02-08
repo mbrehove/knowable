@@ -6,13 +6,15 @@ import { globalMaxSteps } from './levelManager'
 export const investAdvice = {
   quote:
     'Someone is sitting in the shade today because someone planted a tree a long time ago.',
-  author: 'Warren Buffett'
+  author: 'Warren Buffett',
+  rule: 'One key is the invest key and gives 0 points but the other key gives you a point for each time you pressed the invest key.'
 }
 
 export const createInvestConfig = (
   noise_level: number = 0,
   maxSteps: number = globalMaxSteps,
-  level_ind: number
+  level_ind: number,
+  phase: 1 | 2 | 3
 ): LevelConfig => {
   const investKey = Math.random() > 0.5 ? 'ArrowRight' : 'ArrowLeft'
   const pointsKey = investKey === 'ArrowRight' ? 'ArrowLeft' : 'ArrowRight'
@@ -72,6 +74,7 @@ export const createInvestConfig = (
     level_ind,
     version: 0,
     optimalScore,
-    maxScore
+    maxScore,
+    phase
   }
 }
