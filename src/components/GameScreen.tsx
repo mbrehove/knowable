@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import AdvicePanel from './AdvicePanel'
+import AdviceModal from './AdviceModal'
 import { LevelConfig, Description } from '../utils/levels/types' // Assuming levelConfig is in the same directory
 import ScorePlot from './ScorePlot' // Assuming ScorePlot is a React component
 import Arrow from '../../public/arrow.svg'
@@ -34,6 +35,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     []
   )
   const [lastKeyPressTime, setLastKeyPressTime] = useState(Date.now())
+  const [showAdviceModal, setShowAdviceModal] = useState(true)
 
   useEffect(() => {
     // Reset points and steps when the level changes
@@ -41,6 +43,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     setStepsTaken(0)
     setKeyHistory([])
     setLastKeyPressTime(Date.now())
+    setShowAdviceModal(true)
   }, [level, config])
 
   // Apply scoring logic, udpat scores.
@@ -170,6 +173,9 @@ const GameScreen: React.FC<GameScreenProps> = ({
           </div>
         </div>
       </div>
+      {showAdviceModal && (
+        <AdviceModal level={level} onClose={() => setShowAdviceModal(false)} />
+      )}
     </div>
   )
 }
