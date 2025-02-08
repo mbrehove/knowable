@@ -42,24 +42,17 @@ export const createNAlternateConfig = (
     },
     randomValues: {},
     description: (
-      scores: { x: number; y: number }[],
+      _scores: { x: number; y: number }[],
       _keyHistory: { key: string; time: number }[],
-      percentile: number
+      _percentile: number
     ) => {
-      const lastScore = scores.at(-1)
-      const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
         <div>
           <p className='level-description-text'>
             In this level, both keys had a value equal to the number of times
-            that you alternated keys.
-            <br />
-            Optimal play would have averaged {optimalScore.toFixed(2)}. <br />
-            Your score is <b>{scorePercent.toFixed(2)}% </b> of optimal. You
-            scored better than <b>{percentile.toFixed(1)}%</b> of players on
-            this level.
+            that you alternated keys. Optimal play would have averaged{' '}
+            {optimalScore.toFixed(2)}.
           </p>
-          <p>Advice:</p>
           <i>
             {nAlternateAdvice.quote}
             <br />

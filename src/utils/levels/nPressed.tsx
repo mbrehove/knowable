@@ -50,18 +50,14 @@ export const createNPressedConfig = (
       _keyHistory: { key: string; time: number }[],
       percentile: number
     ) => {
-      const lastScore = scores.at(-1)
-      const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
         <div>
           <p className='level-description-text'>
             In this level, the score you got from a button equals the number of
             times the button was pressed. The optimal play would press the same
             button each turn and yield a score of {optimalScore}. Your score is{' '}
-            <b>{scorePercent.toFixed(2)}% </b> of optimal. You scored better
-            than <b>{percentile.toFixed(1)}%</b> of players on this level.
+            scorePercent.toFixed(2)% of optimal. 
           </p>
-          <p>Advice:</p>
           <i>
             {nPressedAdvice.quote}
             <br />

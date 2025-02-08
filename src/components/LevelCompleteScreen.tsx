@@ -4,14 +4,13 @@ import { v4 as uuidv4 } from 'uuid'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
 import AdvicePanel from './AdvicePanel' // Add this import
 import { LevelData } from './GameScreen'
+import { LevelConfig } from '../utils/levels/types'
 
 interface LevelCompleteScreenProps {
   level: number
   onNextLevel: () => void
   levelData: LevelData
-  config: {
-    maxSteps: number
-  }
+  config: LevelConfig
   animate?: boolean
 }
 
@@ -23,6 +22,8 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
 }) => {
   const { points, keyHistory, description, level_ind, version } = levelData
   const [percentile, setPercentile] = useState<number | null>(null)
+  const currentScore = points[points.length - 1]?.y || 0
+  const percentScore = (currentScore / config.maxScore) * 100
 
   useEffect(() => {
     fetch(`/api/scores?level_ind=${level_ind}&version=${version}`)
@@ -44,7 +45,14 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
           setPercentile(percentile)
         }
         const user_id = getUserId()
-        submitScore(level_ind, level, currentScore, version, user_id)
+        submitScore(
+          level_ind,
+          level,
+          currentScore,
+          version,
+          user_id,
+          percentScore
+        )
       })
       .catch(error => {
         console.error('Error fetching scores:', error)
@@ -64,6 +72,11 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
         <div className='main-content'>
           <h2 className='title'>Level {level} Complete</h2>
 
+          <p>
+            "You scored {currentScore}/{config.maxScore} ={' '}
+            <strong>{percentScore.toFixed(1)}% </strong> which was better than{' '}
+            <strong>{percentile}%</strong> of players."
+          </p>
           <div className='level-description'>
             {description(points, keyHistory, percentile ?? 100)}
           </div>
@@ -101,16 +114,24 @@ const submitScore = async (
   level: number,
   score: number,
   version: number,
-  user_id: string
+  user_id: string,
+  percentScore: number
 ) => {
   try {
-    console.log({ level_ind, level, score, version, user_id })
+    console.log({ level_ind, level, score, version, user_id, percentScore })
     const response = await fetch('/api/scores', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ level_ind, level, score, version, user_id })
+      body: JSON.stringify({
+        level_ind,
+        level,
+        score,
+        version,
+        user_id,
+        percentScore
+      })
     })
 
     if (!response.ok) {

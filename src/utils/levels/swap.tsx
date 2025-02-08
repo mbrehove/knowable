@@ -57,8 +57,6 @@ export const createSwapConfig = (
       _keyHistory: { key: string; time: number }[],
       percentile: number
     ) => {
-      const lastScore = scores.at(-1)
-      const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
         <div>
           <p className='level-description-text'>
@@ -66,11 +64,8 @@ export const createSwapConfig = (
             pressing right gave {rightValue}. However, at turns {swapAt[0]} and{' '}
             {swapAt[1]} the scores flipped. If you checked the scores again
             after this happened and adapted quickly, you could have achieved a
-            score of {optimalScore}. Your score is{' '}
-            <b>{scorePercent.toFixed(2)}% </b> of optimal. You scored better
-            than <b>{percentile.toFixed(1)}%</b> of players on this level.
+            score of {optimalScore}.
           </p>
-          <p>Advice:</p>
           <i>
             {swapAdvice.quote}
             <br />

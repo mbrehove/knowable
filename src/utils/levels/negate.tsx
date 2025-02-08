@@ -47,7 +47,7 @@ export const createNegateConfig = (
     description: (
       scores: { x: number; y: number }[],
       _keyHistory: { key: string; time: number }[],
-      percentile: number
+      _percentile: number
     ) => {
       const lastScore = scores.at(-1)
       const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
@@ -58,9 +58,7 @@ export const createNegateConfig = (
             {-negativeValue} and pressing {negateKey} negated your score. The
             optimal play would press {moveKey} for the first {maxSteps - 1}{' '}
             turns and then {negateKey} once to yeild a score of {optimalScore}.
-            Your score is <b>{scorePercent.toFixed(2)}% </b> of optimal. You
-            scored better than <b>{percentile.toFixed(1)}%</b> of players on
-            this level.
+            Your score is {scorePercent.toFixed(2)}% of optimal.
           </p>
           <p>Advice:</p>
           <i>

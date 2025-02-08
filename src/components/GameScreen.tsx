@@ -11,6 +11,7 @@ export interface LevelData {
   description: Description //Level description in jsx
   level_ind: number //What index in level config this level used. Different from level since level_index repeats as the user advances levels
   version: number //For distinguishing different level versions. (currently unused)
+  // maxScore: number // The maximum score possible this level
 }
 
 interface GameScreenProps {

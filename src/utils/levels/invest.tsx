@@ -46,12 +46,10 @@ export const createInvestConfig = (
     },
     randomValues: {},
     description: (
-      scores: { x: number; y: number }[],
+      _scores: { x: number; y: number }[],
       _keyHistory: { key: string; time: number }[],
-      percentile: number
+      _percentile: number
     ) => {
-      const lastScore = scores.at(-1)
-      const scorePercent = lastScore ? (lastScore.y / optimalScore) * 100 : 0
       return (
         <div>
           <p className='level-description-text'>
@@ -60,11 +58,8 @@ export const createInvestConfig = (
             time you pressed the {investKey.slice(5)}. The optimal play would be
             to press the {investKey.slice(5)} {maxSteps / 2} times and then
             cashing in by pressing {pointsKey.slice(5)} the rest of the way to
-            yeld a score of <b>{optimalScore}</b>. Which is{' '}
-            <b>{scorePercent.toFixed(2)}% </b> of optimal. You scored better
-            than <b>{percentile.toFixed(1)}%</b> of players on this level.
+            yeld a score of <b>{optimalScore}</b>.
           </p>
-          <p>Advice:</p>
           <i>
             {investAdvice.quote}
             <br />

@@ -20,11 +20,11 @@ export default async function handler (req, res) {
         res.status(201).json({ message: 'Phase score submitted successfully' })
       }
     } else {
-      const { level_ind, level, score, version, user_id } = req.body
+      const { level_ind, level, score, version, user_id, percent} = req.body
       console.log('POST body:', req.body)
       const { error } = await supabase
         .from('scores')
-        .insert([{ level_ind, level, score, version, user_id }])
+        .insert([{ level_ind, level, score, version, user_id, percent }])
 
       if (error) {
         console.error('Error inserting score:', error)

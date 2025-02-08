@@ -42,22 +42,18 @@ export const createFixedConfig = (
     },
     randomValues: { leftValue, rightValue },
     description: (
-      scores: { x: number; y: number }[],
+      _scores: { x: number; y: number }[],
       _keyHistory: { key: string; time: number }[],
-      percentile: number
+      _percentile: number
     ) => {
-      const scorePercent = (scores[scores.length - 1].y / optimalScore) * 100
       return (
         <div>
           <p className='level-description-text'>
             In this level, pressing left gives a score of {leftValue} and
             pressing right gives {rightValue}. The optimal strategy is to press
             the higher-scoring button. This would yield a score of{' '}
-            {optimalScore}. Your score is <b>{scorePercent.toFixed(2)}%</b> of
-            optimal. You scored better than <b>{percentile.toFixed(1)}%</b> of
-            players on this level.
+            {optimalScore}.
           </p>
-          <p>Advice:</p>
           <i>
             {fixedAdvice.quote}
             <br />

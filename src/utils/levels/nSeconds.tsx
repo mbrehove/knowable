@@ -42,22 +42,13 @@ export const createNSecondsConfig = (
       _keyHistory: { key: string; time: number }[],
       percentile: number
     ) => {
-      const score = scores[scores.length - 1].y
       return (
         <div>
           <p className='level-description-text'>
             In this level your score for each key is determined by the number of{' '}
             seconds between keypresses with a maximum of {maxPointsPerKey}{' '}
-            points per turn. You scored{' '}
-            <b>
-              {score}/{optimalScore}
-            </b>{' '}
-            points.
-            <br />
-            You scored better than <b>{percentile.toFixed(1)}%</b> of players on
-            this level.
+            points per turn.
           </p>
-          <p>Advice:</p>
           <i>
             {nSecondsAdvice.quote}
             <br />

@@ -59,7 +59,6 @@ export const createRandomConfig = (
             you did, I&apos;m sorry, but that&apos;s how life is sometimes.
             Maybe you need to learn how relax and enjoy things more.
           </p>
-          <p>Advice:</p>
           <i>
             {randomAdvice.quote}
             <br />
