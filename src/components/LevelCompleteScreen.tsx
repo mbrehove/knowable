@@ -9,6 +9,7 @@ import { LevelConfig } from '../utils/levels/types'
 interface LevelCompleteScreenProps {
   level: number
   onNextLevel: () => void
+  onReplayLevel?: () => void
   levelData: LevelData
   config: LevelConfig
   animate?: boolean
@@ -17,6 +18,7 @@ interface LevelCompleteScreenProps {
 const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   level,
   onNextLevel,
+  onReplayLevel,
   levelData,
   config
 }) => {
@@ -96,6 +98,9 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
           </div>
 
           <div className='button-container'>
+            {config.phase === 1 && onReplayLevel && (
+              <button onClick={onReplayLevel}>Replay Level</button>
+            )}
             <button onClick={onNextLevel} autoFocus>
               Next Level
             </button>

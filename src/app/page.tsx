@@ -56,6 +56,10 @@ export default function GamePage () {
     setGameState('levelComplete')
   }
 
+  const replayLevel = () => {
+    setGameState('playing')
+  }
+
   return (
     <div className='container'>
       {gameState === 'welcome' && (
@@ -91,6 +95,7 @@ export default function GamePage () {
         <LevelCompleteScreen
           level={currentLevel}
           onNextLevel={proceedToNextLevel}
+          onReplayLevel={replayLevel}
           levelData={gameData[currentLevel]}
           config={levelConfig}
           animate={false}
