@@ -1,5 +1,5 @@
 import React from 'react'
-import { LevelConfig } from './types'
+import { LevelConfig, CreateLevelConfigParams } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
@@ -10,15 +10,16 @@ export const nPressedAdvice = {
   rule: 'Each key adds points equal to the number of times the key was pressed'
 }
 
-export const createNPressedConfig = (
-  noise_level: number = 0,
-  maxSteps: number = globalMaxSteps,
-  level_ind: number,
-  phase: 1 | 2 | 3
-): LevelConfig => {
+export const createNPressedConfig = ({
+  noiseLevel = 0,
+  maxSteps = globalMaxSteps,
+  levelInd,
+  phase,
+  adviceIndices
+}: CreateLevelConfigParams): LevelConfig => {
   const optimalScore = ((maxSteps + 1) * maxSteps) / 2
   const maxScore = optimalScore
-  const noise = getNoise(noise_level, maxSteps)
+  const noise = getNoise(noiseLevel, maxSteps)
 
   return {
     scoringLogic: (
@@ -58,7 +59,7 @@ export const createNPressedConfig = (
             In this level, the score you got from a button equals the number of
             times the button was pressed. The optimal play would press the same
             button each turn and yield a score of {optimalScore}. Your score is{' '}
-            scorePercent.toFixed(2)% of optimal.
+            {percentile.toFixed(2)}% of optimal.
           </p>
           <i>
             {nPressedAdvice.quote}
@@ -69,10 +70,11 @@ export const createNPressedConfig = (
       )
     },
     maxSteps,
-    level_ind,
+    level_ind: levelInd,
     version: 0,
     optimalScore,
     maxScore,
-    phase
+    phase,
+    adviceIndices
   }
 }

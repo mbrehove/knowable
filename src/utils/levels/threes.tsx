@@ -1,5 +1,5 @@
 import React from 'react'
-import { LevelConfig } from './types'
+import { LevelConfig, CreateLevelConfigParams } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
@@ -9,17 +9,18 @@ export const threesAdvice = {
   rule: 'One key always adds 0. The other adds 2 unless the turn is divisible by 3 in which it subtracts 4.'
 }
 
-export const createThreesConfig = (
-  noise_level: number = 0,
-  maxSteps: number = globalMaxSteps,
-  level_ind: number,
-  phase: 1 | 2 | 3
-): LevelConfig => {
+export const createThreesConfig = ({
+  noiseLevel = 0,
+  maxSteps = globalMaxSteps,
+  levelInd,
+  phase,
+  adviceIndices
+}: CreateLevelConfigParams): LevelConfig => {
   const zeroKey = Math.random() > 0.5 ? 'ArrowRight' : 'ArrowLeft'
   const pointKey = zeroKey === 'ArrowRight' ? 'ArrowLeft' : 'ArrowRight'
   const optimalScore = ((maxSteps - 1) * maxSteps) / 2
   const maxScore = optimalScore
-  const noise = getNoise(noise_level, maxSteps)
+  const noise = getNoise(noiseLevel, maxSteps)
   const pointKeyValue = 2
 
   return {
@@ -69,10 +70,11 @@ export const createThreesConfig = (
       )
     },
     maxSteps,
-    level_ind,
+    level_ind: levelInd,
     version: 0,
     optimalScore,
     maxScore,
-    phase
+    phase,
+    adviceIndices
   }
 }

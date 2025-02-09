@@ -29,4 +29,13 @@ export interface LevelConfig {
   optimalScore: number
   maxScore: number
   phase: 1 | 2 | 3
+  adviceIndices: number[]
+}
+
+export interface CreateLevelConfigParams {
+  noiseLevel?: number
+  maxSteps: number
+  levelInd: number
+  phase: number
+  adviceIndices: number[]
 }

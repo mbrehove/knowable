@@ -36,13 +36,13 @@ body {
 .title {
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .subtitle {
   font-size: 1.2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-align: center;
 }
 
@@ -55,13 +55,19 @@ body {
 h1,
 h2 {
   font-size: 1.5rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
   text-align: center;
 }
 
 p {
   font-size: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  text-align: justify;
+}
+
+.score-text {
+  margin: 0.25rem 0;
+  text-align: justify;
 }
 
 button {
@@ -71,7 +77,7 @@ button {
   color: #000;
   cursor: pointer;
   padding: 1rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 button:focus {
@@ -88,7 +94,7 @@ button:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 /* .button-container button {
@@ -213,6 +219,7 @@ button:focus {
 .level-description-text {
   max-width: 100%;
   word-wrap: break-word;
+  text-align: justify;
 }
 
 @media (max-width: 600px) {
@@ -292,7 +299,7 @@ button:focus {
   width: 100%;
   max-width: 1200px;
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   padding: 20px;
 }
 
@@ -308,7 +315,7 @@ button:focus {
 
 .plot-section {
   width: 100%;
-  margin: 1rem 0;
+  margin: 0.5rem 0 0.25rem 0;
 }
 
 /* Mobile responsiveness */
@@ -334,8 +341,8 @@ button:focus {
 .level-description {
   width: 100%;
   max-width: 600px;
-  margin: 1rem 0;
-  text-align: left;
+  margin: 0.5rem 0;
+  text-align: justify;
 }
 
 .advice-list {
@@ -378,4 +385,12 @@ button:focus {
 
 .about-button:hover {
   opacity: 0.7;
+}
+
+/* Keep headings centered */
+h1,
+h2,
+.title,
+.subtitle {
+  text-align: center;
 }

@@ -9,9 +9,11 @@ import { createNegateConfig, negateAdvice } from './negate'
 import { createSpeedConfig, speedAdvice } from './speed'
 import { createInvestConfig, investAdvice } from './invest'
 import { createRandomConfig, randomAdvice } from './random'
+import { shuffleArray } from './utils'
 
 let phase2Order: number[] | null = null
 let phase3Order: number[] | null = null
+let phase4Order: number[] | null = null
 
 const levelConfigs = [
   createFixedConfig,
@@ -41,45 +43,85 @@ export const levelAdvice: AdviceQuote[] = [
 
 export const globalMaxSteps = 12
 export const noiseLevel = 1
-
-export const numberOfLevels = levelConfigs.length
+export const numConfigs = levelConfigs.length
+export const nPhase2Levels = 4
+export const phaseEnds = [
+  numConfigs,
+  numConfigs + nPhase2Levels,
+  numConfigs * 2 + nPhase2Levels,
+  numConfigs * 3 + nPhase2Levels
+]
+export const phaseNames = ['Welcome','Innocence', 'Training', 'Experience', 'Wisdom']
 
 export const totalOptimalScore = levelConfigs.reduce((sum, levelConfigFn) => {
-  const config = levelConfigFn(0, globalMaxSteps, 0, 1) // Call with default params
+  const config = levelConfigFn({
+    noiseLevel: 0,
+    maxSteps: globalMaxSteps,
+    levelInd: 0,
+    phase: 1,
+    adviceIndices: []
+  })
   return sum + config.maxScore
 }, 0)
 
 export const getLevelConfig = (level: number): LevelConfig => {
-  // Phase 1: Levels 1-8 in order
-  if (level <= levelConfigs.length) {
-    return levelConfigs[level - 1](0, globalMaxSteps, level-1, 1)
+  if (!phase2Order) {
+    phase2Order = shuffleArray([...Array(nPhase2Levels).keys()])
   }
-
-  // Phase 2: Levels in random order
-  if (level <= levelConfigs.length * 2) {
-    // Generate random order for phase 2 if not already generated
-    if (!phase2Order) {
-      phase2Order = [...Array(levelConfigs.length).keys()]
-      for (let i = phase2Order.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[phase2Order[i], phase2Order[j]] = [phase2Order[j], phase2Order[i]]
-      }
-    }
-    const phase2Index = (level - levelConfigs.length - 1) % levelConfigs.length
-    return levelConfigs[phase2Order[phase2Index]](0, globalMaxSteps, phase2Order[phase2Index], 2)
-  }
-
-  // Phase 3: Different random order with noise
   if (!phase3Order) {
-    phase3Order = [...Array(levelConfigs.length).keys()]
-    for (let i = phase3Order.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[phase3Order[i], phase3Order[j]] = [phase3Order[j], phase3Order[i]]
-    }
+    phase3Order = shuffleArray([...Array(levelConfigs.length).keys()])
   }
-  const phase3Index =
-    (level - 2 * levelConfigs.length - 1) % levelConfigs.length
-  return levelConfigs[phase3Order[phase3Index]](noiseLevel, globalMaxSteps, phase3Order[phase3Index], 3)
+  if (!phase4Order) {
+    phase4Order = shuffleArray([...Array(levelConfigs.length).keys()])
+  }
+
+  // Phase 1:
+  if (level <= phaseEnds[0]) {
+    return levelConfigs[level - 1]({
+      noiseLevel: 0,
+      maxSteps: globalMaxSteps,
+      levelInd: level - 1,
+      phase: 1,
+      adviceIndices: []
+    })
+  }
+
+  // Phase 2: The first nPhase2Levels  in random order
+  if (level <= phaseEnds[1]) {
+    console.log('running phase 2')
+    const phase2Index = level - phaseEnds[0] - 1
+    return levelConfigs[phase2Order[phase2Index]]({
+      noiseLevel: 0,
+      maxSteps: globalMaxSteps,
+      levelInd: phase2Order[phase2Index],
+      phase: 2,
+      adviceIndices: Array.from({ length: nPhase2Levels }, (_, i) => i)
+    })
+  }
+
+  // Phase 3: Levels in random order
+  if (level <= phaseEnds[2]) {
+    console.log('running phase 3')
+    const phase3Index = level - phaseEnds[1] - 1
+    return levelConfigs[phase3Order[phase3Index]]({
+      noiseLevel: 0,
+      maxSteps: globalMaxSteps,
+      levelInd: phase3Order[phase3Index],
+      phase: 3,
+      adviceIndices: Array.from({ length: numConfigs }, (_, i) => i)
+    })
+  }
+
+  // Phase 4
+  const phase4Index = level - phaseEnds[2] - 1
+  console.log('running phase 4')
+  return levelConfigs[phase4Order[phase4Index]]({
+    noiseLevel,
+    maxSteps: globalMaxSteps,
+    levelInd: phase4Order[phase4Index],
+    phase: 4,
+    adviceIndices: Array.from({ length: numConfigs }, (_, i) => i)
+  })
 }
 
 export default getLevelConfig

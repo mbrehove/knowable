@@ -128,7 +128,11 @@ const GameScreen: React.FC<GameScreenProps> = ({
     <div className='game-layout fade-in'>
       <div className='game-content'>
         {config.phase > 1 && (
-          <AdvicePanel level={level} animate={false} showRule={true} />
+          <AdvicePanel
+            adviceIndices={config.adviceIndices}
+            animate={false}
+            showRule={true}
+          />
         )}
 
         <div className='main-content'>

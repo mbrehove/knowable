@@ -17,4 +17,13 @@ export const getNoise = (noise_level: number = 0, maxSteps: number = 12) => {
   return noise
 }
 
+// Add this utility function to handle array shuffling
+export const shuffleArray = (array: number[]): number[] => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
+  }
+  return array
+}
+
 export const globalMaxSteps = 12

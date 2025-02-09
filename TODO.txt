@@ -1,6 +1,5 @@
 Recommendations from Joseph:
 
-2. Show the rule next to/under the advice in the side pannel during Phase 1.5 and 2
 3. Have early unknown level phases at 4 and 7 so they can ease into phase II
 4. Make a "replay" button to play the level again so people can better understand it.
 5. Green arrows in the levelComplete screen indicating which were optimal

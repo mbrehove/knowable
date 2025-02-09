@@ -1,5 +1,5 @@
 import React from 'react'
-import { LevelConfig } from './types'
+import { LevelConfig, CreateLevelConfigParams } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
@@ -9,16 +9,17 @@ export const nSecondsAdvice = {
   rule: 'Each key adds points equal to the number of seconds since the last key press with a maximum of 5'
 }
 
-export const createNSecondsConfig = (
-  noise_level: number = 0,
-  maxSteps: number = globalMaxSteps,
-  level_ind: number,
-  phase: 1 | 2 | 3
-): LevelConfig => {
+export const createNSecondsConfig = ({
+  noiseLevel = 0,
+  maxSteps = globalMaxSteps,
+  levelInd,
+  phase,
+  adviceIndices
+}: CreateLevelConfigParams): LevelConfig => {
   const maxPointsPerKey = 5
   const optimalScore = maxPointsPerKey * maxSteps
   const maxScore = optimalScore
-  const noise = getNoise(noise_level, maxSteps)
+  const noise = getNoise(noiseLevel, maxSteps)
 
   return {
     scoringLogic: (
@@ -60,10 +61,11 @@ export const createNSecondsConfig = (
       )
     },
     maxSteps,
-    level_ind,
+    level_ind: levelInd,
     version: 0,
     optimalScore,
     maxScore,
-    phase
+    phase,
+    adviceIndices
   }
 }

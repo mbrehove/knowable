@@ -10,12 +10,12 @@ interface Advice {
 }
 
 const AdvicePanel: React.FC<{
-  level: number
+  adviceIndices: number[]
   animate?: boolean
   showRule?: boolean
-}> = ({ level, animate = false, showRule = true }) => {
-  const adviceList = levelAdvice.slice(0, level) //.reverse()
-
+}> = ({ adviceIndices, animate = false, showRule = true }) => {
+  const adviceList = adviceIndices.map(index => levelAdvice[index])
+  console.log(adviceIndices)
   return (
     <div className={styles.advicePanel}>
       <h3>Advice</h3>
@@ -23,7 +23,7 @@ const AdvicePanel: React.FC<{
         <ul>
           {adviceList.map((advice: Advice, index: number) => (
             <li
-              key={index}
+              key={advice.quote}
               className={`${styles.adviceItem} ${
                 animate ? styles.animated : ''
               }`}

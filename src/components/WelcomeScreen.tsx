@@ -1,7 +1,12 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { numberOfLevels, totalOptimalScore } from '../utils/levels/levelManager'
+import {
+  numConfigs,
+  totalOptimalScore,
+  phaseEnds,
+  phaseNames
+} from '../utils/levels/levelManager'
 
 interface WelcomeScreenProps {
   onStart: () => void
@@ -22,7 +27,10 @@ const PhaseContent: React.FC<{
   if (phase === 0) {
     return (
       <>
-        <h1>Knowable</h1>
+        <h1>
+          Knowable <br />
+          Part 1: Innocence
+        </h1>
         <div className='welcome-content'>
           <p>
             Life is confusing. In this game, like life, you'll make choices
@@ -38,7 +46,7 @@ const PhaseContent: React.FC<{
   if (!score && phase > 0) {
     return (
       <>
-        <h1>Phase {phase + 1}</h1>
+        <h1>Knowable</h1>
         <p>Loading...</p>
       </>
     )
@@ -59,11 +67,15 @@ const PhaseContent: React.FC<{
   if (phase === 1) {
     return (
       <>
-        <h1>Phase 2</h1>
+        <h1>
+          Knowable
+          <br />
+          Part 2: Training
+        </h1>
         <div className='welcome-content'>
           <p>
-            You completed Phase 1 with a total score of{' '}
-            <strong>{totalScore}</strong> out of a possible{' '}
+            You completed the <strong>Part 1: Innocence</strong> with a total
+            score of <strong>{totalScore}</strong> out of a possible{' '}
             <strong>{totalOptimalScore}</strong>.
           </p>
           {percentileElement}
@@ -72,21 +84,45 @@ const PhaseContent: React.FC<{
             it's not always clear which advice to follow. Even good advice in
             the wrong situation is bad advice. In this next phase you'll have to
             figure out which of the levels you're playing and what advice to
-            use. Good luck!
+            use. Don't worry, we'll start you off with just{' '}
+            {phaseEnds[1] - phaseEnds[0]} bits of advice to choose from. Good
+            luck!
           </p>
         </div>
       </>
     )
   }
-
   if (phase === 2) {
     return (
       <>
-        <h1>Phase 3</h1>
+        <h1>
+          Knowable
+          <br />
+          Part 2: Experience
+        </h1>
         <div className='welcome-content'>
           <p>
-            You completed Phase 2 with a total score of{' '}
-            <strong>{totalScore}</strong> out of a possible{' '}
+            You're starting to get how this works now. It takes some time to
+            figure out what advice to use. We all need to figure out what works
+            for us by sorting through the noise. But the training wheels are off
+            now and you'll have all the levels to choose from. Good luck!
+          </p>
+        </div>
+      </>
+    )
+  }
+  if (phase === 3) {
+    return (
+      <>
+        <h1>
+          Knowable
+          <br />
+          Part 3: Wisdom
+        </h1>
+        <div className='welcome-content'>
+          <p>
+            You completed <strong>Part 2: Experience</strong> with a total score
+            of <strong>{totalScore}</strong> out of a possible{' '}
             <strong>{totalOptimalScore}</strong>.
           </p>
           {percentileElement}
@@ -104,11 +140,15 @@ const PhaseContent: React.FC<{
 
   return (
     <>
-      <h1>The End</h1>
+      <h1>
+        Knowable
+        <br />
+        The End
+      </h1>
       <div className='welcome-content'>
         <p>
-          Congratulations! You completed the final phase with a score of{' '}
-          <strong>{totalScore}</strong> out of a possible{' '}
+          Congratulations! You completed <strong>Part 3: Wisdom</strong> with a
+          score of <strong>{totalScore}</strong> out of a possible{' '}
           <strong>{totalOptimalScore}</strong>.
         </p>
         {percentileElement}
@@ -124,7 +164,10 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   level
 }) => {
   const [phaseScore, setPhaseScore] = useState<PhaseScore | null>(null)
-  const phase = Math.floor((level - 1) / numberOfLevels)
+  const foundPhase = phaseEnds.findIndex(endLevel => level <= endLevel)
+  const phase = foundPhase === -1 ? phaseEnds.length : foundPhase // phaseEnds.length is the game end
+
+  const isGameEnd = phase === phaseEnds.length
 
   useEffect(() => {
     const fetchPhaseScores = async () => {
@@ -134,8 +177,9 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
       if (!user_id) return
 
       const previousPhase = phase - 1
-      const startLevel = previousPhase * numberOfLevels + 1
-      const endLevel = phase * numberOfLevels
+      const startLevel =
+        previousPhase === 0 ? 1 : phaseEnds[previousPhase - 1] + 1
+      const endLevel = phaseEnds[previousPhase]
 
       try {
         // First get the user's total score for this phase from the scores table
@@ -161,7 +205,11 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
         const phaseResponse = await fetch(
           `/api/scores?phase=${previousPhase}&version=0`
         )
-        if (!phaseResponse.ok) throw new Error('Failed to fetch phase scores')
+        if (!phaseResponse.ok) {
+          console.error('Failed to fetch phase scores')
+          setPhaseScore({ totalScore, percentile: null })
+          return
+        }
         const scores: number[] = await phaseResponse.json()
 
         const rank = scores.filter(score => score < totalScore).length
@@ -178,17 +226,19 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
     fetchPhaseScores()
   }, [phase])
 
+  console.log('WelcomeScreen phase', phase)
+
   return (
     <div className='welcome-screen'>
       <PhaseContent phase={phase} score={phaseScore || undefined} />
       <div className='button-container'>
-        {phase < 3 && (
+        {!isGameEnd && (
           <>
             <button onClick={onStart} autoFocus>
               Press Enter to Continue
             </button>
-            {onSkip && phase < 2 && (
-              <button onClick={onSkip}>Skip to Phase {phase + 2}</button>
+            {onSkip && phase < phaseEnds.length - 1 && (
+              <button onClick={onSkip}>Skip to {phaseNames[phase + 2]} </button>
             )}
           </>
         )}

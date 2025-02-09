@@ -1,5 +1,5 @@
 import React from 'react'
-import { LevelConfig } from './types'
+import { LevelConfig, CreateLevelConfigParams } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
@@ -10,12 +10,13 @@ export const swapAdvice = {
   rule: 'One key adds 2 and the other subtracts 1. The keys switch at two random times during play.'
 }
 
-export const createSwapConfig = (
-  noise_level: number = 0,
-  maxSteps: number = globalMaxSteps,
-  level_ind: number,
-  phase: 1 | 2 | 3
-): LevelConfig => {
+export const createSwapConfig = ({
+  noiseLevel = 0,
+  maxSteps = globalMaxSteps,
+  levelInd,
+  phase,
+  adviceIndices
+}: CreateLevelConfigParams): LevelConfig => {
   const leftValue = Math.random() > 0.5 ? 2 : -1
   const rightValue = leftValue > 0 ? -1 : 2
   const swapAt = [
@@ -26,7 +27,7 @@ export const createSwapConfig = (
     Math.max(leftValue, rightValue) * (maxSteps - swapAt.length) +
     Math.min(leftValue, rightValue) * swapAt.length
   const maxScore = Math.max(leftValue, rightValue) * maxSteps
-  const noise = getNoise(noise_level, maxSteps)
+  const noise = getNoise(noiseLevel, maxSteps)
 
   return {
     scoringLogic: (
@@ -77,10 +78,11 @@ export const createSwapConfig = (
       )
     },
     maxSteps,
-    level_ind,
+    level_ind: levelInd,
     version: 0,
     optimalScore,
     maxScore,
-    phase
+    phase,
+    adviceIndices
   }
 }

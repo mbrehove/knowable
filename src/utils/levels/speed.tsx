@@ -1,5 +1,5 @@
 import React from 'react'
-import { LevelConfig } from './types'
+import { LevelConfig, CreateLevelConfigParams } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
@@ -9,16 +9,17 @@ export const speedAdvice = {
   rule: 'Each key adds points equal to 1/seconds since the last key was pressed for a maximum of 5.'
 }
 
-export const createSpeedConfig = (
-  noise_level: number = 0,
-  maxSteps: number = globalMaxSteps,
-  level_ind: number,
-  phase: 1 | 2 | 3
-): LevelConfig => {
+export const createSpeedConfig = ({
+  noiseLevel = 0,
+  maxSteps = globalMaxSteps,
+  levelInd,
+  phase,
+  adviceIndices
+}: CreateLevelConfigParams): LevelConfig => {
   const maxPointsPerKey = 5
   const optimalScore = maxPointsPerKey * maxSteps
   const maxScore = optimalScore
-  const noise = getNoise(noise_level, maxSteps)
+  const noise = getNoise(noiseLevel, maxSteps)
 
   return {
     scoringLogic: (
@@ -48,7 +49,7 @@ export const createSpeedConfig = (
         <div>
           <p className='level-description-text'>
             In this level your score for each key is determined by the speed at{' '}
-            which you pressed the keys. Each keypress added <i>1/t</i> pointst
+            which you pressed the keys. Each keypress added <i>1/t</i> points
             where <i>t</i>
             is the time in seconds, with a maximum of {maxPointsPerKey} points
             per keypress for a maximum possible score of {optimalScore}.
@@ -63,10 +64,11 @@ export const createSpeedConfig = (
       )
     },
     maxSteps,
-    level_ind,
+    level_ind: levelInd,
     version: 0,
     optimalScore,
     maxScore,
-    phase
+    phase,
+    adviceIndices
   }
 }

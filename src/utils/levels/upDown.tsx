@@ -1,5 +1,5 @@
 import React from 'react'
-import { LevelConfig } from './types'
+import { LevelConfig, CreateLevelConfigParams } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
@@ -9,12 +9,13 @@ export const upDownAdvice = {
   rule: 'Left and right keys give either 2 or -1 points. Up and down give either 3 or 4 points.'
 }
 
-export const createUpDownConfig = (
-  noise_level: number = 0,
-  maxSteps: number = globalMaxSteps,
-  level_ind: number,
-  phase: 1 | 2 | 3
-): LevelConfig => {
+export const createUpDownConfig = ({
+  noiseLevel = 0,
+  maxSteps = globalMaxSteps,
+  levelInd,
+  phase,
+  adviceIndices
+}: CreateLevelConfigParams): LevelConfig => {
   const leftValue = Math.random() > 0.5 ? 2 : -1
   const rightValue = leftValue > 0 ? -1 : 2
   const upValue = Math.random() > 0.5 ? 3 : 4
@@ -22,7 +23,7 @@ export const createUpDownConfig = (
   const optimalScore =
     Math.max(upValue, downValue) * (maxSteps - 1) + Math.min(upValue, downValue)
   const maxScore = Math.max(upValue, downValue) * maxSteps
-  const noise = getNoise(noise_level, maxSteps)
+  const noise = getNoise(noiseLevel, maxSteps)
 
   return {
     scoringLogic: (
@@ -89,10 +90,11 @@ export const createUpDownConfig = (
       )
     },
     maxSteps,
-    level_ind,
+    level_ind: levelInd,
     version: 0,
     optimalScore,
     maxScore,
-    phase
+    phase,
+    adviceIndices
   }
 }

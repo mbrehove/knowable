@@ -2,6 +2,7 @@ import React from 'react'
 import { LevelConfig } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
+import { CreateLevelConfigParams } from './types'
 
 export const fixedAdvice = {
   quote:
@@ -10,19 +11,20 @@ export const fixedAdvice = {
   rule: 'One key adds 2 and the other subtracts 1'
 }
 
-export const createFixedConfig = (
-  noise_level: number = 0,
-  maxSteps: number = globalMaxSteps,
-  level_ind: number,
-  phase: 1 | 2 | 3
-): LevelConfig => {
+export const createFixedConfig = ({
+  noiseLevel = 0,
+  maxSteps = globalMaxSteps,
+  levelInd,
+  phase,
+  adviceIndices
+}: CreateLevelConfigParams): LevelConfig => {
   const leftValue = Math.random() > 0.5 ? 2 : -1
   const rightValue = leftValue > 0 ? -1 : 2
   const optimalScore =
     Math.max(leftValue, rightValue) * (maxSteps - 1) +
     Math.min(leftValue, rightValue)
   const maxScore = Math.max(leftValue, rightValue) * maxSteps
-  const noise = getNoise(noise_level, maxSteps)
+  const noise = getNoise(noiseLevel, maxSteps)
 
   return {
     scoringLogic: (
@@ -65,10 +67,11 @@ export const createFixedConfig = (
       )
     },
     maxSteps,
-    level_ind,
+    level_ind: levelInd,
     version: 0,
     optimalScore,
     maxScore,
-    phase
+    phase,
+    adviceIndices
   }
 }

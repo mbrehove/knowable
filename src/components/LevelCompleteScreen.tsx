@@ -67,15 +67,21 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   return (
     <div className='game-layout fade-in'>
       <div className='game-content'>
-        <AdvicePanel level={level} animate={false} />
+        {config.phase > 1 && (
+          <AdvicePanel
+            adviceIndices={config.adviceIndices}
+            animate={false}
+            showRule={true}
+          />
+        )}
 
         <div className='main-content'>
           <h2 className='title'>Level {level} Complete</h2>
 
-          <p>
-            "You scored {currentScore}/{config.maxScore} ={' '}
+          <p className='score-text'>
+            You scored {currentScore}/{config.maxScore} ={' '}
             <strong>{percentScore.toFixed(1)}% </strong> which was better than{' '}
-            <strong>{percentile?.toFixed(1)}%</strong> of players."
+            <strong>{percentile?.toFixed(1)}%</strong> of players.
           </p>
           <div className='level-description'>
             {description(points, keyHistory, percentile ?? 100)}

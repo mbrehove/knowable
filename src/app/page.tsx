@@ -5,7 +5,7 @@ import GameScreen, { LevelData } from '@/components/GameScreen'
 import LevelCompleteScreen from '../components/LevelCompleteScreen'
 import getLevelConfig from '../utils/levels/levelManager'
 import { LevelConfig } from '../utils/levels/types'
-import { numberOfLevels } from '../utils/levels/levelManager'
+import { numConfigs, phaseEnds } from '../utils/levels/levelManager'
 import AboutOverlay from '@/components/AboutOverlay'
 
 export default function GamePage () {
@@ -28,16 +28,18 @@ export default function GamePage () {
   }
 
   const skipToNextPhase = () => {
-    const nextPhaseLevel =
-      Math.ceil(currentLevel / numberOfLevels) * numberOfLevels + 1
+    // Find the next phase end that's greater than current level
+    const nextPhaseEnd =
+      phaseEnds.find(end => end >= currentLevel) || phaseEnds[0]
+    const nextPhaseLevel = nextPhaseEnd + 1
     setCurrentLevel(nextPhaseLevel)
     setGameState('welcome')
   }
 
   const proceedToNextLevel = () => {
     const nextLevel = currentLevel + 1
-    // Check if we're moving to a new phase
-    if (nextLevel % numberOfLevels === 1) {
+    // Check if we're moving to a new phase by seeing if current level is at a phase end
+    if (phaseEnds.includes(nextLevel - 1)) {
       setCurrentLevel(nextLevel)
       setGameState('welcome')
     } else {

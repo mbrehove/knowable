@@ -1,5 +1,5 @@
 import React from 'react'
-import { LevelConfig } from './types'
+import { LevelConfig, CreateLevelConfigParams } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
@@ -10,12 +10,13 @@ export const investAdvice = {
   rule: 'One key is the invest key and gives 0 points but the other key gives you a point for each time you pressed the invest key.'
 }
 
-export const createInvestConfig = (
-  noise_level: number = 0,
-  maxSteps: number = globalMaxSteps,
-  level_ind: number,
-  phase: 1 | 2 | 3
-): LevelConfig => {
+export const createInvestConfig = ({
+  noiseLevel = 0,
+  maxSteps = globalMaxSteps,
+  levelInd,
+  phase,
+  adviceIndices
+}: CreateLevelConfigParams): LevelConfig => {
   const investKey = Math.random() > 0.5 ? 'ArrowRight' : 'ArrowLeft'
   const pointsKey = investKey === 'ArrowRight' ? 'ArrowLeft' : 'ArrowRight'
   if (maxSteps % 2 !== 0) {
@@ -23,7 +24,7 @@ export const createInvestConfig = (
   }
   const optimalScore = (maxSteps / 2) * (maxSteps / 2 - 1)
   const maxScore = (maxSteps / 2) * (maxSteps / 2)
-  const noise = getNoise(noise_level, maxSteps)
+  const noise = getNoise(noiseLevel, maxSteps)
 
   return {
     scoringLogic: (
@@ -71,10 +72,11 @@ export const createInvestConfig = (
       )
     },
     maxSteps,
-    level_ind,
+    level_ind: levelInd,
     version: 0,
     optimalScore,
     maxScore,
-    phase
+    phase,
+    adviceIndices
   }
 }

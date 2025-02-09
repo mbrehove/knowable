@@ -1,5 +1,5 @@
 import React from 'react'
-import { LevelConfig } from './types'
+import { LevelConfig, CreateLevelConfigParams } from './types'
 import { getNoise } from './utils'
 import { globalMaxSteps } from './levelManager'
 
@@ -9,12 +9,13 @@ export const negateAdvice = {
   rule: 'One key subtracts 1 and the other negates the score if it is negative.'
 }
 
-export const createNegateConfig = (
-  noise_level: number = 0,
-  maxSteps: number = globalMaxSteps,
-  level_ind: number,
-  phase: 1 | 2 | 3
-): LevelConfig => {
+export const createNegateConfig = ({
+  noiseLevel = 0,
+  maxSteps = globalMaxSteps,
+  levelInd,
+  phase,
+  adviceIndices
+}: CreateLevelConfigParams): LevelConfig => {
   const negativeValue = -2
   const { negateKey, moveKey } =
     Math.random() > 0.5
@@ -22,7 +23,7 @@ export const createNegateConfig = (
       : { negateKey: 'ArrowRight', moveKey: 'ArrowLeft' }
   const optimalScore = -(maxSteps - 2) * negativeValue
   const maxScore = (maxSteps - 1) * negativeValue
-  const noise = getNoise(noise_level, maxSteps)
+  const noise = getNoise(noiseLevel, maxSteps)
 
   return {
     scoringLogic: (
@@ -72,10 +73,11 @@ export const createNegateConfig = (
       )
     },
     maxSteps,
-    level_ind,
+    level_ind: levelInd,
     version: 0,
     optimalScore,
     maxScore,
-    phase
+    phase,
+    adviceIndices
   }
 }
