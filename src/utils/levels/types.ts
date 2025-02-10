@@ -17,6 +17,7 @@ export interface AdviceQuote {
   quote: string
   author: string
   rule: string
+  image?: string
 }
 
 export interface LevelConfig {

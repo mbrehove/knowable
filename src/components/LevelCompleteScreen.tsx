@@ -73,12 +73,22 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   return (
     <div className='game-layout fade-in'>
       <div className='game-content'>
-        {config.phase > 1 && (
+        {config.phase > 1 ? (
           <AdvicePanel
             adviceIndices={config.adviceIndices}
             animate={false}
             showRule={true}
           />
+        ) : (
+          config.advice.image && (
+            <div className='author-image-container'>
+              <img
+                src={config.advice.image}
+                alt={config.advice.author}
+                className='author-image'
+              />
+            </div>
+          )
         )}
 
         <div className='main-content'>

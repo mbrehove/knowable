@@ -1,7 +1,6 @@
 Recommendations from Joseph:
-
-5. Green arrows in the levelComplete screen indicating which were optimal
-6. Siloets of the advice authors off to the right. 
-7: add music
-8: add Phase color transitions
-9: Port to mobile
+1. Siloets of the advice authors off to the right. 
+2: add Phase color transitions
+3: Show to Joseph again. 
+4: Port to mobile
+5: Add music

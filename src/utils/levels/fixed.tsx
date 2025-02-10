@@ -8,7 +8,8 @@ export const fixedAdvice = {
   quote:
     'Insanity is doing the same thing over and over again and expecting different results.',
   author: 'Rita Mae Brown',
-  rule: 'One key adds 2 and the other subtracts 1'
+  rule: 'One key adds 2 and the other subtracts 1',
+  image: '/advice_images/2-tone/Rita Mae Brown.svg'
 }
 
 export const createFixedConfig = ({

@@ -361,6 +361,27 @@ button:focus {
   margin-bottom: 1rem;
 }
 
+.author-image-container {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-color);
+}
+
+.author-image {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
 @keyframes slideDown {
   0% {
     opacity: 0;
@@ -397,4 +418,17 @@ h2,
 .title,
 .subtitle {
   text-align: center;
+}
+
+/* Add media query to handle mobile layout */
+@media (max-width: 768px) {
+  .author-image-container {
+    position: static;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .author-image {
+    max-width: 200px;
+  }
 }
