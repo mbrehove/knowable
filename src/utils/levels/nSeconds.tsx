@@ -66,6 +66,13 @@ export const createNSecondsConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      _points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      return keyHistory.map(e => e.time > 5)
+    },
+    advice: nSecondsAdvice
   }
 }

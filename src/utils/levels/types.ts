@@ -28,8 +28,13 @@ export interface LevelConfig {
   version: number
   optimalScore: number
   maxScore: number
-  phase: 1 | 2 | 3
+  phase: number
   adviceIndices: number[]
+  accuracy: (
+    points: { x: number; y: number }[],
+    keyHistory: { key: string; time: number }[]
+  ) => boolean[]
+  advice: AdviceQuote
 }
 
 export interface CreateLevelConfigParams {

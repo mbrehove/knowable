@@ -77,6 +77,58 @@ export const createInvestConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      // Evaluate the optimal remaining score from a state with 'r' moves remaining
+      // and current invest count 'n'. We model the decision as:
+      // if you invest for x moves out of r, you'll eventually get (r - x) * (n + x).
+      function optimalScoreRemaining (r: number, n: number): number {
+        let best = -Infinity
+        for (let x = 0; x <= r; x++) {
+          const value = (r - x) * (n + x)
+          if (value > best) best = value
+        }
+        return best
+      }
+
+      // For each turn, we consider that before the move the state is:
+      //   currentInvest: count of investKey pressed so far,
+      //   remaining: number of moves left (maxSteps - t).
+      //
+      // Then we compare:
+      //   investOption = optimalScoreRemaining(remaining - 1, currentInvest + 1)
+      //   cashOption   = currentInvest + optimalScoreRemaining(remaining - 1, currentInvest)
+      //
+      // If one option is strictly higher, that action is optimal. If they're equal, both actions are optimal.
+      return keyHistory.map((entry, t) => {
+        const currentInvest = keyHistory
+          .slice(0, t)
+          .filter(e => e.key === investKey).length
+        const remaining = maxSteps - t
+        if (remaining <= 0) return true
+
+        const investOption = optimalScoreRemaining(
+          remaining - 1,
+          currentInvest + 1
+        )
+        const cashOption =
+          currentInvest + optimalScoreRemaining(remaining - 1, currentInvest)
+
+        let optimalActions: string[]
+        if (investOption > cashOption) {
+          optimalActions = [investKey]
+        } else if (cashOption > investOption) {
+          optimalActions = [pointsKey]
+        } else {
+          optimalActions = [investKey, pointsKey]
+        }
+
+        return optimalActions.includes(entry.key)
+      })
+    },
+    advice: investAdvice
   }
 }

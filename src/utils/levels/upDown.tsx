@@ -95,6 +95,14 @@ export const createUpDownConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      _points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      const bestKey = upValue > downValue ? 'ArrowUp' : 'ArrowDown'
+      return keyHistory.map(entry => entry.key === bestKey)
+    },
+    advice: upDownAdvice
   }
 }

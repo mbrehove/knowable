@@ -141,7 +141,11 @@ const GameScreen: React.FC<GameScreenProps> = ({
             Press left or right arrow keys to add points ({stepsTaken}/
             {config.maxSteps})
           </p>
-
+          <i>
+            {config.advice.quote}
+            <br />
+          </i>
+          -{config.advice.author}
           <div className='plot-section'>
             <ScorePlot
               points={points}
@@ -149,7 +153,6 @@ const GameScreen: React.FC<GameScreenProps> = ({
               xDomain={xDomain}
             />
           </div>
-
           <div className='mobile-only-controls'>
             <div className='arrow-buttons'>
               <button className='up' onClick={() => processKeyPress('ArrowUp')}>

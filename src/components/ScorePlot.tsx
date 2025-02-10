@@ -19,12 +19,14 @@ interface ScorePlotProps {
   points: { x: number; y: number }[]
   keyHistory: { key: string; time: number }[]
   xDomain: [number, number]
+  accuracy?: boolean[]
 }
 
 const ScorePlot: React.FC<ScorePlotProps> = ({
   points,
   keyHistory,
-  xDomain
+  xDomain,
+  accuracy
 }) => {
   // Custom Dot component
   const CustomDot: React.FC<{
@@ -57,12 +59,17 @@ const ScorePlot: React.FC<ScorePlotProps> = ({
       default:
         return null
     }
+
+    // Determine color based on accuracy
+    const color =
+      accuracy && index > 0 ? (accuracy[index - 1] ? 'green' : 'red') : 'blue'
+
     return (
       <IconComponent
         x={cx - 5}
         y={cy - 5}
         size={20}
-        color='blue'
+        color={color}
         style={{ position: 'absolute' }}
       />
     )

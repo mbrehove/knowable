@@ -75,6 +75,32 @@ export const createNPressedConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      var leftCount = 0
+      var rightCount = 0
+      const accuracyArray = []
+      for (let i = 0; i < keyHistory.length; i++) {
+        if (keyHistory[i].key === 'ArrowLeft') {
+          leftCount++
+        } else if (keyHistory[i].key === 'ArrowRight') {
+          rightCount++
+        }
+        if (leftCount == rightCount) {
+          accuracyArray.push(true)
+        } else {
+          accuracyArray.push(
+            leftCount < rightCount
+              ? keyHistory[i].key === 'ArrowRight'
+              : keyHistory[i].key === 'ArrowLeft'
+          )
+        }
+      }
+      return accuracyArray
+    },
+    advice: nPressedAdvice
   }
 }

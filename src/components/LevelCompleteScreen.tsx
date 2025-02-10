@@ -27,6 +27,10 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   const currentScore = points[points.length - 1]?.y || 0
   const percentScore = (currentScore / config.maxScore) * 100
 
+  // Calculate accuracy array using the config's accuracy function
+  const accuracyArray = config.accuracy(points, keyHistory)
+  const totalCorrect = accuracyArray.filter(Boolean).length
+
   useEffect(() => {
     fetch(`/api/scores?level_ind=${level_ind}&version=${version}`)
       .then(response => {
@@ -82,8 +86,13 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
 
           <p className='score-text'>
             You scored {currentScore}/{config.maxScore} ={' '}
-            <strong>{percentScore.toFixed(1)}% </strong> which was better than{' '}
-            <strong>{percentile?.toFixed(1)}%</strong> of players.
+            <strong>{percentScore.toFixed(1)}% </strong> with an accuracy of{' '}
+            {totalCorrect}/{accuracyArray.length} ={' '}
+            <strong>
+              {((totalCorrect / accuracyArray.length) * 100).toFixed(1)}%
+            </strong>{' '}
+            which was better than <strong>{percentile?.toFixed(1)}%</strong> of
+            players.
           </p>
           <div className='level-description'>
             {description(points, keyHistory, percentile ?? 100)}
@@ -94,6 +103,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
               points={points}
               keyHistory={keyHistory}
               xDomain={[0, config.maxSteps]}
+              accuracy={accuracyArray}
             />
           </div>
 

@@ -69,6 +69,13 @@ export const createSpeedConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      _points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      return keyHistory.map(e => e.time < 0.2)
+    },
+    advice: speedAdvice
   }
 }

@@ -70,6 +70,23 @@ export const createNAlternateConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      _points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      // Filter out any non-valid key presses
+      const validMoves = keyHistory.filter(
+        entry => entry.key === 'ArrowRight' || entry.key === 'ArrowLeft'
+      )
+      // For each valid turn, mark it as optimal if the player alternated keys
+      return validMoves.map((entry, index) => {
+        // First valid move is considered optimal by default
+        if (index === 0) return true
+        // Otherwise the move is optimal if it is not equal to the previous valid move
+        return validMoves[index].key !== validMoves[index - 1].key
+      })
+    },
+    advice: nAlternateAdvice
   }
 }

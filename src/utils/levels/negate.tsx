@@ -78,6 +78,25 @@ export const createNegateConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      const accuracyArray = []
+      for (let i = 0; i < keyHistory.length - 1; i++) {
+        const lowestPotentialScore =
+          points[i].y + negativeValue * (maxSteps - i - 1)
+        const shouldMove = -lowestPotentialScore > points[i].y
+        accuracyArray.push(
+          shouldMove
+            ? keyHistory[i].key === moveKey
+            : keyHistory[i].key === negateKey
+        )
+      }
+      accuracyArray.push(keyHistory[keyHistory.length - 1].key === negateKey)
+      return accuracyArray
+    },
+    advice: negateAdvice
   }
 }

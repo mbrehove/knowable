@@ -83,6 +83,21 @@ export const createSwapConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      return keyHistory.map((keyPress, index) => {
+        const swap = swapAt.filter(x => index < x).length % 2 == 1
+        const leftScore = swap ? leftValue : rightValue
+        const rightScore = swap ? rightValue : leftValue
+
+        // The optimal choice is the key that gives the higher score
+        const optimalKey = leftScore > rightScore ? 'ArrowLeft' : 'ArrowRight'
+        return keyPress.key === optimalKey
+      })
+    },
+    advice: swapAdvice
   }
 }

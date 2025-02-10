@@ -72,6 +72,14 @@ export const createFixedConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      _points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      const bestKey = rightValue > leftValue ? 'ArrowRight' : 'ArrowLeft'
+      return keyHistory.map(e => e.key == bestKey)
+    },
+    advice: fixedAdvice
   }
 }

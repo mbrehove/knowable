@@ -75,6 +75,21 @@ export const createThreesConfig = ({
     optimalScore,
     maxScore,
     phase,
-    adviceIndices
+    adviceIndices,
+    accuracy: (
+      points: { x: number; y: number }[],
+      keyHistory: { key: string; time: number }[]
+    ) => {
+      return keyHistory.map((entry, index) => {
+        const turn = index + 1
+        // On turns divisible by 3, pointKey gives -4, so zeroKey (giving 0) is better
+        if (turn % 3 === 0) {
+          return entry.key === zeroKey
+        }
+        // On other turns, pointKey gives +2, which is better than zeroKey's 0
+        return entry.key === pointKey
+      })
+    },
+    advice: threesAdvice
   }
 }

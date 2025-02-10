@@ -1,6 +1,5 @@
 Recommendations from Joseph:
 
-4. Make a "replay" button to play the level again so people can better understand it.
 5. Green arrows in the levelComplete screen indicating which were optimal
 6. Siloets of the advice authors off to the right. 
 7: add music
