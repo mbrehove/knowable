@@ -39,9 +39,9 @@ export const createThreesConfig = ({
         return lastY
       } else if (eventKey === pointKey) {
         if (turn % 3 == 0) {
-          return lastY - pointKeyValue * 2
+          return lastY - pointKeyValue * 2 + noise[currentPoints.length - 1]
         } else {
-          return lastY + pointKeyValue
+          return lastY + pointKeyValue + noise[currentPoints.length - 1]
         }
       } else {
         return null

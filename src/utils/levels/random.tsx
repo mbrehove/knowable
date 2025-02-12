@@ -81,7 +81,7 @@ export const createRandomConfig = ({
       _points: { x: number; y: number }[],
       keyHistory: { key: string; time: number }[]
     ) => {
-      return keyHistory.map(e => true)
+      return keyHistory.map(_ => true)
     },
     advice: randomAdvice
   }

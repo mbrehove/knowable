@@ -42,9 +42,9 @@ export const createNSecondsConfig = ({
     },
     randomValues: {},
     description: (
-      scores: { x: number; y: number }[],
+      _scores: { x: number; y: number }[],
       _keyHistory: { key: string; time: number }[],
-      percentile: number
+      _percentile: number
     ) => {
       return (
         <div>

@@ -1,6 +1,7 @@
 // LevelCompleteScreen.tsx
 import React, { useState, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import Image from 'next/image'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
 import AdvicePanel from './AdvicePanel' // Add this import
 import { LevelData } from './GameScreen'
@@ -64,7 +65,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
         console.error('Error fetching scores:', error)
         setPercentile(100)
       })
-  }, [level, points, level_ind, version])
+  }, [level, points, level_ind, version, percentScore])
 
   // Add background color effect
   useEffect(() => {
@@ -85,7 +86,6 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
         'var(--background-color-phase-4)'
       )
     }
-
   }, [config.phase])
 
   useEffect(() => {
@@ -97,10 +97,12 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
       <div className='game-content'>
         {config.advice.image && (
           <div className='author-image-container'>
-            <img
+            <Image
               src={config.advice.image}
               alt={config.advice.author}
               className='author-image'
+              width={200}
+              height={200}
             />
           </div>
         )}

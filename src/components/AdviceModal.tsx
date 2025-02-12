@@ -12,15 +12,7 @@ const AdviceModal: React.FC<AdviceModalProps> = ({ level, onClose }) => {
     if (!levelAdvice[level - 1]) {
       onClose()
     }
-  }, [level, onClose])
 
-  if (!levelAdvice[level - 1]) {
-    return null
-  }
-
-  const currentAdvice = levelAdvice[level - 1] // Get just the current level's advice
-
-  useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         onClose()
@@ -29,7 +21,13 @@ const AdviceModal: React.FC<AdviceModalProps> = ({ level, onClose }) => {
 
     window.addEventListener('keydown', handleKeyPress)
     return () => window.removeEventListener('keydown', handleKeyPress)
-  }, [onClose])
+  }, [level, onClose])
+
+  if (!levelAdvice[level - 1]) {
+    return null
+  }
+
+  const currentAdvice = levelAdvice[level - 1]
 
   return (
     <div className={styles.overlay}>

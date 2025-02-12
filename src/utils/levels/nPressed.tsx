@@ -50,7 +50,7 @@ export const createNPressedConfig = ({
     },
     randomValues: {},
     description: (
-      scores: { x: number; y: number }[],
+      _scores: { x: number; y: number }[],
       _keyHistory: { key: string; time: number }[],
       percentile: number
     ) => {
@@ -81,8 +81,8 @@ export const createNPressedConfig = ({
       points: { x: number; y: number }[],
       keyHistory: { key: string; time: number }[]
     ) => {
-      var leftCount = 0
-      var rightCount = 0
+      let leftCount = 0
+      let rightCount = 0
       const accuracyArray = []
       for (let i = 0; i < keyHistory.length; i++) {
         if (keyHistory[i].key === 'ArrowLeft') {

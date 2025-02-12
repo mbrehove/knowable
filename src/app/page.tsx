@@ -5,7 +5,7 @@ import GameScreen, { LevelData } from '@/components/GameScreen'
 import LevelCompleteScreen from '../components/LevelCompleteScreen'
 import getLevelConfig from '../utils/levels/levelManager'
 import { LevelConfig } from '../utils/levels/types'
-import { numConfigs, phaseEnds } from '../utils/levels/levelManager'
+import { phaseEnds } from '../utils/levels/levelManager'
 import AboutOverlay from '@/components/AboutOverlay'
 
 export default function GamePage () {

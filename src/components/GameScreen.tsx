@@ -3,6 +3,7 @@ import AdvicePanel from './AdvicePanel'
 import AdviceModal from './AdviceModal'
 import { LevelConfig, Description } from '../utils/levels/types' // Assuming levelConfig is in the same directory
 import ScorePlot from './ScorePlot' // Assuming ScorePlot is a React component
+import Image from 'next/image'
 import Arrow from '../../public/arrow.svg'
 
 export interface LevelData {
@@ -157,10 +158,12 @@ const GameScreen: React.FC<GameScreenProps> = ({
         ) : (
           config.advice.image && (
             <div className='author-image-container'>
-              <img
+              <Image
                 src={config.advice.image}
                 alt={config.advice.author}
                 className='author-image'
+                width={200}
+                height={200}
               />
             </div>
           )
