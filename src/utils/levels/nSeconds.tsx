@@ -6,7 +6,8 @@ import { globalMaxSteps } from './levelManager'
 export const nSecondsAdvice = {
   quote: 'Patience is bitter, but its fruit is sweet.',
   author: 'Aristotle',
-  rule: 'Each key adds points equal to the number of seconds since the last key press with a maximum of 5'
+  rule: 'Each key adds points equal to the number of seconds since the last key press with a maximum of 5',
+  image: '/advice_images/transparent/Aristotle.svg'
 }
 
 export const createNSecondsConfig = ({

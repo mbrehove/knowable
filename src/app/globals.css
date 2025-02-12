@@ -1,5 +1,8 @@
 :root {
   --background-color: #b2cee6;
+  --background-color-phase-0: #b2cee6; /* Current light blue */
+  --background-color-phase-2: #d2e8d1; /* Light pastel green */
+  --background-color-phase-4: #e6d1e8; /* Light pastel pink */
   --font-family: 'Nunito', sans-serif;
 }
 
@@ -366,7 +369,7 @@ button:focus {
   right: 0;
   top: 0;
   bottom: 0;
-  width: 300px;
+  width: 400px;
   padding: 20px;
   display: flex;
   align-items: center;
@@ -376,10 +379,10 @@ button:focus {
 
 .author-image {
   width: 100%;
-  max-width: 250px;
-  height: auto;
+  height: 500px;
+  max-width: 350px;
   border-radius: 8px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 @keyframes slideDown {

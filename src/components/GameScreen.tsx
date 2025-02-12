@@ -46,6 +46,27 @@ const GameScreen: React.FC<GameScreenProps> = ({
     setShowAdviceModal(config.phase == 1)
   }, [level, config])
 
+  // Add background color effect
+  useEffect(() => {
+    const root = document.documentElement
+    if (config.phase <= 1) {
+      root.style.setProperty(
+        '--background-color',
+        'var(--background-color-phase-0)'
+      )
+    } else if (config.phase <= 3) {
+      root.style.setProperty(
+        '--background-color',
+        'var(--background-color-phase-2)'
+      )
+    } else {
+      root.style.setProperty(
+        '--background-color',
+        'var(--background-color-phase-4)'
+      )
+    }
+  }, [config.phase])
+
   // Apply scoring logic, udpat scores.
   const processKeyPress = useCallback(
     (key: string) => {
@@ -151,11 +172,15 @@ const GameScreen: React.FC<GameScreenProps> = ({
             Press left or right arrow keys to add points ({stepsTaken}/
             {config.maxSteps})
           </p>
-          <i>
-            {config.advice.quote}
-            <br />
-          </i>
-          -{config.advice.author}
+          {config.phase === 1 && (
+            <>
+              <i>
+                {config.advice.quote}
+                <br />
+              </i>
+              -{config.advice.author}
+            </>
+          )}
           <div className='plot-section'>
             <ScorePlot
               points={points}

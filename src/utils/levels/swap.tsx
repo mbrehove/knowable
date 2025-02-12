@@ -7,7 +7,8 @@ export const swapAdvice = {
   quote:
     'It is not the strongest of the species that survives, nor the most intelligent that survives. It is the one that is most adaptable to change.',
   author: 'Charels Darwin',
-  rule: 'One key adds 2 and the other subtracts 1. The keys switch at two random times during play.'
+  rule: 'One key adds 2 and the other subtracts 1. The keys switch at two random times during play.',
+  image: '/advice_images/transparent/Charles_Darwin.svg'
 }
 
 export const createSwapConfig = ({

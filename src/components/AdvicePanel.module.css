@@ -5,7 +5,7 @@
   bottom: 0;
   width: 500px;
   max-width: 90vw;
-  background-color: #b2cee6;
+  background-color: var(--background-color);
   padding: 20px;
   border-right: 1px solid #ddd;
   display: flex;
@@ -81,8 +81,8 @@
   height: 60px;
   background: linear-gradient(
     to bottom,
-    rgba(178, 206, 230, 0),
-    rgba(178, 206, 230, 1)
+    rgba(var(--background-color), 0),
+    var(--background-color)
   );
   pointer-events: none;
   z-index: 1;

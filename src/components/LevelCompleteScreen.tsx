@@ -66,6 +66,28 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
       })
   }, [level, points, level_ind, version])
 
+  // Add background color effect
+  useEffect(() => {
+    const root = document.documentElement
+    if (config.phase <= 1) {
+      root.style.setProperty(
+        '--background-color',
+        'var(--background-color-phase-0)'
+      )
+    } else if (config.phase <= 3) {
+      root.style.setProperty(
+        '--background-color',
+        'var(--background-color-phase-2)'
+      )
+    } else {
+      root.style.setProperty(
+        '--background-color',
+        'var(--background-color-phase-4)'
+      )
+    }
+
+  }, [config.phase])
+
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
@@ -73,22 +95,21 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   return (
     <div className='game-layout fade-in'>
       <div className='game-content'>
-        {config.phase > 1 ? (
+        {config.advice.image && (
+          <div className='author-image-container'>
+            <img
+              src={config.advice.image}
+              alt={config.advice.author}
+              className='author-image'
+            />
+          </div>
+        )}
+        {config.phase > 1 && (
           <AdvicePanel
             adviceIndices={config.adviceIndices}
             animate={false}
             showRule={true}
           />
-        ) : (
-          config.advice.image && (
-            <div className='author-image-container'>
-              <img
-                src={config.advice.image}
-                alt={config.advice.author}
-                className='author-image'
-              />
-            </div>
-          )
         )}
 
         <div className='main-content'>

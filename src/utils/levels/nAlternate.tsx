@@ -6,7 +6,8 @@ import { globalMaxSteps } from './levelManager'
 export const nAlternateAdvice = {
   quote: 'To improve is to change; to be perfect is to change often.',
   author: 'Winston Churchill',
-  rule: 'Each key adds points equal to the number of times the player has alternated keys.'
+  rule: 'Each key adds points equal to the number of times the player has alternated keys.',
+  image: '/advice_images/transparent/Winston_Churchill.svg'
 }
 
 export const createNAlternateConfig = ({

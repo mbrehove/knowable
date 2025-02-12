@@ -226,7 +226,27 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
     fetchPhaseScores()
   }, [phase])
 
-  console.log('WelcomeScreen phase', phase)
+  // Add background color effect
+  useEffect(() => {
+    const root = document.documentElement
+    if (phase == 0) {
+      root.style.setProperty(
+        '--background-color',
+        'var(--background-color-phase-0)'
+      )
+    } else if (phase <= 2) {
+      root.style.setProperty(
+        '--background-color',
+        'var(--background-color-phase-2)'
+      )
+    } else {
+      root.style.setProperty(
+        '--background-color',
+        'var(--background-color-phase-4)'
+      )
+    }
+
+  }, [phase])
 
   return (
     <div className='welcome-screen'>

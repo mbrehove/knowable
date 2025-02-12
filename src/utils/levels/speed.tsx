@@ -6,7 +6,8 @@ import { globalMaxSteps } from './levelManager'
 export const speedAdvice = {
   quote: 'Move fast and break things.',
   author: 'Mark Zuckerberg',
-  rule: 'Each key adds points equal to 1/seconds since the last key was pressed for a maximum of 5.'
+  rule: 'Each key adds points equal to 1/seconds since the last key was pressed for a maximum of 5.',
+  image: '/advice_images/transparent/Mark_Zuckerberg.svg'
 }
 
 export const createSpeedConfig = ({
