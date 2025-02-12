@@ -1,6 +1,5 @@
 Recommendations from Joseph:
-1. Siloets of the advice authors off to the right. 
-2: add Phase color transitions
-3: Show to Joseph again. 
-4: Port to mobile
-5: Add music
+1: Show to Joseph again. 
+2: Fix percentiles and add accuracy
+3: Port to mobile
+4: Add music

@@ -9,6 +9,7 @@ import { createNegateConfig, negateAdvice } from './negate'
 import { createSpeedConfig, speedAdvice } from './speed'
 import { createInvestConfig, investAdvice } from './invest'
 import { createRandomConfig, randomAdvice } from './random'
+import { createThreesConfig, threesAdvice } from './threes'
 import { shuffleArray } from './utils'
 
 let phase2Order: number[] | null = null
@@ -25,6 +26,7 @@ const levelConfigs = [
   createSpeedConfig,
   createUpDownConfig,
   createNegateConfig,
+  createThreesConfig,
   createRandomConfig
 ]
 
@@ -38,6 +40,7 @@ export const levelAdvice: AdviceQuote[] = [
   speedAdvice,
   upDownAdvice,
   negateAdvice,
+  threesAdvice,
   randomAdvice
 ]
 
@@ -51,7 +54,13 @@ export const phaseEnds = [
   numConfigs * 2 + nPhase2Levels,
   numConfigs * 3 + nPhase2Levels
 ]
-export const phaseNames = ['Welcome','Innocence', 'Training', 'Experience', 'Wisdom']
+export const phaseNames = [
+  'Welcome',
+  'Innocence',
+  'Training',
+  'Experience',
+  'Wisdom'
+]
 
 export const totalOptimalScore = levelConfigs.reduce((sum, levelConfigFn) => {
   const config = levelConfigFn({
