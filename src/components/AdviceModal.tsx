@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { levelAdvice } from '../utils/levels/levelManager'
+import { levelAdvice } from '../utils/levelManager'
 import styles from './AdviceModal.module.css'
 
 interface AdviceModalProps {

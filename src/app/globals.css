@@ -1,7 +1,7 @@
 :root {
   --background-color: #b2cee6;
   --background-color-phase-0: #b2cee6; /* Current light blue */
-  --background-color-phase-2: #d2e8d1; /* Light pastel green */
+  --background-color-phase-2: #78a376; /* Light pastel green */
   --background-color-phase-4: #e6d1e8; /* Light pastel pink */
   --font-family: 'Nunito', sans-serif;
 }
@@ -329,11 +329,12 @@ button:focus {
 @media (max-width: 768px) {
   .game-content {
     flex-direction: column;
-    padding: 10px;
+    padding: 1rem;
   }
 
   .main-content {
-    padding: 0 10px;
+    padding: 0 1rem;
+    width: calc(100% - 2rem);
   }
 
   .title {
@@ -342,6 +343,30 @@ button:focus {
 
   .subtitle {
     font-size: 1rem;
+  }
+
+  .author-image-container {
+    display: none; /* Hide desktop version */
+  }
+
+  .author-image-mobile {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+
+  .author-image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+  }
+
+  /* Ensure text doesn't touch edges */
+  p,
+  .level-description,
+  .score-text {
+    padding: 0 0.5rem;
   }
 }
 
@@ -372,17 +397,34 @@ button:focus {
   width: 400px;
   padding: 20px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: var(--background-color);
+  overflow-y: auto;
+  text-align: center;
 }
 
 .author-image {
-  width: 100%;
-  height: 500px;
+  width: auto;
+  height: 300px !important;
   max-width: 350px;
   border-radius: 8px;
   object-fit: contain;
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+
+.author-image-container i {
+  display: block;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
+.author-image-container br {
+  display: none; /* Remove extra space from line breaks */
 }
 
 @keyframes slideDown {

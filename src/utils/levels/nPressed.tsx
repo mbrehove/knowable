@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const nPressedAdvice = {
   quote:
@@ -62,11 +62,6 @@ export const createNPressedConfig = ({
             button each turn and yield a score of {optimalScore}. Your score is{' '}
             {percentile.toFixed(2)}% of optimal.
           </p>
-          <i>
-            {nPressedAdvice.quote}
-            <br />
-          </i>
-          -{nPressedAdvice.author}
         </div>
       )
     },

@@ -10,6 +10,7 @@
   border-right: 1px solid #ddd;
   display: flex;
   flex-direction: column;
+  z-index: 50;
 }
 
 .scrollContainer {
@@ -139,5 +140,76 @@
     border-left: none;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     padding-top: 0.75rem;
+  }
+}
+
+.menuButton {
+  display: none; /* Hidden by default on desktop */
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 40;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
+.closeButton {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 30;
+}
+
+@media (max-width: 768px) {
+  .menuButton {
+    display: block;
+  }
+
+  .closeButton {
+    display: block;
+  }
+
+  .advicePanel {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+    max-width: 100%; /* Override the desktop max-width */
+    z-index: 50;
+    border-right: none;
+  }
+
+  .advicePanel.open {
+    transform: translateX(0);
+  }
+
+  .overlay {
+    display: none;
+  }
+
+  .overlay.open {
+    display: block;
   }
 }

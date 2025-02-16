@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const nSecondsAdvice = {
   quote: 'Patience is bitter, but its fruit is sweet.',
@@ -53,11 +53,6 @@ export const createNSecondsConfig = ({
             seconds between keypresses with a maximum of {maxPointsPerKey}{' '}
             points per turn.
           </p>
-          <i>
-            {nSecondsAdvice.quote}
-            <br />
-          </i>
-          -{nSecondsAdvice.author}
         </div>
       )
     },

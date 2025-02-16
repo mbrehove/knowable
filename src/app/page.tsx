@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react'
 import WelcomeScreen from '@/components/WelcomeScreen'
 import GameScreen, { LevelData } from '@/components/GameScreen'
 import LevelCompleteScreen from '../components/LevelCompleteScreen'
-import getLevelConfig from '../utils/levels/levelManager'
-import { LevelConfig } from '../utils/levels/types'
-import { phaseEnds } from '../utils/levels/levelManager'
+import getLevelConfig from '../utils/levelManager'
+import { LevelConfig } from '../utils/types'
+import { phaseEnds } from '../utils/levelManager'
 import AboutOverlay from '@/components/AboutOverlay'
 
 export default function GamePage () {

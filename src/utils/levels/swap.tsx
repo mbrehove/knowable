@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const swapAdvice = {
   quote:
@@ -70,11 +70,6 @@ export const createSwapConfig = ({
             after this happened and adapted quickly, you could have achieved a
             score of {optimalScore}.
           </p>
-          <i>
-            {swapAdvice.quote}
-            <br />
-          </i>
-          -{swapAdvice.author}
         </div>
       )
     },

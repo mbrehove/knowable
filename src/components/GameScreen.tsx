@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import AdvicePanel from './AdvicePanel'
 import AdviceModal from './AdviceModal'
-import { LevelConfig, Description } from '../utils/levels/types' // Assuming levelConfig is in the same directory
+import { LevelConfig, Description } from '../utils/types' // Assuming levelConfig is in the same directory
 import ScorePlot from './ScorePlot' // Assuming ScorePlot is a React component
 import Image from 'next/image'
 import Arrow from '../../public/arrow.svg'
@@ -36,7 +36,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     []
   )
   const [lastKeyPressTime, setLastKeyPressTime] = useState(Date.now())
-  const [showAdviceModal, setShowAdviceModal] = useState(true)
+  const [showAdviceModal, setShowAdviceModal] = useState(false) //Turning this off for now
 
   useEffect(() => {
     // Reset points and steps when the level changes
@@ -44,7 +44,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
     setStepsTaken(0)
     setKeyHistory([])
     setLastKeyPressTime(Date.now())
-    setShowAdviceModal(config.phase == 1)
+    // setShowAdviceModal(config.phase == 1)
   }, [level, config])
 
   // Add background color effect
@@ -149,41 +149,39 @@ const GameScreen: React.FC<GameScreenProps> = ({
   return (
     <div className='game-layout fade-in'>
       <div className='game-content'>
-        {config.phase > 1 ? (
+        {config.phase > 1 && (
           <AdvicePanel
             adviceIndices={config.adviceIndices}
             animate={false}
             showRule={true}
           />
-        ) : (
-          config.advice.image && (
+        )}
+
+        <div className='main-content'>
+          <h2 className='title'>Level {level}</h2>
+
+          {config.phase === 1 && config.advice.image && (
             <div className='author-image-container'>
               <Image
                 src={config.advice.image}
                 alt={config.advice.author}
                 className='author-image'
-                width={200}
-                height={200}
+                width={350}
+                height={300}
               />
-            </div>
-          )
-        )}
-
-        <div className='main-content'>
-          <h2 className='title'>Level {level}</h2>
-          <p className='subtitle'>
-            Press left or right arrow keys to add points ({stepsTaken}/
-            {config.maxSteps})
-          </p>
-          {config.phase === 1 && (
-            <>
               <i>
                 {config.advice.quote}
                 <br />
               </i>
               -{config.advice.author}
-            </>
+            </div>
           )}
+
+          <p className='subtitle'>
+            Press left or right arrow keys to add points ({stepsTaken}/
+            {config.maxSteps})
+          </p>
+
           <div className='plot-section'>
             <ScorePlot
               points={points}

@@ -1,8 +1,8 @@
 import React from 'react'
-import { LevelConfig } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
-import { CreateLevelConfigParams } from './types'
+import { LevelConfig } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
+import { CreateLevelConfigParams } from '../types'
 
 export const fixedAdvice = {
   quote:
@@ -59,11 +59,6 @@ export const createFixedConfig = ({
             the higher-scoring button. This would yield a score of{' '}
             {optimalScore}.
           </p>
-          <i>
-            {fixedAdvice.quote}
-            <br />
-          </i>
-          -{fixedAdvice.author}
         </div>
       )
     },

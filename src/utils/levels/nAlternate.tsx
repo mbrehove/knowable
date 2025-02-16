@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const nAlternateAdvice = {
   quote: 'To improve is to change; to be perfect is to change often.',
@@ -57,11 +57,6 @@ export const createNAlternateConfig = ({
             that you alternated keys. Optimal play would have averaged{' '}
             {optimalScore.toFixed(2)}.
           </p>
-          <i>
-            {nAlternateAdvice.quote}
-            <br />
-          </i>
-          -{nAlternateAdvice.author}
         </div>
       )
     },

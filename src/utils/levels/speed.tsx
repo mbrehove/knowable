@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const speedAdvice = {
   quote: 'Move fast and break things.',
@@ -55,12 +55,6 @@ export const createSpeedConfig = ({
             is the time in seconds, with a maximum of {maxPointsPerKey} points
             per keypress for a maximum possible score of {optimalScore}.
           </p>
-          <p>Advice:</p>
-          <i>
-            {speedAdvice.quote}
-            <br />
-          </i>
-          -{speedAdvice.author}
         </div>
       )
     },

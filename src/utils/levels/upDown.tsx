@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const upDownAdvice = {
   quote: "Rules are made for people who aren't willing to make their own.",
@@ -81,12 +81,6 @@ export const createUpDownConfig = ({
             {optimalScore}. You scored better than{' '}
             <b>{percentile.toFixed(1)}%</b> of players on this level.
           </p>
-          <p>Advice:</p>
-          <i>
-            {upDownAdvice.quote}
-            <br />
-          </i>
-          -{upDownAdvice.author}
         </div>
       )
     },

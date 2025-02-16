@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const investAdvice = {
   quote:
@@ -64,11 +64,6 @@ export const createInvestConfig = ({
             cashing in by pressing {pointsKey.slice(5)} the rest of the way to
             yeld a score of <b>{optimalScore}</b>.
           </p>
-          <i>
-            {investAdvice.quote}
-            <br />
-          </i>
-          -{investAdvice.author}
         </div>
       )
     },

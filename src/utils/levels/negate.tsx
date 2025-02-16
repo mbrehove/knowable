@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const negateAdvice = {
   quote: 'Sometimes we need to lose the small battles in order to win the war.',
@@ -65,11 +65,6 @@ export const createNegateConfig = ({
             Your score is {scorePercent.toFixed(2)}% of optimal.
           </p>
           <p>Advice:</p>
-          <i>
-            {negateAdvice.quote}
-            <br />
-          </i>
-          -{negateAdvice.author}
         </div>
       )
     },

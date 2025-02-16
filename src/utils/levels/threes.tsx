@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const threesAdvice = {
   quote: 'If it comes in three let it be.',
@@ -19,7 +19,7 @@ export const createThreesConfig = ({
 }: CreateLevelConfigParams): LevelConfig => {
   const zeroKey = Math.random() > 0.5 ? 'ArrowRight' : 'ArrowLeft'
   const pointKey = zeroKey === 'ArrowRight' ? 'ArrowLeft' : 'ArrowRight'
-  const optimalScore = ((maxSteps - 1) * maxSteps) / 2
+  const optimalScore = (maxSteps / 3) * 2
   const maxScore = optimalScore
   const noise = getNoise(noiseLevel, maxSteps)
   const pointKeyValue = 2
@@ -56,17 +56,10 @@ export const createThreesConfig = ({
       return (
         <div>
           <p className='level-description-text'>
-            In this level, the score you got from a button equals the number of
-            times the <i>other</i> button was pressed. The optimal play would
-            press one button for the first {maxSteps / 2} turns and the other
-            button for the last {maxSteps / 2}
-            turns and yield a score of {optimalScore}.
+            In this level, the {zeroKey.slice(5)} key always adds 0. The{' '}
+            {pointKey.slice(5)} key adds 2 unless the turn is divisible by 3 in
+            which it subtracts 4.
           </p>
-          <i>
-            {threesAdvice.quote}
-            <br />
-          </i>
-          -{threesAdvice.author}
         </div>
       )
     },

@@ -1,7 +1,7 @@
 import React from 'react'
-import { LevelConfig, CreateLevelConfigParams } from './types'
-import { getNoise } from './utils'
-import { globalMaxSteps } from './levelManager'
+import { LevelConfig, CreateLevelConfigParams } from '../types'
+import { getNoise } from '../utils'
+import { globalMaxSteps } from '../levelManager'
 
 export const randomAdvice = {
   quote:
@@ -62,11 +62,6 @@ export const createRandomConfig = ({
             you did, I&apos;m sorry, but that&apos;s how life is sometimes.
             Maybe you need to learn how relax and enjoy things more.
           </p>
-          <i>
-            {randomAdvice.quote}
-            <br />
-          </i>
-          -{randomAdvice.author}
         </div>
       )
     },

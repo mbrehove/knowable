@@ -5,7 +5,7 @@ import {
   totalOptimalScore,
   phaseEnds,
   phaseNames
-} from '../utils/levels/levelManager'
+} from '../utils/levelManager'
 
 interface WelcomeScreenProps {
   onStart: () => void

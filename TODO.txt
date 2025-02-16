@@ -1,5 +1,8 @@
 Recommendations from Joseph:
-1: Show to Joseph again. 
-2: Fix percentiles and add accuracy
-3: Port to mobile
-4: Add music
+
+2: Port to mobile
+3: Fix percentiles and add 
+4: advie disappears as it's used.
+5: colors/visuals
+5: add something sharable
+6: Add music

@@ -5,7 +5,8 @@ import Image from 'next/image'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
 import AdvicePanel from './AdvicePanel' // Add this import
 import { LevelData } from './GameScreen'
-import { LevelConfig } from '../utils/levels/types'
+import { LevelConfig } from '../utils/types'
+import { calculatePercentile, fetchScores, submitScore } from '../utils/utils'
 
 interface LevelCompleteScreenProps {
   level: number
@@ -33,38 +34,29 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   const totalCorrect = accuracyArray.filter(Boolean).length
 
   useEffect(() => {
-    fetch(`/api/scores?level_ind=${level_ind}&version=${version}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok')
-        }
-        return response.json()
-      })
-      .then((scores: number[]) => {
+    const fetchAndSubmitScore = async () => {
+      try {
         const currentScore = points[points.length - 1]?.y || 0
-        if (scores.length === 0) {
-          setPercentile(100)
-        } else {
-          const sortedScores = scores.sort((a, b) => a - b)
-          const rank =
-            sortedScores.findIndex(score => score >= currentScore) + 1
-          const percentile = (rank / sortedScores.length) * 100
-          setPercentile(percentile)
-        }
+        const scores = await fetchScores(level_ind, version)
+        const calculatedPercentile = calculatePercentile(currentScore, scores)
+        setPercentile(calculatedPercentile)
+
         const user_id = getUserId()
-        submitScore(
+        await submitScore({
           level_ind,
           level,
-          currentScore,
+          score: currentScore,
           version,
           user_id,
           percentScore
-        )
-      })
-      .catch(error => {
-        console.error('Error fetching scores:', error)
+        })
+      } catch (error) {
+        console.error('Error handling scores:', error)
         setPercentile(100)
-      })
+      }
+    }
+
+    fetchAndSubmitScore()
   }, [level, points, level_ind, version, percentScore])
 
   // Add background color effect
@@ -101,9 +93,14 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
               src={config.advice.image}
               alt={config.advice.author}
               className='author-image'
-              width={200}
-              height={200}
+              width={350}
+              height={300}
             />
+            <i>
+              {config.advice.quote}
+              <br />
+            </i>
+            -{config.advice.author}
           </div>
         )}
         {config.phase > 1 && (
@@ -117,16 +114,40 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
         <div className='main-content'>
           <h2 className='title'>Level {level} Complete</h2>
 
-          <p className='score-text'>
-            You scored {currentScore}/{config.maxScore} ={' '}
-            <strong>{percentScore.toFixed(1)}% </strong> with an accuracy of{' '}
-            {totalCorrect}/{accuracyArray.length} ={' '}
-            <strong>
-              {((totalCorrect / accuracyArray.length) * 100).toFixed(1)}%
-            </strong>{' '}
-            which was better than <strong>{percentile?.toFixed(1)}%</strong> of
-            players.
-          </p>
+          <div className='score-text'>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Score:</td>
+                  <td>
+                    {currentScore}/{config.maxScore}
+                  </td>
+                  <td>
+                    <strong>{percentScore.toFixed(0)}%</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Accuracy:</td>
+                  <td>
+                    {totalCorrect}/{accuracyArray.length}
+                  </td>
+                  <td>
+                    <strong>
+                      {((totalCorrect / accuracyArray.length) * 100).toFixed(0)}
+                      %
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Percentile:</td>
+                  <td></td>
+                  <td colSpan={2}>
+                    <strong>{percentile?.toFixed(0)}%</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div className='level-description'>
             {description(points, keyHistory, percentile ?? 100)}
           </div>
@@ -161,42 +182,6 @@ const getUserId = () => {
     localStorage.setItem('user_id', user_id)
   }
   return user_id
-}
-
-const submitScore = async (
-  level_ind: number,
-  level: number,
-  score: number,
-  version: number,
-  user_id: string,
-  percentScore: number
-) => {
-  try {
-    console.log({ level_ind, level, score, version, user_id, percentScore })
-    const response = await fetch('/api/scores', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        level_ind,
-        level,
-        score,
-        version,
-        user_id,
-        percentScore
-      })
-    })
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-
-    const data = await response.json()
-    console.log('Score submitted successfully:', data)
-  } catch (error) {
-    console.error('Error submitting score:', error)
-  }
 }
 
 export default LevelCompleteScreen
