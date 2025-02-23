@@ -5,13 +5,36 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 export default async function handler (req, res) {
+  console.log('API Request:', {
+    method: req.method,
+    query: req.query,
+    body: req.method === 'POST' ? req.body : undefined
+  })
+
   if (req.method === 'POST') {
-    // Check if this is a phase score
-    if (req.body.phase !== undefined) {
-      const { phase, score, user_id, version } = req.body
-      const { error } = await supabase
-        .from('phase_scores')
-        .insert([{ phase, score, user_id, version }])
+    const {
+      phase,
+      score,
+      user_id,
+      version,
+      accuracy,
+      level_ind,
+      level,
+      percent
+    } = req.body
+    console.log('POST body:', req.body)
+
+    // If it's a phase-level submission (no specific level)
+    if (level === undefined && level_ind === undefined) {
+      const { error } = await supabase.from('phase_scores').insert([
+        {
+          phase,
+          score,
+          user_id,
+          version,
+          accuracy
+        }
+      ])
 
       if (error) {
         console.error('Error inserting phase score:', error)
@@ -20,11 +43,19 @@ export default async function handler (req, res) {
         res.status(201).json({ message: 'Phase score submitted successfully' })
       }
     } else {
-      const { level_ind, level, score, version, user_id, percent} = req.body
-      console.log('POST body:', req.body)
-      const { error } = await supabase
-        .from('scores')
-        .insert([{ level_ind, level, score, version, user_id, percent }])
+      // It's a level-specific score
+      const { error } = await supabase.from('scores').insert([
+        {
+          level_ind,
+          level,
+          score,
+          version,
+          user_id,
+          percent,
+          phase,
+          accuracy
+        }
+      ])
 
       if (error) {
         console.error('Error inserting score:', error)
@@ -35,103 +66,76 @@ export default async function handler (req, res) {
       }
     }
   } else if (req.method === 'GET') {
-    if (req.query.phase !== undefined) {
-      const { phase, version } = req.query
-      const { data, error } = await supabase
-        .from('phase_scores')
-        .select('score')
-        .eq('phase', phase)
-        .eq('version', version || 0)
+    const { type, phase, version, level_ind, user_id } = req.query
 
-      if (error) {
-        res.status(500).json({ error: error.message })
-      } else {
-        res.status(200).json(data.map(row => row.score))
-      }
-    } else {
-      // Check if this is a phase scores request
-      if (req.query.start_level && req.query.end_level && req.query.user_id) {
-        const { start_level, end_level, user_id } = req.query
+    // Log the parsed query parameters
+    console.log('Parsed query parameters:', {
+      type,
+      phase,
+      version,
+      level_ind,
+      user_id
+    })
 
-        try {
-          // Get user's scores for the phase
-          const { data: userScores, error: userError } = await supabase
-            .from('scores')
-            .select('level, score, created_at')
-            .eq('user_id', user_id)
-            .gte('level', start_level)
-            .lte('level', end_level)
-            .order('created_at', { ascending: false })
-
-          if (userError) throw userError
-
-          // Get only the most recent score for each level
-          const latestScores = new Map()
-          userScores.forEach(score => {
-            if (!latestScores.has(score.level)) {
-              latestScores.set(score.level, score.score)
-            }
-          })
-
-          const totalScore = Array.from(latestScores.values()).reduce(
-            (sum, score) => sum + score,
-            0
-          )
-
-          // Get all users' scores for this phase
-          const { data: allScores, error: allError } = await supabase
-            .from('scores')
-            .select('user_id, score, level, created_at')
-            .gte('level', start_level)
-            .lte('level', end_level)
-            .order('created_at', { ascending: false })
-
-          if (allError) throw allError
-
-          // Calculate other users' total scores
-          const userTotals = new Map()
-          allScores.forEach(score => {
-            if (!userTotals.has(score.user_id)) {
-              userTotals.set(score.user_id, new Map())
-            }
-            const userScores = userTotals.get(score.user_id)
-            if (!userScores.has(score.level)) {
-              userScores.set(score.level, score.score)
-            }
-          })
-
-          const allTotalScores = Array.from(userTotals.values()).map(scores =>
-            Array.from(scores.values()).reduce((sum, score) => sum + score, 0)
-          )
-
-          // Calculate percentile
-          const sortedScores = allTotalScores.sort((a, b) => b - a) // Sort descending
-          const rank = sortedScores.findIndex(score => score <= totalScore) + 1
-          const percentile =
-            sortedScores.length > 1 ? ((sortedScores.length - rank + 1) / sortedScores.length) * 100 : null
-
-          res.status(200).json({ totalScore, percentile })
-        } catch (error) {
-          console.error('Error:', error)
-          res.status(500).json({ error: error.message })
-        }
-      } else {
-        // Existing level scores logic
-        const { level_ind, version } = req.query
+    try {
+      // Type 1: Get all scores for a specific level
+      if (type === 'level_scores') {
         const { data, error } = await supabase
           .from('scores')
           .select('score')
           .eq('level_ind', level_ind)
           .eq('version', version)
 
-        if (error) {
-          console.error('Error fetching scores:', error)
-          res.status(500).json({ error: error.message })
-        } else {
-          console.log('Fetched scores:', data)
-          res.status(200).json(data.map(row => row.score))
-        }
+        if (error) throw error
+        return res.status(200).json(data.map(row => row.score))
       }
+
+      // Type 2: Get all phase scores for all players
+      if (type === 'phase_scores') {
+        const { data, error } = await supabase
+          .from('phase_scores')
+          .select('score')
+          .eq('phase', phase)
+          .eq('version', version || 0)
+
+        if (error) throw error
+        return res.status(200).json(data.map(row => row.score))
+      }
+
+      // Type 3: Get user's scores for a specific phase
+      if (type === 'user_phase_scores') {
+        const { data: userScores, error: userError } = await supabase
+          .from('scores')
+          .select('level, score, created_at')
+          .eq('user_id', user_id)
+          .eq('phase', phase)
+          .order('created_at', { ascending: false })
+
+        if (userError) throw userError
+
+        // Get only the most recent score for each level
+        const latestScores = new Map()
+        userScores.forEach(score => {
+          if (!latestScores.has(score.level)) {
+            latestScores.set(score.level, score.score)
+          }
+        })
+
+        const totalScore = Array.from(latestScores.values()).reduce(
+          (sum, score) => sum + score,
+          0
+        )
+
+        return res.status(200).json({ totalScore })
+      }
+
+      throw new Error('Invalid request type')
+    } catch (error) {
+      console.error('Error in scores API:', error)
+      res.status(500).json({
+        error: error.message,
+        details: error.toString()
+      })
     }
   } else {
     res.status(405).json({ message: 'Method not allowed' })

@@ -46,6 +46,8 @@ interface ScoreSubmission {
   version: number
   user_id: string
   percentScore: number
+  accuracy: number
+  phase: number
 }
 
 export const calculatePercentile = (
@@ -66,7 +68,7 @@ export const fetchScores = async (
   version: number
 ): Promise<number[]> => {
   const response = await fetch(
-    `/api/scores?level_ind=${level_ind}&version=${version}`
+    `/api/scores?type=level_scores&level_ind=${level_ind}&version=${version}`
   )
   if (!response.ok) {
     throw new Error('Network response was not ok')

@@ -1,11 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import {
-  totalOptimalScore,
-  phaseEnds,
-  phaseNames
-} from '../utils/levelManager'
+import { totalOptimalScore, phaseEnds, phaseNames } from '../utils/levelManager'
 
 interface WelcomeScreenProps {
   onStart: () => void
@@ -173,28 +169,39 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
       if (phase === 0) return
 
       const user_id = localStorage.getItem('user_id')
-      if (!user_id) return
+      if (!user_id) {
+        console.error('No user_id found in localStorage')
+        return
+      }
 
       const previousPhase = phase - 1
-      const startLevel =
-        previousPhase === 0 ? 1 : phaseEnds[previousPhase - 1] + 1
-      const endLevel = phaseEnds[previousPhase]
 
       try {
         // First get the user's total score for this phase from the scores table
         const response = await fetch(
-          `/api/scores?start_level=${startLevel}&end_level=${endLevel}&user_id=${user_id}`
+          `/api/scores?type=user_phase_scores&phase=${phase}&user_id=${user_id}`
         )
-        if (!response.ok) throw new Error('Failed to fetch user scores')
-        const { totalScore } = await response.json()
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          console.error('API Error:', {
+            status: response.status,
+            statusText: response.statusText,
+            error: errorData
+          })
+          throw new Error(`Failed to fetch user scores: ${response.statusText}`)
+        }
+
+        const data = await response.json()
+        console.log('Received score data:', data)
 
         // Submit this score to phase_scores
         await fetch('/api/scores', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            phase: previousPhase,
-            score: totalScore,
+            phase: phase,
+            score: data.totalScore,
             user_id,
             version: 0
           })
@@ -202,21 +209,26 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
 
         // Get all phase scores to calculate percentile
         const phaseResponse = await fetch(
-          `/api/scores?phase=${previousPhase}&version=0`
+          `/api/scores?type=phase_scores&phase=${previousPhase}&version=0`
         )
         if (!phaseResponse.ok) {
           console.error('Failed to fetch phase scores')
-          setPhaseScore({ totalScore, percentile: null })
+          setPhaseScore({ totalScore: data.totalScore, percentile: null })
           return
         }
         const scores: number[] = await phaseResponse.json()
 
-        const rank = scores.filter(score => score < totalScore).length
+        const rank = scores.filter(score => score < data.totalScore).length
         const percentile =
           scores.length > 1 ? (rank / scores.length) * 100 : null
-        console.log('phaseScore', { totalScore, percentile, rank, scores })
+        console.log('phaseScore', {
+          totalScore: data.totalScore,
+          percentile,
+          rank,
+          scores
+        })
 
-        setPhaseScore({ totalScore, percentile })
+        setPhaseScore({ totalScore: data.totalScore, percentile })
       } catch (error) {
         console.error('Error:', error)
       }
@@ -244,7 +256,6 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
         'var(--background-color-phase-4)'
       )
     }
-
   }, [phase])
 
   return (

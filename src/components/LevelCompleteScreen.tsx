@@ -32,11 +32,11 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   // Calculate accuracy array using the config's accuracy function
   const accuracyArray = config.accuracy(points, keyHistory)
   const totalCorrect = accuracyArray.filter(Boolean).length
+  const accuracy = totalCorrect / accuracyArray.length
 
   useEffect(() => {
     const fetchAndSubmitScore = async () => {
       try {
-        const currentScore = points[points.length - 1]?.y || 0
         const scores = await fetchScores(level_ind, version)
         const calculatedPercentile = calculatePercentile(currentScore, scores)
         setPercentile(calculatedPercentile)
@@ -48,7 +48,9 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
           score: currentScore,
           version,
           user_id,
-          percentScore
+          percentScore,
+          accuracy,
+          phase: config.phase
         })
       } catch (error) {
         console.error('Error handling scores:', error)
@@ -57,7 +59,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
     }
 
     fetchAndSubmitScore()
-  }, [level, points, level_ind, version, percentScore])
+  }, []) // ✅ Empty dependency array means run once when mounted
 
   // Add background color effect
   useEffect(() => {
@@ -132,17 +134,14 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
                     {totalCorrect}/{accuracyArray.length}
                   </td>
                   <td>
-                    <strong>
-                      {((totalCorrect / accuracyArray.length) * 100).toFixed(0)}
-                      %
-                    </strong>
+                    <strong>{(accuracy * 100).toFixed(0)}%</strong>
                   </td>
                 </tr>
                 <tr>
                   <td>Percentile:</td>
                   <td></td>
                   <td colSpan={2}>
-                    <strong>{percentile?.toFixed(0)}%</strong>
+                    <strong>{percentile?.toFixed(0)}%</strong> of players
                   </td>
                 </tr>
               </tbody>
