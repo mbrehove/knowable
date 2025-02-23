@@ -1,5 +1,5 @@
 // LevelCompleteScreen.tsx
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import Image from 'next/image'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
@@ -26,6 +26,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
 }) => {
   const { points, keyHistory, description, level_ind, version } = levelData
   const [percentile, setPercentile] = useState<number | null>(null)
+  const hasSubmittedRef = useRef(false)
   const currentScore = points[points.length - 1]?.y || 0
   const percentScore = (currentScore / config.maxScore) * 100
 
@@ -36,12 +37,25 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
 
   useEffect(() => {
     const fetchAndSubmitScore = async () => {
+      if (hasSubmittedRef.current) return
       try {
+        hasSubmittedRef.current = true
         const scores = await fetchScores(level_ind, version)
         const calculatedPercentile = calculatePercentile(currentScore, scores)
         setPercentile(calculatedPercentile)
 
         const user_id = getUserId()
+        console.log('Attempting to submit score:', {
+          level_ind,
+          level,
+          score: currentScore,
+          version,
+          user_id,
+          percentScore,
+          accuracy,
+          phase: config.phase,
+          timestamp: new Date().toISOString()
+        })
         await submitScore({
           level_ind,
           level,
