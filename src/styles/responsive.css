@@ -1,0 +1,129 @@
+/* Responsive styles (mobile-specific) */
+@media (max-width: 768px) {
+  /* Layout changes */
+  .game-content {
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  .main-content {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+  }
+
+  .subtitle {
+    margin-bottom: 0.25rem;
+  }
+
+  /* Plot section */
+  .plot-section {
+    aspect-ratio: 1/2;
+    width: 100%;
+    flex: 1 1 auto;
+    margin: 0.5rem auto;
+    border-radius: 8px; /* Restore border radius */
+    overflow: hidden; /* Ensure content doesn't overflow */
+  }
+
+  /* Level description and text */
+  .level-description {
+    max-height: 25vh; /* Allow more space for description on mobile */
+  }
+
+  /* Game layout */
+  .game-layout {
+    width: 100%;
+    height: 100vh;
+    touch-action: manipulation; /* Improve touch responsiveness */
+  }
+
+  /* Text spacing */
+  p,
+  .level-description,
+  .score-text {
+    padding: 0 0.5rem;
+  }
+
+  /* Level complete screen for mobile */
+  .level-complete-screen .score-text,
+  .level-complete-screen .level-description {
+    width: 100%;
+    padding: 5px;
+    font-size: clamp(0.75rem, 2vmin, 0.9rem);
+  }
+
+  .level-complete-screen .plot-section {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  /* Button container for mobile */
+  .button-container {
+    margin-top: 0.5rem;
+  }
+
+  button {
+    padding: 0.3rem 0.8rem;
+    margin-top: 0.3rem;
+  }
+
+  /* Hide desktop author image container */
+  .author-image-container {
+    display: none;
+  }
+
+  /* Menu button and advice panel */
+  .menu-button {
+    display: block;
+  }
+
+  .advice-panel {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100% !important;
+    height: 100vh !important;
+    max-width: 100% !important;
+    z-index: 1100;
+    transition: left 0.3s ease;
+    background: var(--background-color) !important;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .advice-panel.open {
+    left: 0;
+  }
+
+  /* Welcome screen for mobile */
+  .welcome-container {
+    padding: 15px;
+    max-width: 100%;
+  }
+
+  .welcome-content {
+    max-height: 70vh;
+    font-size: clamp(0.8rem, 2vmin, 1rem);
+    padding: 5px;
+  }
+
+  .welcome-screen h1 {
+    font-size: clamp(1.2rem, 3vmin, 1.8rem);
+    margin-bottom: 10px;
+  }
+
+  .welcome-screen .button-container {
+    margin-top: 10px;
+  }
+}

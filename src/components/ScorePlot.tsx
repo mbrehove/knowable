@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer
 } from 'recharts'
+import Image from 'next/image'
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -20,14 +20,31 @@ interface ScorePlotProps {
   keyHistory: { key: string; time: number }[]
   xDomain: [number, number]
   accuracy?: boolean[]
+  image?: string
+  authorName?: string
+  authorQuote?: string
 }
 
 const ScorePlot: React.FC<ScorePlotProps> = ({
   points,
   keyHistory,
   xDomain,
-  accuracy
+  accuracy,
+  image
 }) => {
+  const [isMobile, setIsMobile] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   // Custom Dot component
   const CustomDot: React.FC<{
     cx?: number
@@ -68,7 +85,7 @@ const ScorePlot: React.FC<ScorePlotProps> = ({
       <IconComponent
         x={cx - 5}
         y={cy - 5}
-        size={20}
+        size={isMobile ? 15 : 20}
         color={color}
         style={{ position: 'absolute' }}
       />
@@ -84,61 +101,131 @@ const ScorePlot: React.FC<ScorePlotProps> = ({
   const changeSign = change >= 0 ? '+' : ''
 
   return (
-    <div style={{ width: '100%' }}>
-      <h2>
+    <div
+      ref={containerRef}
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: isMobile ? 'none' : '500px'
+      }}
+    >
+      <div
+        style={{
+          fontSize: isMobile ? '1rem' : '1.2rem',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          margin: isMobile ? '5px 0' : '10px 0'
+        }}
+      >
         Current Score: {currentScore.toFixed(2)} ({changeSign}
         <span style={{ color: changeColor }}>{formattedChange}</span>)
-      </h2>
-      <div style={{ width: '100%', height: '400px' }}>
-        <ResponsiveContainer width='100%' height='100%'>
-          <LineChart
-            data={points}
-            margin={{ top: 5, right: 30, left: 50, bottom: 25 }}
-          >
-            <CartesianGrid strokeDasharray='3 3' />
-            <XAxis
-              dataKey='x'
-              label={{
-                value: 'Turn',
-                position: 'bottom',
-                offset: 0,
-                style: { fontSize: '24px' }
+      </div>
+      <div
+        style={{
+          width: '100%',
+          position: 'relative',
+          paddingTop: '100%',
+          margin: '0 auto' // Center the square container
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%'
+          }}
+        >
+          {isMobile && image && (
+            <Image
+              src={image}
+              fill
+              style={{
+                left: '20%',
+                top: '10%',
+                right: '20%',
+                bottom: '10%',
+                objectFit: 'cover',
+                maxWidth: '70%',
+                maxHeight: '70%'
               }}
-              strokeWidth={6}
-              domain={xDomain}
-              type='number'
-              tick={{ fontSize: '24px' }}
+              alt='Plot visualization'
             />
-            <YAxis
-              label={{
-                value: 'Score',
-                angle: -90,
-                position: 'insideLeft',
-                offset: -5,
-                style: { fontSize: '24px' }
-              }}
-              strokeWidth={6}
-              tick={{ fontSize: '24px' }}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: 'transparent',
-                border: '1px solid #8884d8',
-                color: '#000'
-              }}
-            />
-            <Line
-              type='monotone'
-              dataKey='y'
-              strokeWidth={6} // Thicker plotted line
-              animationDuration={200}
-              dot={props => {
-                const { key, ...otherProps } = props
-                return <CustomDot key={key} {...otherProps} />
-              }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
+          )}
+          <ResponsiveContainer width='100%' height='100%'>
+            <LineChart
+              data={points}
+              margin={
+                isMobile
+                  ? { top: 5, right: 5, left: 10, bottom: 20 }
+                  : { top: 5, right: 20, left: 20, bottom: 20 }
+              }
+            >
+              <XAxis
+                dataKey='x'
+                label={{
+                  value: 'Turn',
+                  position: 'bottom',
+                  offset: 0,
+                  style: {
+                    fontSize: isMobile ? '0.9rem' : '1rem',
+                    fill: '#333333',
+                    fontWeight: 500
+                  }
+                }}
+                strokeWidth={isMobile ? 2 : 3}
+                domain={xDomain}
+                type='number'
+                tick={{
+                  fontSize: isMobile ? '0.85rem' : '0.95rem',
+                  fill: '#333333'
+                }}
+                stroke='#333333'
+              />
+              <YAxis
+                label={{
+                  value: 'Score',
+                  angle: -90,
+                  position: 'left',
+                  offset: isMobile ? -5 : -10,
+                  style: {
+                    fontSize: isMobile ? '0.9rem' : '1rem',
+                    fill: '#333333',
+                    fontWeight: 500,
+                    textAnchor: 'middle'
+                  }
+                }}
+                strokeWidth={isMobile ? 2 : 3}
+                tick={{
+                  fontSize: isMobile ? '0.85rem' : '0.95rem',
+                  fill: '#333333'
+                }}
+                stroke='#333333'
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'transparent',
+                  border: '1px solid #8884d8',
+                  color: '#000'
+                }}
+              />
+              <Line
+                type='monotone'
+                dataKey='y'
+                strokeWidth={isMobile ? 3 : 4}
+                stroke='#8884d8'
+                animationDuration={200}
+                dot={props => {
+                  const { key, ...otherProps } = props
+                  return <CustomDot key={key} {...otherProps} />
+                }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   )

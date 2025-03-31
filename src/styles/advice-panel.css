@@ -1,0 +1,100 @@
+/* Advice panel styling */
+.advice-panel {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 350px;
+  max-width: 30vw;
+  background-color: var(--background-color);
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+}
+
+.advice-panel h3 {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #ddd;
+}
+
+.advice-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.advice-panel li {
+  padding: 12px;
+  margin-bottom: 8px;
+  background-color: var(--background-color);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.advice-scroll-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.advice-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.advice-scroll-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.advice-scroll-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.advice-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Mobile advice text */
+.mobile-advice-text {
+  text-align: center;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  font-size: clamp(0.8rem, 2vmin, 0.95rem);
+  line-height: 1.3;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+}
+
+.mobile-advice-text i {
+  font-style: italic;
+}
+
+.mobile-author {
+  margin-top: 5px;
+  font-weight: 500;
+  text-align: right;
+}
+
+/* Overlay for mobile advice panel */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1050;
+  display: none;
+}
+
+.overlay.open {
+  display: block;
+}

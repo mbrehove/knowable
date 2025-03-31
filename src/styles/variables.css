@@ -1,0 +1,7 @@
+:root {
+  --background-color: #b2cee6;
+  --background-color-phase-0: #b2cee6; /* Current light blue */
+  --background-color-phase-2: #78a376; /* Light pastel green */
+  --background-color-phase-4: #e6d1e8; /* Light pastel pink */
+  --font-family: 'Nunito', sans-serif;
+}

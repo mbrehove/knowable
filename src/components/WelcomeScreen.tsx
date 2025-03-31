@@ -159,10 +159,21 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   level
 }) => {
   const [phaseScore, setPhaseScore] = useState<PhaseScore | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
   const foundPhase = phaseEnds.findIndex(endLevel => level <= endLevel)
   const phase = foundPhase === -1 ? phaseEnds.length : foundPhase // phaseEnds.length is the game end
 
   const isGameEnd = phase === phaseEnds.length
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const fetchPhaseScores = async () => {
@@ -259,19 +270,23 @@ const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   }, [phase])
 
   return (
-    <div className='welcome-screen'>
-      <PhaseContent phase={phase} score={phaseScore || undefined} />
-      <div className='button-container'>
-        {!isGameEnd && (
-          <>
-            <button onClick={onStart} autoFocus>
-              Press Enter to Continue
-            </button>
-            {onSkip && phase < phaseEnds.length - 1 && (
-              <button onClick={onSkip}>Skip to {phaseNames[phase + 2]} </button>
-            )}
-          </>
-        )}
+    <div className='game-layout welcome-screen'>
+      <div className='welcome-container'>
+        <PhaseContent phase={phase} score={phaseScore || undefined} />
+        <div className='button-container'>
+          {!isGameEnd && (
+            <>
+              <button onClick={onStart} autoFocus>
+                {isMobile ? 'Tap to start' : 'Press Enter to Continue'}
+              </button>
+              {onSkip && phase < phaseEnds.length - 1 && (
+                <button onClick={onSkip}>
+                  Skip to {phaseNames[phase + 2]}{' '}
+                </button>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   )

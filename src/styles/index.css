@@ -1,0 +1,17 @@
+/* Main CSS entry point - imports all other CSS files */
+
+/* Import base styles and variables */
+@import './variables.css';
+@import './base.css';
+@import './container.css';
+
+/* Import component-specific styles */
+@import './welcome.css';
+@import './buttons.css';
+@import './level-complete.css';
+@import './plot.css';
+@import './advice-panel.css';
+@import './author-display.css';
+
+/* Import responsive styles (should be last to override other styles) */
+@import './responsive.css';

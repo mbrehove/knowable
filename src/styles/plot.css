@@ -1,0 +1,63 @@
+/* Plot styles */
+.plot-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  flex-grow: 1;
+}
+
+.plot-section {
+  width: 100%;
+  flex: 0 1 auto; /* Don't grow, but allow shrinking */
+  min-height: 0; /* Important for flex child to be able to shrink */
+  position: relative;
+  margin: 0.5rem auto;
+  box-sizing: border-box;
+  aspect-ratio: 1/2; /* Preserve the aspect ratio */
+}
+
+.plot-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.plot-quote {
+  display: none; /* Hide quote text in plot overlay */
+}
+
+/* Recharts customizations */
+.recharts-tooltip-wrapper {
+  background-color: var(--background-color);
+  border: 1px solid #8884d8;
+  color: #000;
+}
+
+.recharts-layer.recharts-cartesian-axis-left .recharts-label {
+  transform: translateX(-5px);
+}
+
+/* Tap overlay for mobile */
+.tap-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+@media (min-width: 769px) {
+  .plot-section {
+    max-height: 500px;
+    margin: 1rem auto;
+  }
+}

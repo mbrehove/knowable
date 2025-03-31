@@ -1,5 +1,5 @@
 // LevelCompleteScreen.tsx
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import Image from 'next/image'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
@@ -26,7 +26,9 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
 }) => {
   const { points, keyHistory, description, level_ind, version } = levelData
   const [percentile, setPercentile] = useState<number | null>(null)
+  const [isMobile, setIsMobile] = useState(false)
   const hasSubmittedRef = useRef(false)
+  const screenRef = useRef<HTMLDivElement>(null)
   const currentScore = points[points.length - 1]?.y || 0
   const percentScore = (currentScore / config.maxScore) * 100
 
@@ -34,6 +36,49 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   const accuracyArray = config.accuracy(points, keyHistory)
   const totalCorrect = accuracyArray.filter(Boolean).length
   const accuracy = totalCorrect / accuracyArray.length
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Handle key press for keyboard navigation
+  const handleKeyPress = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        onNextLevel()
+      }
+    },
+    [onNextLevel]
+  )
+
+  // Add the keypress listener
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress)
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress)
+    }
+  }, [handleKeyPress])
+
+  // Handle tap/click for navigation on mobile
+  const handleTap = useCallback(
+    (event: React.MouseEvent) => {
+      // Don't trigger next level if clicking on a button
+      if (
+        isMobile &&
+        !(event.target as HTMLElement).closest('.button-container') &&
+        !(event.target as HTMLElement).closest('button')
+      ) {
+        onNextLevel()
+      }
+    },
+    [isMobile, onNextLevel]
+  )
 
   useEffect(() => {
     const fetchAndSubmitScore = async () => {
@@ -101,9 +146,9 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   }, [])
 
   return (
-    <div className='game-layout fade-in'>
+    <div className='game-layout fade-in' ref={screenRef}>
       <div className='game-content'>
-        {config.advice.image && (
+        {config.advice.image && !isMobile && (
           <div className='author-image-container'>
             <Image
               src={config.advice.image}
@@ -119,6 +164,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
             -{config.advice.author}
           </div>
         )}
+
         {config.phase > 1 && (
           <AdvicePanel
             adviceIndices={config.adviceIndices}
@@ -127,8 +173,18 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
           />
         )}
 
-        <div className='main-content'>
+        <div
+          className='main-content'
+          onClick={isMobile ? handleTap : undefined}
+        >
           <h2 className='title'>Level {level} Complete</h2>
+
+          {isMobile && config.advice.image && (
+            <div className='mobile-advice-text'>
+              <i>"{config.advice.quote}"</i>
+              <div className='mobile-author'>- {config.advice.author}</div>
+            </div>
+          )}
 
           <div className='score-text'>
             <table>
@@ -136,7 +192,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
                 <tr>
                   <td>Score:</td>
                   <td>
-                    {currentScore}/{config.maxScore}
+                    {currentScore.toFixed(1)}/{config.maxScore}
                   </td>
                   <td>
                     <strong>{percentScore.toFixed(0)}%</strong>
@@ -154,13 +210,14 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
                 <tr>
                   <td>Percentile:</td>
                   <td></td>
-                  <td colSpan={2}>
-                    <strong>{percentile?.toFixed(0)}%</strong> of players
+                  <td>
+                    <strong>{percentile?.toFixed(0)}%</strong>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+
           <div className='level-description'>
             {description(points, keyHistory, percentile ?? 100)}
           </div>
@@ -171,12 +228,19 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
               keyHistory={keyHistory}
               xDomain={[0, config.maxSteps]}
               accuracy={accuracyArray}
+              image={
+                config.advice.image && isMobile
+                  ? config.advice.image
+                  : undefined
+              }
+              authorName={undefined}
+              authorQuote={undefined}
             />
           </div>
 
           <div className='button-container'>
             {config.phase === 1 && onReplayLevel && (
-              <button onClick={onReplayLevel}>Replay Level</button>
+              <button onClick={onReplayLevel}>Replay</button>
             )}
             <button onClick={onNextLevel} autoFocus>
               Next Level

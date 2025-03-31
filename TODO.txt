@@ -1,8 +1,13 @@
-Recommendations from Joseph:
 
-2: Port to mobile
-3: Fix percentiles and add 
-4: advie disappears as it's used.
-5: colors/visuals
-5: add something sharable
-6: Add music
+1: Fix mobile image size
+2: Adjust image in  plot transparency
+2: fix advice panel button
+3: fix description %optimal
+4: adjustable advice width
+4: Fix GameScreen vs LevelCompleteScreen widths
+5: fix plot line color
+5: about button position
+6: about text width
+7: score to integer
+
+5: deploy and show to friends

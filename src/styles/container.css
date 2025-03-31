@@ -1,0 +1,76 @@
+/* General container styles */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  max-width: 100%;
+  margin: auto;
+}
+
+.title {
+  font-size: clamp(1.2rem, 3vmin, 2rem);
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: clamp(0.9rem, 2vmin, 1.2rem);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Add these styles for consistent layout */
+.game-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.content-wrapper {
+  max-width: 800px;
+  width: 100%;
+  height: 100%;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Add these new standardized layout classes */
+.game-layout {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.game-content {
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  display: flex;
+  gap: 1rem;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: hidden;
+}

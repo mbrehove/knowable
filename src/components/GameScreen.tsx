@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import AdvicePanel from './AdvicePanel'
 import AdviceModal from './AdviceModal'
 import { LevelConfig, Description } from '../utils/types' // Assuming levelConfig is in the same directory
@@ -36,7 +36,21 @@ const GameScreen: React.FC<GameScreenProps> = ({
     []
   )
   const [lastKeyPressTime, setLastKeyPressTime] = useState(Date.now())
-  const [showAdviceModal, setShowAdviceModal] = useState(false) //Turning this off for now
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Refs for swipe handling
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+  const gameAreaRef = useRef<HTMLDivElement>(null)
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     // Reset points and steps when the level changes
@@ -114,6 +128,56 @@ const GameScreen: React.FC<GameScreenProps> = ({
     [config.maxSteps, stepsTaken, processKeyPress]
   )
 
+  // Handle touch start for swipe detection
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0]
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY }
+  }, [])
+
+  // Handle touch end for swipe detection
+  const handleTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      if (!touchStartRef.current || stepsTaken >= config.maxSteps) return
+
+      const touch = e.changedTouches[0]
+      const endX = touch.clientX
+      const endY = touch.clientY
+
+      const startX = touchStartRef.current.x
+      const startY = touchStartRef.current.y
+
+      const diffX = endX - startX
+      const diffY = endY - startY
+
+      // Minimum swipe distance (in pixels)
+      const minSwipeDistance = 50
+
+      // Determine swipe direction
+      if (Math.abs(diffX) > Math.abs(diffY)) {
+        // Horizontal swipe
+        if (Math.abs(diffX) > minSwipeDistance) {
+          if (diffX > 0) {
+            processKeyPress('ArrowRight')
+          } else {
+            processKeyPress('ArrowLeft')
+          }
+        }
+      } else {
+        // Vertical swipe
+        if (Math.abs(diffY) > minSwipeDistance) {
+          if (diffY > 0) {
+            processKeyPress('ArrowDown')
+          } else {
+            processKeyPress('ArrowUp')
+          }
+        }
+      }
+
+      touchStartRef.current = null
+    },
+    [config.maxSteps, processKeyPress, stepsTaken]
+  )
+
   // Add the keypress listener
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress)
@@ -147,8 +211,30 @@ const GameScreen: React.FC<GameScreenProps> = ({
   }, [stepsTaken, config, onLevelComplete, points, keyHistory])
 
   return (
-    <div className='game-layout fade-in'>
+    <div
+      className='game-layout fade-in'
+      ref={gameAreaRef}
+      onTouchStart={isMobile ? handleTouchStart : undefined}
+      onTouchEnd={isMobile ? handleTouchEnd : undefined}
+    >
       <div className='game-content'>
+        {config.phase === 1 && config.advice.image && !isMobile && (
+          <div className='author-image-container'>
+            <Image
+              src={config.advice.image}
+              alt={config.advice.author}
+              className='author-image'
+              width={350}
+              height={300}
+            />
+            <i>
+              {config.advice.quote}
+              <br />
+            </i>
+            -{config.advice.author}
+          </div>
+        )}
+
         {config.phase > 1 && (
           <AdvicePanel
             adviceIndices={config.adviceIndices}
@@ -158,69 +244,39 @@ const GameScreen: React.FC<GameScreenProps> = ({
         )}
 
         <div className='main-content'>
+          <div style={{ minWidth: '500px' }}></div>
           <h2 className='title'>Level {level}</h2>
 
-          {config.phase === 1 && config.advice.image && (
-            <div className='author-image-container'>
-              <Image
-                src={config.advice.image}
-                alt={config.advice.author}
-                className='author-image'
-                width={350}
-                height={300}
-              />
-              <i>
-                {config.advice.quote}
-                <br />
-              </i>
-              -{config.advice.author}
+          {isMobile && config.phase === 1 && config.advice.image && (
+            <div className='mobile-advice-text'>
+              <i>"{config.advice.quote}"</i>
+              <div className='mobile-author'>- {config.advice.author}</div>
             </div>
           )}
 
-          <p className='subtitle'>
-            Press left or right arrow keys to add points ({stepsTaken}/
-            {config.maxSteps})
-          </p>
+          <div className='score-text'>
+            <p className='subtitle'>
+              {isMobile
+                ? 'Swipe in any direction to add points'
+                : 'Press arrow keys to add points'}{' '}
+              ({stepsTaken}/{config.maxSteps})
+            </p>
+          </div>
 
           <div className='plot-section'>
             <ScorePlot
               points={points}
               keyHistory={keyHistory}
               xDomain={xDomain}
+              image={
+                config.phase === 1 && isMobile ? config.advice.image : undefined
+              }
+              authorName={undefined}
+              authorQuote={undefined}
             />
-          </div>
-          <div className='mobile-only-controls'>
-            <div className='arrow-buttons'>
-              <button className='up' onClick={() => processKeyPress('ArrowUp')}>
-                <Arrow className='up-arrow' />
-              </button>
-            </div>
-            <div className='arrow-buttons'>
-              <button
-                className='left'
-                onClick={() => processKeyPress('ArrowLeft')}
-              >
-                <Arrow className='left-arrow' />
-              </button>
-              <button
-                className='down'
-                onClick={() => processKeyPress('ArrowDown')}
-              >
-                <Arrow className='down-arrow' />
-              </button>
-              <button
-                className='right'
-                onClick={() => processKeyPress('ArrowRight')}
-              >
-                <Arrow className='right-arrow' />
-              </button>
-            </div>
           </div>
         </div>
       </div>
-      {showAdviceModal && (
-        <AdviceModal level={level} onClose={() => setShowAdviceModal(false)} />
-      )}
     </div>
   )
 }
