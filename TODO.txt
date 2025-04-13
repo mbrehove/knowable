@@ -1,13 +1,17 @@
 
-1: Fix mobile image size
-2: Adjust image in  plot transparency
-2: fix advice panel button
-3: fix description %optimal
-4: adjustable advice width
-4: Fix GameScreen vs LevelCompleteScreen widths
-5: fix plot line color
-5: about button position
-6: about text width
-7: score to integer
+1: Rework sizing in GameScreen/LevelCompleteScreen
+  a: rework ScorePlot
+  b: rework main-content
+  c: rework advice panel
+2; Recolor images 
+3: recolor line and arrows
+4: fix advice panel button
+5: Check all descriptions and remove percentile reporting
+6: fix description %optimal
+7: about button position
+8: about text width
+9: remove dependence on database
+10: test touch on mobile
+11: Full playthrough
 
 5: deploy and show to friends

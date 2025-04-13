@@ -7,7 +7,7 @@ export const upDownAdvice = {
   quote: "Rules are made for people who aren't willing to make their own.",
   author: 'Chuck Yeager',
   rule: 'Left and right keys give either 2 or -1 points. Up and down give either 3 or 4 points.',
-  image: '/advice_images/transparent/Chuck_Yeager.svg'
+  image: '/advice_images/square/Chuck_Yeager.svg'
 }
 
 export const createUpDownConfig = ({

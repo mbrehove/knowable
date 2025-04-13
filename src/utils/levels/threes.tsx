@@ -7,7 +7,7 @@ export const threesAdvice = {
   quote: 'If it comes in three let it be.',
   author: 'Boy Scout Handbook',
   rule: 'One key always adds 0. The other adds 2 unless the turn is divisible by 3 in which it subtracts 4.',
-  image: '/advice_images/transparent/Boy_Scout_Handbook.svg'
+  image: '/advice_images/square/Boy_Scout_Handbook.svg'
 }
 
 export const createThreesConfig = ({

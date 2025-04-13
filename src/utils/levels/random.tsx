@@ -8,7 +8,7 @@ export const randomAdvice = {
     "Don't seek to have events happen as you wish, but wish them to happen as they do happen, and all will be well with you.",
   author: 'Epictetus',
   rule: 'Each key adds 2 points on average. +/- 2 points of noise is added each turn.',
-  image: '/advice_images/transparent/Epictetus.svg'
+  image: '/advice_images/square/Epictetus.svg'
 }
 
 export const createRandomConfig = ({

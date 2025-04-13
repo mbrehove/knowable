@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   LineChart,
   Line,
@@ -13,7 +13,8 @@ import {
   FaArrowRight,
   FaArrowUp,
   FaArrowDown
-} from 'react-icons/fa' // Import arrow icons
+} from 'react-icons/fa'
+import '../styles/plot.css'
 
 interface ScorePlotProps {
   points: { x: number; y: number }[]
@@ -33,7 +34,6 @@ const ScorePlot: React.FC<ScorePlotProps> = ({
   image
 }) => {
   const [isMobile, setIsMobile] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
 
   // Check if device is mobile
   useEffect(() => {
@@ -87,7 +87,6 @@ const ScorePlot: React.FC<ScorePlotProps> = ({
         y={cy - 5}
         size={isMobile ? 15 : 20}
         color={color}
-        style={{ position: 'absolute' }}
       />
     )
   }
@@ -101,131 +100,71 @@ const ScorePlot: React.FC<ScorePlotProps> = ({
   const changeSign = change >= 0 ? '+' : ''
 
   return (
-    <div
-      ref={containerRef}
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        maxHeight: isMobile ? 'none' : '500px'
-      }}
-    >
-      <div
-        style={{
-          fontSize: isMobile ? '1rem' : '1.2rem',
-          fontWeight: 'bold',
-          textAlign: 'center',
-          margin: isMobile ? '5px 0' : '10px 0'
-        }}
-      >
+    <div className='plot-container'>
+      <div className='score-display'>
         Current Score: {currentScore.toFixed(2)} ({changeSign}
         <span style={{ color: changeColor }}>{formattedChange}</span>)
       </div>
-      <div
-        style={{
-          width: '100%',
-          position: 'relative',
-          paddingTop: '100%',
-          margin: '0 auto' // Center the square container
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%'
-          }}
-        >
-          {isMobile && image && (
+      <div className='plot-section'>
+        {image && (
+          <div className='image-background-container'>
             <Image
               src={image}
               fill
-              style={{
-                left: '20%',
-                top: '10%',
-                right: '20%',
-                bottom: '10%',
-                objectFit: 'cover',
-                maxWidth: '70%',
-                maxHeight: '70%'
-              }}
-              alt='Plot visualization'
+              alt='Plot background'
+              className='overlay-image'
             />
-          )}
-          <ResponsiveContainer width='100%' height='100%'>
-            <LineChart
-              data={points}
-              margin={
-                isMobile
-                  ? { top: 5, right: 5, left: 10, bottom: 20 }
-                  : { top: 5, right: 20, left: 20, bottom: 20 }
-              }
-            >
-              <XAxis
-                dataKey='x'
-                label={{
-                  value: 'Turn',
-                  position: 'bottom',
-                  offset: 0,
-                  style: {
-                    fontSize: isMobile ? '0.9rem' : '1rem',
-                    fill: '#333333',
-                    fontWeight: 500
-                  }
-                }}
-                strokeWidth={isMobile ? 2 : 3}
-                domain={xDomain}
-                type='number'
-                tick={{
-                  fontSize: isMobile ? '0.85rem' : '0.95rem',
-                  fill: '#333333'
-                }}
-                stroke='#333333'
-              />
-              <YAxis
-                label={{
-                  value: 'Score',
-                  angle: -90,
-                  position: 'left',
-                  offset: isMobile ? -5 : -10,
-                  style: {
-                    fontSize: isMobile ? '0.9rem' : '1rem',
-                    fill: '#333333',
-                    fontWeight: 500,
-                    textAnchor: 'middle'
-                  }
-                }}
-                strokeWidth={isMobile ? 2 : 3}
-                tick={{
-                  fontSize: isMobile ? '0.85rem' : '0.95rem',
-                  fill: '#333333'
-                }}
-                stroke='#333333'
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: 'transparent',
-                  border: '1px solid #8884d8',
-                  color: '#000'
-                }}
-              />
-              <Line
-                type='monotone'
-                dataKey='y'
-                strokeWidth={isMobile ? 3 : 4}
-                stroke='#8884d8'
-                animationDuration={200}
-                dot={props => {
-                  const { key, ...otherProps } = props
-                  return <CustomDot key={key} {...otherProps} />
-                }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+          </div>
+        )}
+        <ResponsiveContainer width='100%' height='100%'>
+          <LineChart
+            data={points}
+            margin={
+              isMobile
+                ? { top: 5, right: 5, left: 10, bottom: 20 }
+                : { top: 5, right: 20, left: 20, bottom: 20 }
+            }
+          >
+            <XAxis
+              dataKey='x'
+              label={{
+                value: 'Turn',
+                position: 'bottom',
+                offset: 0,
+                className: 'axis-label'
+              }}
+              strokeWidth={isMobile ? 2 : 3}
+              domain={xDomain}
+              type='number'
+              tick={{ className: 'axis-tick' }}
+              stroke='#333333'
+            />
+            <YAxis
+              label={{
+                value: 'Score',
+                angle: -90,
+                position: 'left',
+                offset: isMobile ? -5 : -10,
+                className: 'axis-label'
+              }}
+              strokeWidth={isMobile ? 2 : 3}
+              tick={{ className: 'axis-tick' }}
+              stroke='#333333'
+            />
+            <Tooltip />
+            <Line
+              type='monotone'
+              dataKey='y'
+              strokeWidth={isMobile ? 3 : 4}
+              stroke='#8884d8'
+              animationDuration={200}
+              dot={props => {
+                const { key, ...otherProps } = props
+                return <CustomDot key={key} {...otherProps} />
+              }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
     </div>
   )

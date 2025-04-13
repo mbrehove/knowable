@@ -1,7 +1,7 @@
 // LevelCompleteScreen.tsx
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
-import Image from 'next/image'
+// import Image from 'next/image'
 import ScorePlot from './ScorePlot' // Import the new ScorePlot component
 import AdvicePanel from './AdvicePanel' // Add this import
 import { LevelData } from './GameScreen'
@@ -148,7 +148,8 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
   return (
     <div className='game-layout fade-in' ref={screenRef}>
       <div className='game-content'>
-        {config.advice.image && !isMobile && (
+        {/* // commeting out to keep the advice layout the same between mobile and desktop */}
+        {/* {config.advice.image && !isMobile && (
           <div className='author-image-container'>
             <Image
               src={config.advice.image}
@@ -163,7 +164,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
             </i>
             -{config.advice.author}
           </div>
-        )}
+        )} */}
 
         {config.phase > 1 && (
           <AdvicePanel
@@ -179,7 +180,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
         >
           <h2 className='title'>Level {level} Complete</h2>
 
-          {isMobile && config.advice.image && (
+          {config.advice.image && (
             <div className='mobile-advice-text'>
               <i>"{config.advice.quote}"</i>
               <div className='mobile-author'>- {config.advice.author}</div>
@@ -192,7 +193,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
                 <tr>
                   <td>Score:</td>
                   <td>
-                    {currentScore.toFixed(1)}/{config.maxScore}
+                    {currentScore.toFixed(0)}/{config.maxScore}
                   </td>
                   <td>
                     <strong>{percentScore.toFixed(0)}%</strong>
@@ -207,13 +208,13 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
                     <strong>{(accuracy * 100).toFixed(0)}%</strong>
                   </td>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td>Percentile:</td>
                   <td></td>
                   <td>
                     <strong>{percentile?.toFixed(0)}%</strong>
                   </td>
-                </tr>
+                </tr> */}
               </tbody>
             </table>
           </div>
@@ -229,7 +230,7 @@ const LevelCompleteScreen: React.FC<LevelCompleteScreenProps> = ({
               xDomain={[0, config.maxSteps]}
               accuracy={accuracyArray}
               image={
-                config.advice.image && isMobile
+                config.advice.image
                   ? config.advice.image
                   : undefined
               }

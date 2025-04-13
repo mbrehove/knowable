@@ -7,7 +7,7 @@ export const negateAdvice = {
   quote: 'Sometimes we need to lose the small battles in order to win the war.',
   author: 'Sun Tzu',
   rule: 'One key subtracts 1 and the other negates the score if it is negative.',
-  image: '/advice_images/transparent/Sun_Tzu.svg'
+  image: '/advice_images/square/Sun_Tzu.svg'
 }
 
 export const createNegateConfig = ({

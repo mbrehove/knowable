@@ -3,61 +3,111 @@
   width: 100%;
   max-width: 700px;
   margin: 0 auto;
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.score-display {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
 }
 
 .plot-section {
   width: 100%;
-  flex: 0 1 auto; /* Don't grow, but allow shrinking */
-  min-height: 0; /* Important for flex child to be able to shrink */
   position: relative;
+  aspect-ratio: 1/1;
   margin: 0.5rem auto;
   box-sizing: border-box;
-  aspect-ratio: 1/2; /* Preserve the aspect ratio */
 }
 
-.plot-image-overlay {
+/* New container for the background image */
+.image-background-container {
   position: absolute;
+  /* Adjust padding to prevent overlap with axes: top, right, bottom, left */
+  /* These values might need tweaking based on your axis label sizes */
+  padding: 30px 30px 60px 60px; /* Example values */
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  right: 0;
+  bottom: 0;
+  z-index: 0; /* Place behind chart elements (usually z-index: 1+) */
+  display: flex; /* Helps with centering the image */
   justify-content: center;
-  pointer-events: none;
-  z-index: 5;
+  align-items: center;
+  box-sizing: border-box; /* Include padding in element's total width/height */
+  pointer-events: none; /* Prevent interaction with the background */
 }
 
-.plot-quote {
-  display: none; /* Hide quote text in plot overlay */
+/* Updated Image styling */
+.overlay-image {
+  /* Override Next.js Image default styles if necessary */
+  position: relative !important; /* Change from absolute */
+  width: 100% !important; /* Allow shrinking */
+  height: 100% !important; /* Allow shrinking */
+  max-width: 100%; /* Ensure it fits container width */
+  max-height: 100%; /* Ensure it fits container height */
+  object-fit: contain !important; /* Maintain aspect ratio, fit within bounds */
+  opacity: 0.7; /* Keep transparency */
+
+  /* Remove fixed positioning and sizing */
+  /* top: auto !important; */
+  /* left: auto !important; */
+  /* right: auto !important; */
+  /* bottom: auto !important; */
+  /* z-index: 5; -> Handled by container */
+  /* pointer-events: none; -> Handled by container */
 }
 
 /* Recharts customizations */
 .recharts-tooltip-wrapper {
-  background-color: var(--background-color);
+  background-color: transparent;
   border: 1px solid #8884d8;
   color: #000;
+}
+
+.axis-label {
+  font-size: 1rem;
+  fill: #333333;
+  font-weight: 500;
+  text-anchor: middle;
+}
+
+.axis-tick {
+  font-size: 0.95rem;
+  fill: #333333;
 }
 
 .recharts-layer.recharts-cartesian-axis-left .recharts-label {
   transform: translateX(-5px);
 }
 
-/* Tap overlay for mobile */
-.tap-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 10;
+/* Ensure chart elements are above the background image */
+.recharts-responsive-container .recharts-wrapper {
+  z-index: 1; /* Make sure chart SVG is above the background container */
+  position: relative; /* Needed for z-index to work reliably */
 }
 
-@media (min-width: 769px) {
-  .plot-section {
-    max-height: 500px;
-    margin: 1rem auto;
+/* Media queries for mobile */
+@media (max-width: 768px) {
+  .score-display {
+    font-size: 1rem;
+    margin: 5px 0;
+  }
+
+  /* Adjust padding for mobile */
+  .image-background-container {
+    /* Example smaller padding for mobile */
+    padding: 30px 30px 50px 50px;
+  }
+
+  .axis-label {
+    font-size: 0.9rem;
+  }
+
+  .axis-tick {
+    font-size: 0.85rem;
   }
 }

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import AdvicePanel from './AdvicePanel'
-import AdviceModal from './AdviceModal'
 import { LevelConfig, Description } from '../utils/types' // Assuming levelConfig is in the same directory
 import ScorePlot from './ScorePlot' // Assuming ScorePlot is a React component
 import Image from 'next/image'
-import Arrow from '../../public/arrow.svg'
 
 export interface LevelData {
   points: { x: number; y: number }[] // The points to bee plotted. x=turn y=score
@@ -218,7 +216,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
       onTouchEnd={isMobile ? handleTouchEnd : undefined}
     >
       <div className='game-content'>
-        {config.phase === 1 && config.advice.image && !isMobile && (
+        {/* {config.phase === 1 && config.advice.image && !isMobile && (
           <div className='author-image-container'>
             <Image
               src={config.advice.image}
@@ -233,7 +231,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
             </i>
             -{config.advice.author}
           </div>
-        )}
+        )} */}
 
         {config.phase > 1 && (
           <AdvicePanel
@@ -247,7 +245,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
           <div style={{ minWidth: '500px' }}></div>
           <h2 className='title'>Level {level}</h2>
 
-          {isMobile && config.phase === 1 && config.advice.image && (
+          {config.phase === 1 && config.advice.image && (
             <div className='mobile-advice-text'>
               <i>"{config.advice.quote}"</i>
               <div className='mobile-author'>- {config.advice.author}</div>
@@ -268,9 +266,7 @@ const GameScreen: React.FC<GameScreenProps> = ({
               points={points}
               keyHistory={keyHistory}
               xDomain={xDomain}
-              image={
-                config.phase === 1 && isMobile ? config.advice.image : undefined
-              }
+              image={config.phase === 1 ? config.advice.image : undefined}
               authorName={undefined}
               authorQuote={undefined}
             />

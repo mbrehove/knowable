@@ -8,7 +8,7 @@ export const investAdvice = {
     'Someone is sitting in the shade today because someone planted a tree a long time ago.',
   author: 'Warren Buffett',
   rule: 'One key is the invest key and gives 0 points but the other key gives you a point for each time you pressed the invest key.',
-  image: '/advice_images/transparent/Warren_Buffett.svg'
+  image: '/advice_images/square/Warren_Buffett.svg'
 }
 
 export const createInvestConfig = ({
