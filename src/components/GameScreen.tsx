@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import AdvicePanel from './AdvicePanel'
 import { LevelConfig, Description } from '../utils/types' // Assuming levelConfig is in the same directory
 import ScorePlot from './ScorePlot' // Assuming ScorePlot is a React component
-import Image from 'next/image'
 
 export interface LevelData {
   points: { x: number; y: number }[] // The points to bee plotted. x=turn y=score

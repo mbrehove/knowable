@@ -1,6 +1,5 @@
 
 1: Rework sizing in GameScreen/LevelCompleteScreen
-  a: rework ScorePlot
   b: rework main-content
   c: rework advice panel
 2; Recolor images 
