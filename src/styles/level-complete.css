@@ -13,6 +13,10 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start; /* Start from the top */
+  flex-grow: 1; /* Allow main-content to grow to fill available space */
+  min-height: 0; /* Important for flex children with overflow */
+  height: 100%; /* Try to take full height of parent */
+  box-sizing: border-box; /* Include padding/border in height calculation */
 }
 
 .level-description {
@@ -48,4 +52,37 @@
 
 .score-text td {
   padding: 2px 4px;
+}
+
+/* Add styles for plot and buttons */
+.plot-section {
+  /* Allow plot to take remaining space */
+  flex-grow: 1;
+  /* Allow plot to shrink */
+  flex-shrink: 1;
+  /* Crucial for allowing overflow content to be handled correctly */
+  min-height: 0;
+  /* Add some spacing */
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  /* Ensure plot container itself doesn't overflow its flex constraints */
+  overflow: hidden;
+  /* Added to help contain/center the plot */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button-container {
+  /* Prevent buttons from shrinking */
+  flex-shrink: 0;
+  /* Push buttons towards the bottom */
+  margin-top: auto;
+  /* Add some space above the buttons */
+  padding-top: 0.5rem;
+  /* Ensure buttons are centered */
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Add space between buttons */
 }
