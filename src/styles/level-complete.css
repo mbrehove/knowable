@@ -7,6 +7,12 @@
   flex-direction: column;
   max-width: 600px;
   margin: auto;
+  /* Add padding to account for mobile browser UI */
+  padding-bottom: env(safe-area-inset-bottom, 20px);
+  /* Use min-height instead of height for better mobile support */
+  min-height: 100vh;
+  /* Prevent content from being hidden behind browser UI */
+  position: relative;
 }
 
 .level-complete-screen .main-content {
@@ -15,8 +21,12 @@
   justify-content: flex-start; /* Start from the top */
   flex-grow: 1; /* Allow main-content to grow to fill available space */
   min-height: 0; /* Important for flex children with overflow */
-  height: 100%; /* Try to take full height of parent */
+  height: 100%;
   box-sizing: border-box; /* Include padding/border in height calculation */
+  /* Add padding to ensure content isn't hidden */
+  padding-bottom: 1rem;
+  /* Prevent scrolling */
+  overflow: hidden;
 }
 
 .level-description {
@@ -72,6 +82,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /* Ensure plot resizes to fit available space */
+  height: 0; /* This will be overridden by flex-grow */
 }
 
 .button-container {
@@ -79,10 +91,14 @@
   flex-shrink: 0;
   /* Push buttons towards the bottom */
   margin-top: auto;
-  /* Add some space above the buttons */
-  padding-top: 0.5rem;
+  /* Add more padding at the bottom for mobile */
+  padding: 1rem 0;
   /* Ensure buttons are centered */
   display: flex;
   justify-content: center;
-  gap: 1rem; /* Add space between buttons */
+  gap: 1rem;
+  /* Add background to ensure buttons are visible */
+  background-color: var(--background-color);
+  /* Add z-index to ensure buttons stay on top */
+  z-index: 1;
 }
